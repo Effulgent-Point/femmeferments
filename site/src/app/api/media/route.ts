@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/auth";
 import { sameOrigin } from "@/lib/http";
-import { uploadImage, listImages, deleteImage } from "@/lib/mediaStore";
+import {
+  uploadImage,
+  listImages,
+  deleteImage,
+  isValidMediaKey,
+} from "@/lib/mediaStore";
 
 export const dynamic = "force-dynamic";
 
@@ -86,7 +91,7 @@ export async function DELETE(req: NextRequest) {
   }
 
   const pathname = req.nextUrl.searchParams.get("pathname");
-  if (!pathname || !pathname.startsWith("media/")) {
+  if (!pathname || !isValidMediaKey(pathname)) {
     return NextResponse.json({ error: "Invalid pathname." }, { status: 400 });
   }
   try {

@@ -44,7 +44,7 @@ export default function GallerySection({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={img.url}
-                alt={img.caption || ""}
+                alt={img.caption || "Photo from Femme Ferments"}
                 loading="lazy"
                 className="w-full block"
                 style={{

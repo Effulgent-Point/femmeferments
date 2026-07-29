@@ -14,6 +14,27 @@ const rowStyle: React.CSSProperties = {
   color: "var(--ink)",
 };
 
+// The map embed is admin-editable free text that we drop into an <iframe src>.
+// Only allow https URLs from known map providers — this rejects `javascript:` /
+// `data:` schemes and arbitrary attacker origins (clickjacking/phishing) that a
+// bare `src={data.mapEmbed}` would happily render. Returns a clean URL or null.
+const MAP_EMBED_HOSTS = new Set([
+  "www.google.com",
+  "maps.google.com",
+  "www.openstreetmap.org",
+  "www.bing.com",
+]);
+function safeMapSrc(raw: string): string | null {
+  try {
+    const u = new URL(raw.trim());
+    if (u.protocol !== "https:" || !MAP_EMBED_HOSTS.has(u.hostname))
+      return null;
+    return u.toString();
+  } catch {
+    return null;
+  }
+}
+
 export default function ContactSection({
   data,
   heading,
@@ -96,28 +117,32 @@ export default function ContactSection({
         )}
       </div>
 
-      {data.mapEmbed.trim() !== "" && (
-        <div
-          className="w-full max-w-3xl mx-auto mt-10 overflow-hidden"
-          style={{
-            borderRadius: "8px",
-            boxShadow: "0 8px 30px rgba(44, 28, 18, 0.08)",
-          }}
-        >
-          <iframe
-            src={data.mapEmbed}
-            title="Map"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
+      {(() => {
+        const mapSrc = safeMapSrc(data.mapEmbed);
+        return mapSrc ? (
+          <div
+            className="w-full max-w-3xl mx-auto mt-10 overflow-hidden"
             style={{
-              width: "100%",
-              height: "360px",
-              border: 0,
-              display: "block",
+              borderRadius: "8px",
+              boxShadow: "0 8px 30px rgba(44, 28, 18, 0.08)",
             }}
-          />
-        </div>
-      )}
+          >
+            <iframe
+              src={mapSrc}
+              title={`Map of ${data.address || "our location"}`}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+              style={{
+                width: "100%",
+                height: "360px",
+                border: 0,
+                display: "block",
+              }}
+            />
+          </div>
+        ) : null;
+      })()}
     </Section>
   );
 }

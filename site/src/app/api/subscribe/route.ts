@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { put, list, get } from "@vercel/blob";
+import { randomUUID } from "node:crypto";
 import { requireAuth } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +25,8 @@ function tooManySubmissions(ip: string): boolean {
 }
 
 function randomSuffix(): string {
-  return Math.random().toString(36).slice(2, 8).padEnd(6, "0");
+  // CSPRNG, not Math.random — subscriber keys shouldn't be guessable/enumerable.
+  return randomUUID();
 }
 
 // PUBLIC: the live-site Join form posts here, so no auth. `botcheck` is a

@@ -214,5 +214,27 @@ export function mergeContent(partial: unknown): Content {
   if (isObj(valley) && isObj(valley.cta) && !Array.isArray(valley.ctas)) {
     src = { ...partial, valley: { ...valley, ctas: [valley.cta] } };
   }
+  // Backward-compat: an old draft's `sectionLayout` predates sections added
+  // later. deepMerge replaces arrays wholesale, so a short/stale layout would
+  // hide the newer sections permanently — and re-truncate itself on the next
+  // save. Union in any missing section ids, keeping the draft's existing order
+  // and enabled flags, and appending new ones with their baked default (off) so
+  // they become discoverable in the Section Manager without disturbing Karen's
+  // arrangement.
+  if (Array.isArray(src.sectionLayout)) {
+    const present = new Set(
+      src.sectionLayout
+        .filter(
+          (e): e is SectionLayoutEntry => isObj(e) && typeof e.id === "string",
+        )
+        .map((e) => e.id),
+    );
+    const missing = DEFAULT_CONTENT.sectionLayout.filter(
+      (e) => !present.has(e.id),
+    );
+    if (missing.length > 0) {
+      src = { ...src, sectionLayout: [...src.sectionLayout, ...missing] };
+    }
+  }
   return deepMerge(DEFAULT_CONTENT, src);
 }

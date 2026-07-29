@@ -1,4 +1,5 @@
 import { put, get, list, del } from "@vercel/blob";
+import { randomUUID } from "node:crypto";
 
 // Uploaded images live in the SAME private Blob store as the content JSON, under
 // the `media/` prefix. Because the store is private (resolved from
@@ -8,6 +9,22 @@ import { put, get, list, del } from "@vercel/blob";
 // uploaded (or re-uploaded) image from being shadowed by a stale CDN copy.
 const PREFIX = "media/";
 const MAX_BYTES = 8 * 1024 * 1024; // 8MB
+
+/**
+ * True only for a well-formed key we could have written ourselves: a single
+ * `media/<name>.<ext>` segment with an image extension and NO path separators
+ * or `.`/`..` traversal.
+ *
+ * This is the traversal guard for the public proxy and delete routes. A
+ * `startsWith("media/")` check is NOT sufficient: `get()`/`del()` build the
+ * blob URL by string interpolation, and `new URL("…/media/../content/draft.json")`
+ * collapses the `..` back to `/content/draft.json`, escaping the prefix and
+ * exposing the private draft/subscribers. Validating the whole key shape (no
+ * `/` allowed after `media/`) makes a `..` segment unrepresentable.
+ */
+export function isValidMediaKey(pathname: string): boolean {
+  return /^media\/[a-z0-9][a-z0-9._-]*\.(png|jpe?g|webp|gif)$/.test(pathname);
+}
 
 // contentType → canonical extension. Also the allow-list: anything not here is
 // rejected before it ever reaches the store.
@@ -37,9 +54,9 @@ function sanitizeBase(name: string): string {
   return cleaned || "image";
 }
 
-/** 6 lowercase-alphanumeric chars, to keep filenames unique without collisions. */
+/** 8 hex chars from a CSPRNG — unique and unguessable (not Math.random). */
 function shortId(): string {
-  return Math.random().toString(36).slice(2, 8).padEnd(6, "0");
+  return randomUUID().replace(/-/g, "").slice(0, 8);
 }
 
 function toBuffer(bytes: ArrayBuffer | Buffer | Uint8Array): Buffer {
@@ -82,20 +99,28 @@ export async function uploadImage(
   return { pathname };
 }
 
-/** All stored images, newest first. */
+/** All stored images, newest first. Pages through the full list (a single
+ *  `list()` caps at ~1000 blobs and would silently drop the rest). */
 export async function listImages(): Promise<
   { pathname: string; uploadedAt: string }[]
 > {
-  const { blobs } = await list({ prefix: PREFIX });
-  return blobs
-    .map((b) => ({
-      pathname: b.pathname,
-      uploadedAt:
-        b.uploadedAt instanceof Date
-          ? b.uploadedAt.toISOString()
-          : String(b.uploadedAt),
-    }))
-    .sort((a, b) => b.uploadedAt.localeCompare(a.uploadedAt));
+  const out: { pathname: string; uploadedAt: string }[] = [];
+  let cursor: string | undefined;
+  do {
+    const page = await list({ prefix: PREFIX, cursor });
+    for (const b of page.blobs) {
+      if (b.pathname === PREFIX) continue; // folder placeholder
+      out.push({
+        pathname: b.pathname,
+        uploadedAt:
+          b.uploadedAt instanceof Date
+            ? b.uploadedAt.toISOString()
+            : String(b.uploadedAt),
+      });
+    }
+    cursor = page.hasMore ? page.cursor : undefined;
+  } while (cursor);
+  return out.sort((a, b) => b.uploadedAt.localeCompare(a.uploadedAt));
 }
 
 /** Fall back to the extension when a stored blob has no usable content-type. */
@@ -111,6 +136,9 @@ function typeFromPathname(pathname: string): string {
 export async function getImage(
   pathname: string,
 ): Promise<{ stream: ReadableStream; contentType: string } | null> {
+  // Defense in depth — the route validates too, but never let a malformed key
+  // reach get(), where `..` would collapse out of the media/ prefix.
+  if (!isValidMediaKey(pathname)) return null;
   try {
     const result = await get(pathname, { access: "private", useCache: false });
     if (!result || result.statusCode !== 200 || !result.stream) return null;
@@ -120,12 +148,14 @@ export async function getImage(
         ? stored
         : typeFromPathname(pathname);
     return { stream: result.stream, contentType };
-  } catch {
+  } catch (err) {
+    console.error(`getImage failed for ${pathname}:`, err);
     return null;
   }
 }
 
 /** Permanently remove one stored image. */
 export async function deleteImage(pathname: string): Promise<void> {
+  if (!isValidMediaKey(pathname)) throw new Error("Invalid media key.");
   await del(pathname);
 }

@@ -1,20 +1,21 @@
 import { NextResponse } from "next/server";
-import { getImage } from "@/lib/mediaStore";
+import { getImage, isValidMediaKey } from "@/lib/mediaStore";
 
 export const dynamic = "force-dynamic";
 
 // PUBLIC (no auth): this is how <img> tags on the live site load an image. The
 // bytes live in the PRIVATE Blob store, so we stream them through here rather
 // than exposing a public blob URL — keeping everything in a single store. The
-// pathname is reconstructed from the catch-all segments and must stay inside
-// `media/` so this can never be used to read the content JSON or drafts.
+// pathname is reconstructed from the catch-all segments and must be a strict
+// single `media/<file>.<ext>` key (isValidMediaKey) — a mere startsWith check
+// is bypassable, e.g. `media/../content/draft.json` normalizes out of media/.
 export async function GET(
   _req: Request,
   ctx: { params: Promise<{ path: string[] }> },
 ) {
   const { path } = await ctx.params;
   const pathname = path.join("/");
-  if (!pathname.startsWith("media/")) {
+  if (!isValidMediaKey(pathname)) {
     return NextResponse.json({ error: "Not found" }, { status: 400 });
   }
 
