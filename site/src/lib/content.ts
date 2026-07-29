@@ -53,7 +53,81 @@ export interface Sections {
   events: { heading: string };
   partners: { heading: string };
   join: { eyebrow: string; heading: string };
+  contact: { heading: string };
+  gallery: { heading: string };
+  donate: { heading: string };
+  news: { heading: string };
+  team: { heading: string };
 }
+
+/** Ordering + visibility of the page's sections. */
+export type SectionId =
+  | "vision"
+  | "land"
+  | "wines"
+  | "mission"
+  | "community"
+  | "events"
+  | "partners"
+  | "contact"
+  | "gallery"
+  | "donate"
+  | "news"
+  | "team";
+export interface SectionLayoutEntry {
+  id: SectionId;
+  enabled: boolean;
+}
+
+/* ---- New, toggleable section slices ---- */
+export interface ContactData {
+  intro: string;
+  email: string;
+  phone: string;
+  address: string;
+  instagram: string;
+  facebook: string;
+  mapEmbed: string;
+}
+export interface GalleryImage {
+  url: string;
+  caption?: string;
+}
+export interface GalleryData {
+  intro: string;
+  images: GalleryImage[];
+}
+export interface DonateTier {
+  amount: string;
+  description: string;
+  cta: string;
+  href: string;
+}
+export interface DonateData {
+  intro: string;
+  tiers: DonateTier[];
+  note: string;
+}
+export interface NewsEntry {
+  date: string;
+  title: string;
+  body: string;
+}
+export interface NewsData {
+  intro: string;
+  items: NewsEntry[];
+}
+export interface TeamMember {
+  name: string;
+  role: string;
+  photo: string;
+  bio: string;
+}
+export interface TeamData {
+  intro: string;
+  members: TeamMember[];
+}
+
 export interface Content {
   vision: Vision;
   valley: Valley;
@@ -63,6 +137,12 @@ export interface Content {
   flowSteps: FlowStep[];
   partners: string[];
   sections: Sections;
+  sectionLayout: SectionLayoutEntry[];
+  contact: ContactData;
+  gallery: GalleryData;
+  donate: DonateData;
+  news: NewsData;
+  team: TeamData;
 }
 
 export const DEFAULT_CONTENT = baked as Content;

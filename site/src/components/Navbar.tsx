@@ -4,14 +4,19 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const NAV_LINKS = [
+const DEFAULT_NAV_LINKS = [
   { label: "Vision", href: "#vision" },
   { label: "Wines", href: "#wines" },
   { label: "Community", href: "#community" },
   { label: "Events", href: "#events" },
 ];
 
-export default function Navbar() {
+export default function Navbar({
+  links,
+}: {
+  links?: { label: string; href: string }[];
+}) {
+  const NAV_LINKS = links && links.length > 0 ? links : DEFAULT_NAV_LINKS;
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -73,9 +78,7 @@ export default function Navbar() {
             className="block w-5 h-[1.5px] transition-transform duration-200"
             style={{
               background: "var(--ink)",
-              transform: menuOpen
-                ? "translateY(6.5px) rotate(45deg)"
-                : "none",
+              transform: menuOpen ? "translateY(6.5px) rotate(45deg)" : "none",
             }}
           />
           <span

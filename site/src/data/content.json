@@ -177,6 +177,21 @@
     "join": {
       "eyebrow": "Come Together",
       "heading": "Every Piece Makes the Picture"
+    },
+    "contact": {
+      "heading": "Find Us"
+    },
+    "gallery": {
+      "heading": "The Community, in Pictures"
+    },
+    "donate": {
+      "heading": "Support the Mission"
+    },
+    "news": {
+      "heading": "Latest News"
+    },
+    "team": {
+      "heading": "The People Behind It"
     }
   },
   "flowSteps": [
@@ -210,5 +225,70 @@
     "Partner 06",
     "Partner 07",
     "Partner 08"
-  ]
+  ],
+  "sectionLayout": [
+    { "id": "vision", "enabled": true },
+    { "id": "land", "enabled": true },
+    { "id": "wines", "enabled": true },
+    { "id": "mission", "enabled": true },
+    { "id": "community", "enabled": true },
+    { "id": "events", "enabled": true },
+    { "id": "partners", "enabled": true },
+    { "id": "contact", "enabled": false },
+    { "id": "gallery", "enabled": false },
+    { "id": "donate", "enabled": false },
+    { "id": "news", "enabled": false },
+    { "id": "team", "enabled": false }
+  ],
+  "contact": {
+    "intro": "We'd love to hear from you — whether you want to pour in, partner up, or just say hello.",
+    "email": "hello@femmeferments.com",
+    "phone": "",
+    "address": "Willamette Valley, Oregon",
+    "instagram": "",
+    "facebook": "",
+    "mapEmbed": ""
+  },
+  "gallery": {
+    "intro": "Moments from the harvest, the cellar, and the community.",
+    "images": []
+  },
+  "donate": {
+    "intro": "Every gift goes straight to the women's programs behind every bottle.",
+    "tiers": [
+      {
+        "amount": "$25",
+        "description": "Covers supplies for a volunteer harvest shift.",
+        "cta": "Give $25",
+        "href": "#"
+      },
+      {
+        "amount": "$50",
+        "description": "Sponsors a community tasting that brings new people in.",
+        "cta": "Give $50",
+        "href": "#"
+      },
+      {
+        "amount": "$100",
+        "description": "Funds an hour of hands-on training for a woman in the program.",
+        "cta": "Give $100",
+        "href": "#"
+      }
+    ],
+    "note": "100% of profits and donations empower women."
+  },
+  "news": {
+    "intro": "Announcements between vintages.",
+    "items": [
+      {
+        "date": "2026-09-01",
+        "title": "First Pour is coming",
+        "body": "Join us this fall for our launch party and the debut of our '24 wines."
+      }
+    ]
+  },
+  "team": {
+    "intro": "The people who make it happen.",
+    "members": [{ "name": "", "role": "Founder", "photo": "", "bio": "" }]
+  }
 }
