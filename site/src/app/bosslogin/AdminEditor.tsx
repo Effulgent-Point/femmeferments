@@ -2,7 +2,33 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { DEFAULT_CONTENT, mergeContent, type Content } from "@/lib/content";
+import {
+  DEFAULT_CONTENT,
+  mergeContent,
+  type Content,
+  type SectionId,
+} from "@/lib/content";
+import { StringList, MoveButtons, moveItem } from "./fields";
+import { ContactPanel } from "./panels/ContactPanel";
+import { GalleryPanel } from "./panels/GalleryPanel";
+import { DonatePanel } from "./panels/DonatePanel";
+import { NewsPanel } from "./panels/NewsPanel";
+import { TeamPanel } from "./panels/TeamPanel";
+
+const SECTION_LABELS: Record<SectionId, string> = {
+  vision: "The Vision",
+  land: "The Land",
+  wines: "The Wines",
+  mission: "The Mission",
+  community: "Community Roles",
+  events: "The Event",
+  partners: "Partners",
+  contact: "Contact / Find Us",
+  gallery: "Photo Gallery",
+  donate: "Donate / Support",
+  news: "News & Updates",
+  team: "Team / People",
+};
 
 const PIECE_OPTIONS = [
   "01_left_outer_teal_points_tight.png",
@@ -114,53 +140,6 @@ const addBtn: React.CSSProperties = {
   cursor: "pointer",
 };
 
-function StringList({
-  label,
-  values,
-  onChange,
-}: {
-  label: string;
-  values: string[];
-  onChange: (v: string[]) => void;
-}) {
-  return (
-    <div className="mb-4">
-      <span style={labelStyle}>{label}</span>
-      <div className="flex flex-col gap-2">
-        {values.map((v, i) => (
-          <div key={i} className="flex gap-2">
-            <input
-              type="text"
-              value={v}
-              onChange={(e) => {
-                const next = [...values];
-                next[i] = e.target.value;
-                onChange(next);
-              }}
-              style={inputStyle}
-            />
-            <button
-              type="button"
-              onClick={() => onChange(values.filter((_, j) => j !== i))}
-              aria-label={`Remove item ${i + 1}`}
-              style={removeBtn}
-            >
-              &times;
-            </button>
-          </div>
-        ))}
-      </div>
-      <button
-        type="button"
-        onClick={() => onChange([...values, ""])}
-        style={addBtn}
-      >
-        + Add
-      </button>
-    </div>
-  );
-}
-
 const cardStyle: React.CSSProperties = {
   background: "var(--cream)",
   border: "1px solid rgba(74, 14, 43, 0.14)",
@@ -232,6 +211,17 @@ export default function AdminEditor() {
   const [dirty, setDirty] = useState(false);
   const [loadError, setLoadError] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
+  const [publishedAt, setPublishedAt] = useState<string | null>(null);
+  const [justPublished, setJustPublished] = useState(false);
+
+  async function refreshPublishedAt() {
+    try {
+      const res = await fetch("/api/publish", { cache: "no-store" });
+      if (res.ok) setPublishedAt((await res.json()).publishedAt ?? null);
+    } catch {
+      /* leave as-is */
+    }
+  }
 
   async function loadDraft(): Promise<boolean> {
     try {
@@ -275,6 +265,7 @@ export default function AdminEditor() {
         if (authed) {
           setServerMode(true);
           await loadDraft();
+          await refreshPublishedAt();
         }
         if (alive) setPhase("editing");
       }
@@ -291,6 +282,18 @@ export default function AdminEditor() {
       return next;
     });
     setDirty(true);
+    setJustPublished(false); // new edits aren't reflected in "published just now"
+  }
+
+  function formatPublishedAt(iso: string): string {
+    try {
+      return new Date(iso).toLocaleString(undefined, {
+        dateStyle: "medium",
+        timeStyle: "short",
+      });
+    } catch {
+      return iso;
+    }
   }
 
   function flash(msg: string) {
@@ -311,6 +314,7 @@ export default function AdminEditor() {
       if (res.ok) {
         setServerMode(true);
         await loadDraft();
+        await refreshPublishedAt();
         setPhase("editing");
       } else if (res.status === 503) {
         setPhase("editing"); // fall through to offline export mode
@@ -403,6 +407,14 @@ export default function AdminEditor() {
         return;
       }
       if (res.ok) {
+        let ts: string | null = null;
+        try {
+          ts = (await res.json()).publishedAt ?? null;
+        } catch {
+          /* fall back to now */
+        }
+        setPublishedAt(ts ?? new Date().toISOString());
+        setJustPublished(true);
         flash("Published — live in ~30 seconds.");
       } else if (!handleAuthExpiry(res.status)) {
         flash("Publish failed.");
@@ -548,6 +560,24 @@ export default function AdminEditor() {
           >
             Content Editor
           </span>
+          {serverMode && (
+            <span
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.68rem",
+                color: justPublished
+                  ? "var(--gold)"
+                  : "rgba(250, 245, 235, 0.7)",
+                fontWeight: justPublished ? 700 : 400,
+              }}
+            >
+              {publishedAt
+                ? (justPublished
+                    ? "✓ Published just now · "
+                    : "Last published ") + formatPublishedAt(publishedAt)
+                : "Not published yet"}
+            </span>
+          )}
           {dirty && (
             <span
               style={{
@@ -684,6 +714,87 @@ export default function AdminEditor() {
           </div>
         )}
 
+        {/* SECTION MANAGER */}
+        <section style={sectionStyle}>
+          <SectionTitle>Sections</SectionTitle>
+          <p
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "0.82rem",
+              color: "var(--ink-dim)",
+              marginBottom: "1rem",
+            }}
+          >
+            Turn sections on or off and drag them into order with the arrows.
+            Off sections stay saved — they just don&rsquo;t show on the site.
+          </p>
+          <div className="flex flex-col gap-2">
+            {draft.sectionLayout.map((entry, i) => (
+              <div
+                key={entry.id}
+                className="flex items-center justify-between gap-3"
+                style={{
+                  ...cardStyle,
+                  marginBottom: 0,
+                  padding: "0.7rem 0.9rem",
+                  opacity: entry.enabled ? 1 : 0.6,
+                }}
+              >
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={entry.enabled}
+                    onChange={() =>
+                      update((d) => {
+                        d.sectionLayout[i].enabled =
+                          !d.sectionLayout[i].enabled;
+                      })
+                    }
+                  />
+                  <span
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "0.9rem",
+                      fontWeight: 600,
+                      color: "var(--wine)",
+                    }}
+                  >
+                    {SECTION_LABELS[entry.id]}
+                  </span>
+                  {!entry.enabled && (
+                    <span
+                      style={{
+                        fontSize: "0.66rem",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        color: "var(--ink-dim)",
+                      }}
+                    >
+                      hidden
+                    </span>
+                  )}
+                </label>
+                <MoveButtons
+                  onUp={() =>
+                    update(
+                      (d) =>
+                        (d.sectionLayout = moveItem(d.sectionLayout, i, -1)),
+                    )
+                  }
+                  onDown={() =>
+                    update(
+                      (d) =>
+                        (d.sectionLayout = moveItem(d.sectionLayout, i, 1)),
+                    )
+                  }
+                  isFirst={i === 0}
+                  isLast={i === draft.sectionLayout.length - 1}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* VISION */}
         <section style={sectionStyle}>
           <SectionTitle>The Vision</SectionTitle>
@@ -729,14 +840,30 @@ export default function AdminEditor() {
                   Call to action {i + 1}
                   {cta.heading ? ` — ${cta.heading}` : ""}
                 </span>
-                <button
-                  type="button"
-                  onClick={() => update((d) => d.valley.ctas.splice(i, 1))}
-                  style={removeBtn}
-                  aria-label={`Remove call to action ${i + 1}`}
-                >
-                  &times;
-                </button>
+                <div className="flex items-center gap-2">
+                  <MoveButtons
+                    onUp={() =>
+                      update(
+                        (d) => (d.valley.ctas = moveItem(d.valley.ctas, i, -1)),
+                      )
+                    }
+                    onDown={() =>
+                      update(
+                        (d) => (d.valley.ctas = moveItem(d.valley.ctas, i, 1)),
+                      )
+                    }
+                    isFirst={i === 0}
+                    isLast={i === draft.valley.ctas.length - 1}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => update((d) => d.valley.ctas.splice(i, 1))}
+                    style={removeBtn}
+                    aria-label={`Remove call to action ${i + 1}`}
+                  >
+                    &times;
+                  </button>
+                </div>
               </div>
               <Field
                 label="Small label"
@@ -863,14 +990,26 @@ export default function AdminEditor() {
             <div key={i} style={cardStyle}>
               <div className="flex justify-between items-center mb-2">
                 <span style={labelStyle}>Wine {i + 1}</span>
-                <button
-                  type="button"
-                  onClick={() => update((d) => d.wines.splice(i, 1))}
-                  style={removeBtn}
-                  aria-label={`Remove wine ${i + 1}`}
-                >
-                  &times;
-                </button>
+                <div className="flex items-center gap-2">
+                  <MoveButtons
+                    onUp={() =>
+                      update((d) => (d.wines = moveItem(d.wines, i, -1)))
+                    }
+                    onDown={() =>
+                      update((d) => (d.wines = moveItem(d.wines, i, 1)))
+                    }
+                    isFirst={i === 0}
+                    isLast={i === draft.wines.length - 1}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => update((d) => d.wines.splice(i, 1))}
+                    style={removeBtn}
+                    aria-label={`Remove wine ${i + 1}`}
+                  >
+                    &times;
+                  </button>
+                </div>
               </div>
               <Field
                 label="Varietal"
@@ -922,14 +1061,26 @@ export default function AdminEditor() {
                 <span style={labelStyle}>
                   No. {role.number} — {role.title || "Untitled"}
                 </span>
-                <button
-                  type="button"
-                  onClick={() => update((d) => d.roles.splice(i, 1))}
-                  style={removeBtn}
-                  aria-label={`Remove role ${i + 1}`}
-                >
-                  &times;
-                </button>
+                <div className="flex items-center gap-2">
+                  <MoveButtons
+                    onUp={() =>
+                      update((d) => (d.roles = moveItem(d.roles, i, -1)))
+                    }
+                    onDown={() =>
+                      update((d) => (d.roles = moveItem(d.roles, i, 1)))
+                    }
+                    isFirst={i === 0}
+                    isLast={i === draft.roles.length - 1}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => update((d) => d.roles.splice(i, 1))}
+                    style={removeBtn}
+                    aria-label={`Remove role ${i + 1}`}
+                  >
+                    &times;
+                  </button>
+                </div>
               </div>
               <div className="flex gap-3 items-start">
                 <Image
@@ -1006,14 +1157,28 @@ export default function AdminEditor() {
             <div key={i} style={cardStyle}>
               <div className="flex justify-between items-center mb-2">
                 <span style={labelStyle}>Step {i + 1}</span>
-                <button
-                  type="button"
-                  onClick={() => update((d) => d.flowSteps.splice(i, 1))}
-                  style={removeBtn}
-                  aria-label={`Remove step ${i + 1}`}
-                >
-                  &times;
-                </button>
+                <div className="flex items-center gap-2">
+                  <MoveButtons
+                    onUp={() =>
+                      update(
+                        (d) => (d.flowSteps = moveItem(d.flowSteps, i, -1)),
+                      )
+                    }
+                    onDown={() =>
+                      update((d) => (d.flowSteps = moveItem(d.flowSteps, i, 1)))
+                    }
+                    isFirst={i === 0}
+                    isLast={i === draft.flowSteps.length - 1}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => update((d) => d.flowSteps.splice(i, 1))}
+                    style={removeBtn}
+                    aria-label={`Remove step ${i + 1}`}
+                  >
+                    &times;
+                  </button>
+                </div>
               </div>
               <Field
                 label="Title"
@@ -1081,6 +1246,72 @@ export default function AdminEditor() {
             label="Partner names"
             values={draft.partners}
             onChange={(v) => update((d) => (d.partners = v))}
+          />
+        </section>
+
+        {/* ---- Optional / new sections (toggle them on in "Sections" above) ---- */}
+        <section style={sectionStyle}>
+          <SectionTitle>Contact / Find Us</SectionTitle>
+          <Field
+            label="Section heading"
+            value={draft.sections.contact.heading}
+            onChange={(v) => update((d) => (d.sections.contact.heading = v))}
+          />
+          <ContactPanel
+            data={draft.contact}
+            onChange={(next) => update((d) => (d.contact = next))}
+          />
+        </section>
+
+        <section style={sectionStyle}>
+          <SectionTitle>Photo Gallery</SectionTitle>
+          <Field
+            label="Section heading"
+            value={draft.sections.gallery.heading}
+            onChange={(v) => update((d) => (d.sections.gallery.heading = v))}
+          />
+          <GalleryPanel
+            data={draft.gallery}
+            onChange={(next) => update((d) => (d.gallery = next))}
+          />
+        </section>
+
+        <section style={sectionStyle}>
+          <SectionTitle>Donate / Support</SectionTitle>
+          <Field
+            label="Section heading"
+            value={draft.sections.donate.heading}
+            onChange={(v) => update((d) => (d.sections.donate.heading = v))}
+          />
+          <DonatePanel
+            data={draft.donate}
+            onChange={(next) => update((d) => (d.donate = next))}
+          />
+        </section>
+
+        <section style={sectionStyle}>
+          <SectionTitle>News &amp; Updates</SectionTitle>
+          <Field
+            label="Section heading"
+            value={draft.sections.news.heading}
+            onChange={(v) => update((d) => (d.sections.news.heading = v))}
+          />
+          <NewsPanel
+            data={draft.news}
+            onChange={(next) => update((d) => (d.news = next))}
+          />
+        </section>
+
+        <section style={sectionStyle}>
+          <SectionTitle>Team / People</SectionTitle>
+          <Field
+            label="Section heading"
+            value={draft.sections.team.heading}
+            onChange={(v) => update((d) => (d.sections.team.heading = v))}
+          />
+          <TeamPanel
+            data={draft.team}
+            onChange={(next) => update((d) => (d.team = next))}
           />
         </section>
       </div>

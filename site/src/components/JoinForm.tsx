@@ -4,6 +4,8 @@ import { useState } from "react";
 
 export default function JoinForm() {
   const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   return (
     <div role="status" className="w-full flex flex-col items-center">
@@ -23,15 +25,54 @@ export default function JoinForm() {
       ) : (
         <form
           className="mt-8 flex flex-col sm:flex-row gap-3 w-full max-w-md mx-auto"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            const email = new FormData(e.currentTarget).get("email");
-            if (typeof email === "string" && email) {
-              // TODO: wire to the signup backend before launch
+            const form = new FormData(e.currentTarget);
+            const email = form.get("email");
+            const botcheck = form.get("botcheck");
+            if (typeof email !== "string" || !email) return;
+            setSubmitting(true);
+            setError(null);
+            try {
+              const res = await fetch("/api/subscribe", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  email,
+                  botcheck: typeof botcheck === "string" ? botcheck : "",
+                }),
+              });
+              if (!res.ok) {
+                setError("Something went wrong — please try again.");
+                return;
+              }
               setSubmittedEmail(email);
+            } catch {
+              setError("Something went wrong — please try again.");
+            } finally {
+              setSubmitting(false);
             }
           }}
         >
+          {/* Honeypot: hidden from real users; bots that fill it are dropped server-side. */}
+          <input
+            type="text"
+            name="botcheck"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              width: "1px",
+              height: "1px",
+              padding: 0,
+              margin: "-1px",
+              overflow: "hidden",
+              clip: "rect(0, 0, 0, 0)",
+              whiteSpace: "nowrap",
+              border: 0,
+            }}
+          />
           <input
             type="email"
             name="email"
@@ -50,6 +91,7 @@ export default function JoinForm() {
           />
           <button
             type="submit"
+            disabled={submitting}
             className="flex-shrink-0 cursor-pointer transition-colors duration-200"
             style={{
               padding: "0.85rem 1.6rem",
@@ -61,12 +103,25 @@ export default function JoinForm() {
               fontWeight: 600,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
+              opacity: submitting ? 0.7 : 1,
             }}
           >
-            Join Us &rarr;
+            {submitting ? "Joining…" : "Join Us →"}
           </button>
         </form>
       )}
+      {error && !submittedEmail ? (
+        <p
+          className="mt-3 text-center"
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "0.85rem",
+            color: "var(--wine)",
+          }}
+        >
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }

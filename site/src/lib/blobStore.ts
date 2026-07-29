@@ -1,4 +1,4 @@
-import { put, get } from "@vercel/blob";
+import { put, get, list } from "@vercel/blob";
 
 const DRAFT_PATH = "content/draft.json";
 const PUBLISHED_PATH = "published/content.json";
@@ -37,4 +37,15 @@ export async function publishDraft(): Promise<void> {
   const draft = await readDraft();
   if (draft == null) throw new Error("No draft to publish — save first.");
   await writeBlob(PUBLISHED_PATH, draft);
+}
+
+/** ISO timestamp of the last publish (the published blob's uploadedAt), or null. */
+export async function getPublishedAt(): Promise<string | null> {
+  try {
+    const { blobs } = await list({ prefix: PUBLISHED_PATH });
+    const match = blobs.find((b) => b.pathname === PUBLISHED_PATH);
+    return match ? new Date(match.uploadedAt).toISOString() : null;
+  } catch {
+    return null;
+  }
 }
