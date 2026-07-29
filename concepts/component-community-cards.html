@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Femme Ferments — Community Card Concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #faf5eb;
+    --parchment: #f4ead2;
+    --gold: #c9a84c;
+    --gold-soft: #e3cd8f;
+    --wine: #4a0e2b;
+    --espresso: #1c110d;
+    --ink: #1c110d;
+    --ink-dim: rgba(28,17,13,0.62);
+
+    --role-volunteer: #3f9c8a;      --role-volunteer-soft: #a9e0d3;
+    --role-winemaker: #6ba05a;      --role-winemaker-soft: #b8dcac;
+    --role-dreamer: #3f8fa0;        --role-dreamer-soft: #a8d8e0;
+    --role-organizer: #d1793d;      --role-organizer-soft: #f0c9a0;
+    --role-advocate: #3fa0c9;       --role-advocate-soft: #a8dcef;
+    --role-partner: #6f5fc9;        --role-partner-soft: #c3b8ef;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  a{ color: inherit; text-decoration: none; }
+  img{ display:block; max-width:100%; }
+  h1,h2,h3,.serif{ font-family:'Cormorant Garamond', serif; font-weight:400; }
+
+  .container{ max-width: 1180px; margin:0 auto; padding: 0 32px; }
+
+  /* ============ NAV ============ */
+  nav{
+    position: sticky; top:0; z-index: 500;
+    display:flex; align-items:center; justify-content:space-between;
+    gap: 20px;
+    padding: 18px 32px;
+    background: rgba(250,245,235,0.94);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(74,14,43,0.12);
+  }
+  .nav-logo-img{ height:26px; width:auto; }
+  .nav-links{ display:flex; gap: 6px; list-style:none; flex-wrap: wrap; justify-content: flex-end; }
+  .nav-links a{
+    font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-dim); padding: 6px 10px; border: 1px solid transparent;
+    transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    white-space: nowrap;
+  }
+  .nav-links a:hover{ color: var(--wine); border-color: rgba(201,168,76,0.5); background: var(--parchment); }
+
+  /* ============ PAGE HERO ============ */
+  .page-hero{ padding: 70px 0 60px; text-align:center; }
+  .page-eyebrow{ font-size:0.72rem; letter-spacing:0.4em; text-transform:uppercase; color: var(--gold); margin-bottom: 22px; }
+  .page-title{ font-size: clamp(2rem, 4.6vw, 3.2rem); color: var(--wine); margin-bottom: 18px; }
+  .page-lede{ max-width: 620px; margin: 0 auto; color: var(--ink-dim); font-size: 1rem; }
+
+  /* ============ SHARED VARIATION HEADER ============ */
+  .variation{ padding: 90px 0; border-top: 1px solid rgba(74,14,43,0.1); }
+  .variation.alt{ background: var(--parchment); }
+  .variation-eyebrow{ font-size:0.68rem; letter-spacing:0.3em; text-transform:uppercase; color: var(--gold); margin-bottom: 14px; }
+  .variation-title{ font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--wine); margin-bottom: 12px; }
+  .variation-note{ color: var(--ink-dim); font-size: 0.92rem; max-width: 640px; margin-bottom: 50px; }
+
+  /* shared role card scaffolding */
+  .role-desc{ font-size: 0.88rem; color: var(--ink-dim); line-height: 1.7; }
+
+  /* ============================================================
+     V1 — GLASS GALLERY
+     ============================================================ */
+  .v1-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  .v1-card{
+    background: var(--parchment);
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 34px 26px 30px;
+    text-align:center;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+  }
+  .v1-card:hover{ border-color: var(--gold); box-shadow: 0 0 44px rgba(201,168,76,0.32); transform: translateY(-3px); }
+  .v1-img-wrap{ height: 200px; display:flex; align-items:center; justify-content:center; margin-bottom: 20px; }
+  .v1-img-wrap img{ max-height: 100%; max-width: 86%; width:auto; transition: transform 0.5s ease; }
+  .v1-card:hover .v1-img-wrap img{ transform: scale(1.08); }
+  .v1-label{ font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--wine); margin-bottom: 10px; }
+  @media (max-width: 760px){ .v1-grid{ grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 480px){ .v1-grid{ grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     V2 — WORDS ON GLASS
+     ============================================================ */
+  .v2-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  .v2-card{
+    position: relative; overflow:hidden;
+    background: var(--cream);
+    border: 1px solid rgba(28,17,13,0.08);
+    padding: 46px 26px 30px;
+    text-align:center; min-height: 260px;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .v2-card-bg{ position:absolute; top:50%; left:50%; width: 90%; transform: translate(-50%,-50%); opacity:0.28; z-index:0; }
+  .v2-title{ position:relative; z-index:1; font-size: 1.7rem; color: var(--ink); margin-bottom: 12px; }
+  .v2-desc{ position:relative; z-index:1; }
+  @media (max-width: 760px){ .v2-grid{ grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 480px){ .v2-grid{ grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     V3 — LABELED SPECIMENS
+     ============================================================ */
+  .v3-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+  .v3-card{
+    position: relative;
+    background: var(--cream);
+    border: 1px solid rgba(74,14,43,0.18);
+    padding: 40px 34px;
+    text-align: center;
+  }
+  .v3-specimen-no{ position:absolute; top:16px; left:20px; font-size:0.66rem; letter-spacing:0.14em; color: var(--gold); text-transform: uppercase; }
+  .v3-img-wrap{ height: 220px; display:flex; align-items:center; justify-content:center; margin-bottom: 22px; }
+  .v3-img-wrap img{ max-height:100%; max-width:78%; }
+  .v3-divider{ width: 54px; height: 10px; margin: 0 auto 20px; position:relative; }
+  .v3-divider::before{ content:""; position:absolute; top:50%; left:0; right:0; height:1px; background: var(--gold); }
+  .v3-divider::after{ content:""; position:absolute; top:50%; left:50%; width:6px; height:6px; transform: translate(-50%,-50%) rotate(45deg); background: var(--gold); }
+  .v3-label{ font-size: 0.86rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--wine); margin-bottom: 16px; }
+  .v3-desc{ max-width: 340px; margin: 0 auto; }
+  @media (max-width: 640px){ .v3-grid{ grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     V4 — FLOATING BADGES
+     ============================================================ */
+  .v4-row{
+    display:flex; gap: 44px; overflow-x:auto;
+    padding: 10px 10px 30px;
+    scroll-snap-type: x proximity;
+  }
+  .v4-item{ flex: 0 0 auto; width: 170px; text-align:center; scroll-snap-align: center; }
+  .v4-circle{
+    width: 160px; height: 160px; border-radius: 50%;
+    background: var(--parchment); border: 2px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    margin: 0 auto 18px;
+    transition: transform 0.45s ease, box-shadow 0.45s ease;
+  }
+  .v4-circle img{ max-width: 62%; max-height: 62%; }
+  .v4-item:hover .v4-circle{ transform: rotate(9deg) scale(1.05); box-shadow: 0 10px 30px rgba(201,168,76,0.3); }
+  .v4-label{ font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--wine); }
+
+  /* ============================================================
+     V5 — SPLIT CARDS
+     ============================================================ */
+  .v5-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  .v5-card{
+    display:grid; grid-template-columns: 42% 58%;
+    min-height: 210px; overflow:hidden;
+    border: 1px solid rgba(28,17,13,0.1);
+  }
+  .v5-visual{ background: var(--espresso); display:flex; align-items:center; justify-content:center; padding: 16px; }
+  .v5-visual img{ max-width: 74%; max-height: 74%; opacity: 0.85; }
+  .v5-text{ background: var(--cream); padding: 22px 20px; display:flex; flex-direction:column; justify-content:center; }
+  .v5-title{ font-size: 1.2rem; color: var(--wine); margin-bottom: 10px; }
+  @media (max-width: 860px){ .v5-grid{ grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 560px){ .v5-grid{ grid-template-columns: 1fr; } .v5-card{ grid-template-columns: 1fr; } .v5-visual{ min-height: 140px; } }
+
+  /* ============================================================
+     V6 — MOSAIC STACK
+     ============================================================ */
+  .v6-stack{ display:flex; flex-direction:column; }
+  .v6-band{
+    display:flex; align-items:center; gap: 44px;
+    padding: 44px 5%;
+    border-bottom: 1px solid rgba(28,17,13,0.08);
+  }
+  .v6-stack .v6-band:last-child{ border-bottom: none; }
+  .v6-band:nth-child(even){ flex-direction: row-reverse; }
+  .v6-visual{ flex: 0 0 220px; display:flex; align-items:center; justify-content:center; }
+  .v6-visual img{ max-width: 180px; width: 100%; height:auto; }
+  .v6-text{ flex: 1; }
+  .v6-title{ font-size: 1.4rem; color: var(--wine); margin-bottom: 8px; }
+  @media (max-width: 640px){
+    .v6-band, .v6-band:nth-child(even){ flex-direction: column; text-align:center; gap: 20px; }
+    .v6-visual{ flex-basis: auto; }
+  }
+
+  /* ============================================================
+     V7 — GLASS TOKENS
+     ============================================================ */
+  .v7-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 50px 20px; }
+  .v7-item{ text-align:center; padding: 10px; }
+  .v7-img-wrap{ height: 80px; display:flex; align-items:center; justify-content:center; margin-bottom: 18px; }
+  .v7-img-wrap img{ max-height: 100%; max-width: 100%; transition: transform 0.4s ease; }
+  .v7-item:hover .v7-img-wrap img{ transform: scale(1.1); }
+  .v7-title{ font-size: 1.1rem; color: var(--ink); padding-bottom: 8px; border-bottom: 1px solid transparent; transition: border-color 0.4s ease, color 0.4s ease; }
+  .v7-item:hover .v7-title{ border-color: var(--gold); color: var(--wine); }
+  @media (max-width: 640px){ .v7-grid{ grid-template-columns: repeat(2,1fr); } }
+
+  /* ============================================================
+     V8 — HERO CARDS
+     ============================================================ */
+  .v8-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+  .v8-card{
+    position: relative; height: 360px; overflow:hidden;
+    background: linear-gradient(160deg, var(--parchment) 0%, var(--cream) 100%);
+    border: 1px solid rgba(28,17,13,0.08);
+  }
+  .v8-img{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding: 30px; }
+  .v8-img img{ max-width: 82%; max-height: 82%; transition: transform 0.5s ease; }
+  .v8-card:hover .v8-img img{ transform: scale(1.06); }
+  .v8-bar{
+    position:absolute; left:0; right:0; bottom:0;
+    background: rgba(28,17,13,0.78); color: var(--cream);
+    padding: 18px 24px;
+  }
+  .v8-bar-title{ font-size: 1.4rem; font-style:italic; color: var(--gold-soft); }
+  .v8-bar-desc{
+    max-height: 0; opacity:0; overflow:hidden;
+    font-family: 'Inter', sans-serif; font-size: 0.86rem; color: rgba(250,245,235,0.82);
+    transition: max-height 0.4s ease, opacity 0.35s ease, margin-top 0.4s ease;
+  }
+  .v8-card:hover .v8-bar-desc{ max-height: 100px; opacity:1; margin-top: 8px; }
+  @media (max-width: 760px){ .v8-grid{ grid-template-columns: 1fr; } }
+
+  /* ============ FOOTER ============ */
+  footer{
+    padding: 50px 0 36px; text-align:center;
+    background: var(--espresso); color: var(--cream);
+  }
+  .footer-mark{ font-family:'Cormorant Garamond', serif; letter-spacing:0.3em; text-transform:uppercase; color: var(--gold-soft); font-size: 0.9rem; margin-bottom: 16px; }
+  .footer-copy{ font-size: 0.72rem; color: rgba(250,245,235,0.6); }
+  .footer-copy a{ color: var(--gold); }
+  .footer-copy a:hover{ color: var(--gold-soft); }
+</style>
+</head>
+<body>
+
+<nav>
+  <img src="../FF_Logo.png" alt="Femme Ferments" class="nav-logo-img">
+  <ul class="nav-links">
+    <li><a href="#v1">V1 Gallery</a></li>
+    <li><a href="#v2">V2 Words</a></li>
+    <li><a href="#v3">V3 Specimens</a></li>
+    <li><a href="#v4">V4 Badges</a></li>
+    <li><a href="#v5">V5 Split</a></li>
+    <li><a href="#v6">V6 Mosaic</a></li>
+    <li><a href="#v7">V7 Tokens</a></li>
+    <li><a href="#v8">V8 Hero</a></li>
+  </ul>
+</nav>
+
+<section class="page-hero container">
+  <div class="page-eyebrow">Component Concepts</div>
+  <h1 class="page-title">Community Cards</h1>
+  <p class="page-lede">Eight ways to present the same six roles — volunteer, winemaker, dreamer, organizer, advocate, and partner — each represented by a piece of our shattered-glass mosaic instead of an icon or photo. Scroll through and pick a favorite.</p>
+</section>
+
+<!-- ============================================================
+     V1 — GLASS GALLERY
+     ============================================================ -->
+<section class="variation" id="v1">
+  <div class="container">
+    <div class="variation-eyebrow">Variation 1</div>
+    <h2 class="variation-title">Glass Gallery</h2>
+    <p class="variation-note">Large centered pieces on a parchment card with a thin gold frame — a clean, gallery-style grid that lets each shard of glass be the hero.</p>
+
+    <div class="v1-grid">
+      <div class="v1-card">
+        <div class="v1-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/01_left_outer_teal_points_tight.png" alt="Teal glass shard representing a community volunteer"></div>
+        <div class="v1-label">The Volunteer</div>
+        <p class="role-desc">Shows up before dawn at harvest — no experience required, just willing hands.</p>
+      </div>
+      <div class="v1-card">
+        <div class="v1-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/06_upper_mid_green_crown_tight.png" alt="Green glass shard representing a partner winemaker"></div>
+        <div class="v1-label">The Winemaker</div>
+        <p class="role-desc">Guides every donated grape from vine to bottle in cellars across the valley.</p>
+      </div>
+      <div class="v1-card">
+        <div class="v1-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/04_left_lower_green_blue_tight.png" alt="Blue-green glass shard representing a community dreamer"></div>
+        <div class="v1-label">The Dreamer</div>
+        <p class="role-desc">Holds the vision that turned a wine label into a movement for women.</p>
+      </div>
+      <div class="v1-card">
+        <div class="v1-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Warm orange glass shard representing an event organizer"></div>
+        <div class="v1-label">The Organizer</div>
+        <p class="role-desc">Turns a bottle of wine into a room full of people who believe the same thing.</p>
+      </div>
+      <div class="v1-card">
+        <div class="v1-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/08_center_core_burst_tight.png" alt="Central burst of glass representing a community advocate"></div>
+        <div class="v1-label">The Advocate</div>
+        <p class="role-desc">Speaks up for the mission and connects us to partners who share it.</p>
+      </div>
+      <div class="v1-card">
+        <div class="v1-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Purple-blue glass shard representing a winery partner"></div>
+        <div class="v1-label">The Partner</div>
+        <p class="role-desc">Donates grapes, cellar space, and equipment — the backbone of every vintage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V2 — WORDS ON GLASS
+     ============================================================ -->
+<section class="variation alt" id="v2">
+  <div class="container">
+    <div class="variation-eyebrow">Variation 2</div>
+    <h2 class="variation-title">Words on Glass</h2>
+    <p class="variation-note">The glass piece sits behind the words at low opacity, so each role's title feels etched directly onto the shard itself.</p>
+
+    <div class="v2-grid">
+      <div class="v2-card">
+        <img class="v2-card-bg" src="../femme_ferments_glass_assets/tight_png/01_left_outer_teal_points_tight.png" alt="" aria-hidden="true">
+        <h3 class="v2-title">The Volunteer</h3>
+        <p class="v2-desc role-desc">Shows up before dawn at harvest — no experience required, just willing hands.</p>
+      </div>
+      <div class="v2-card">
+        <img class="v2-card-bg" src="../femme_ferments_glass_assets/tight_png/06_upper_mid_green_crown_tight.png" alt="" aria-hidden="true">
+        <h3 class="v2-title">The Winemaker</h3>
+        <p class="v2-desc role-desc">Guides every donated grape from vine to bottle in cellars across the valley.</p>
+      </div>
+      <div class="v2-card">
+        <img class="v2-card-bg" src="../femme_ferments_glass_assets/tight_png/04_left_lower_green_blue_tight.png" alt="" aria-hidden="true">
+        <h3 class="v2-title">The Dreamer</h3>
+        <p class="v2-desc role-desc">Holds the vision that turned a wine label into a movement for women.</p>
+      </div>
+      <div class="v2-card">
+        <img class="v2-card-bg" src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="" aria-hidden="true">
+        <h3 class="v2-title">The Organizer</h3>
+        <p class="v2-desc role-desc">Turns a bottle of wine into a room full of people who believe the same thing.</p>
+      </div>
+      <div class="v2-card">
+        <img class="v2-card-bg" src="../femme_ferments_glass_assets/tight_png/08_center_core_burst_tight.png" alt="" aria-hidden="true">
+        <h3 class="v2-title">The Advocate</h3>
+        <p class="v2-desc role-desc">Speaks up for the mission and connects us to partners who share it.</p>
+      </div>
+      <div class="v2-card">
+        <img class="v2-card-bg" src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="" aria-hidden="true">
+        <h3 class="v2-title">The Partner</h3>
+        <p class="v2-desc role-desc">Donates grapes, cellar space, and equipment — the backbone of every vintage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V3 — LABELED SPECIMENS
+     ============================================================ -->
+<section class="variation" id="v3">
+  <div class="container">
+    <div class="variation-eyebrow">Variation 3</div>
+    <h2 class="variation-title">Labeled Specimens</h2>
+    <p class="variation-note">A museum-specimen treatment — a numbered tag, an ornamental gold divider, and a small-caps label beneath each piece.</p>
+
+    <div class="v3-grid">
+      <div class="v3-card">
+        <div class="v3-specimen-no">No. 01</div>
+        <div class="v3-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/01_left_outer_teal_points_tight.png" alt="Teal glass shard representing a community volunteer"></div>
+        <div class="v3-divider"></div>
+        <div class="v3-label">The Volunteer</div>
+        <p class="v3-desc role-desc">Shows up before dawn at harvest — no experience required, just willing hands.</p>
+      </div>
+      <div class="v3-card">
+        <div class="v3-specimen-no">No. 02</div>
+        <div class="v3-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/06_upper_mid_green_crown_tight.png" alt="Green glass shard representing a partner winemaker"></div>
+        <div class="v3-divider"></div>
+        <div class="v3-label">The Winemaker</div>
+        <p class="v3-desc role-desc">Guides every donated grape from vine to bottle in cellars across the valley.</p>
+      </div>
+      <div class="v3-card">
+        <div class="v3-specimen-no">No. 03</div>
+        <div class="v3-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/04_left_lower_green_blue_tight.png" alt="Blue-green glass shard representing a community dreamer"></div>
+        <div class="v3-divider"></div>
+        <div class="v3-label">The Dreamer</div>
+        <p class="v3-desc role-desc">Holds the vision that turned a wine label into a movement for women.</p>
+      </div>
+      <div class="v3-card">
+        <div class="v3-specimen-no">No. 04</div>
+        <div class="v3-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Warm orange glass shard representing an event organizer"></div>
+        <div class="v3-divider"></div>
+        <div class="v3-label">The Organizer</div>
+        <p class="v3-desc role-desc">Turns a bottle of wine into a room full of people who believe the same thing.</p>
+      </div>
+      <div class="v3-card">
+        <div class="v3-specimen-no">No. 05</div>
+        <div class="v3-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/08_center_core_burst_tight.png" alt="Central burst of glass representing a community advocate"></div>
+        <div class="v3-divider"></div>
+        <div class="v3-label">The Advocate</div>
+        <p class="v3-desc role-desc">Speaks up for the mission and connects us to partners who share it.</p>
+      </div>
+      <div class="v3-card">
+        <div class="v3-specimen-no">No. 06</div>
+        <div class="v3-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Purple-blue glass shard representing a winery partner"></div>
+        <div class="v3-divider"></div>
+        <div class="v3-label">The Partner</div>
+        <p class="v3-desc role-desc">Donates grapes, cellar space, and equipment — the backbone of every vintage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V4 — FLOATING BADGES
+     ============================================================ -->
+<section class="variation alt" id="v4">
+  <div class="container">
+    <div class="variation-eyebrow">Variation 4</div>
+    <h2 class="variation-title">Floating Badges</h2>
+    <p class="variation-note">Circular badges in a horizontally scrolling row — light, playful, and built to work as a swipeable strip on mobile.</p>
+
+    <div class="v4-row">
+      <div class="v4-item">
+        <div class="v4-circle"><img src="../femme_ferments_glass_assets/tight_png/01_left_outer_teal_points_tight.png" alt="Teal glass shard representing a community volunteer"></div>
+        <div class="v4-label">The Volunteer</div>
+      </div>
+      <div class="v4-item">
+        <div class="v4-circle"><img src="../femme_ferments_glass_assets/tight_png/06_upper_mid_green_crown_tight.png" alt="Green glass shard representing a partner winemaker"></div>
+        <div class="v4-label">The Winemaker</div>
+      </div>
+      <div class="v4-item">
+        <div class="v4-circle"><img src="../femme_ferments_glass_assets/tight_png/04_left_lower_green_blue_tight.png" alt="Blue-green glass shard representing a community dreamer"></div>
+        <div class="v4-label">The Dreamer</div>
+      </div>
+      <div class="v4-item">
+        <div class="v4-circle"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Warm orange glass shard representing an event organizer"></div>
+        <div class="v4-label">The Organizer</div>
+      </div>
+      <div class="v4-item">
+        <div class="v4-circle"><img src="../femme_ferments_glass_assets/tight_png/08_center_core_burst_tight.png" alt="Central burst of glass representing a community advocate"></div>
+        <div class="v4-label">The Advocate</div>
+      </div>
+      <div class="v4-item">
+        <div class="v4-circle"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Purple-blue glass shard representing a winery partner"></div>
+        <div class="v4-label">The Partner</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V5 — SPLIT CARDS
+     ============================================================ -->
+<section class="variation" id="v5">
+  <div class="container">
+    <div class="variation-eyebrow">Variation 5</div>
+    <h2 class="variation-title">Split Cards</h2>
+    <p class="variation-note">Each card splits in two — the glass piece glows against a dark espresso panel on the left, the story sits on cream to the right.</p>
+
+    <div class="v5-grid">
+      <div class="v5-card">
+        <div class="v5-visual"><img src="../femme_ferments_glass_assets/tight_png/01_left_outer_teal_points_tight.png" alt="Teal glass shard representing a community volunteer"></div>
+        <div class="v5-text">
+          <h3 class="v5-title">The Volunteer</h3>
+          <p class="role-desc">Shows up before dawn at harvest — no experience required, just willing hands.</p>
+        </div>
+      </div>
+      <div class="v5-card">
+        <div class="v5-visual"><img src="../femme_ferments_glass_assets/tight_png/06_upper_mid_green_crown_tight.png" alt="Green glass shard representing a partner winemaker"></div>
+        <div class="v5-text">
+          <h3 class="v5-title">The Winemaker</h3>
+          <p class="role-desc">Guides every donated grape from vine to bottle in cellars across the valley.</p>
+        </div>
+      </div>
+      <div class="v5-card">
+        <div class="v5-visual"><img src="../femme_ferments_glass_assets/tight_png/04_left_lower_green_blue_tight.png" alt="Blue-green glass shard representing a community dreamer"></div>
+        <div class="v5-text">
+          <h3 class="v5-title">The Dreamer</h3>
+          <p class="role-desc">Holds the vision that turned a wine label into a movement for women.</p>
+        </div>
+      </div>
+      <div class="v5-card">
+        <div class="v5-visual"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Warm orange glass shard representing an event organizer"></div>
+        <div class="v5-text">
+          <h3 class="v5-title">The Organizer</h3>
+          <p class="role-desc">Turns a bottle of wine into a room full of people who believe the same thing.</p>
+        </div>
+      </div>
+      <div class="v5-card">
+        <div class="v5-visual"><img src="../femme_ferments_glass_assets/tight_png/08_center_core_burst_tight.png" alt="Central burst of glass representing a community advocate"></div>
+        <div class="v5-text">
+          <h3 class="v5-title">The Advocate</h3>
+          <p class="role-desc">Speaks up for the mission and connects us to partners who share it.</p>
+        </div>
+      </div>
+      <div class="v5-card">
+        <div class="v5-visual"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Purple-blue glass shard representing a winery partner"></div>
+        <div class="v5-text">
+          <h3 class="v5-title">The Partner</h3>
+          <p class="role-desc">Donates grapes, cellar space, and equipment — the backbone of every vintage.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V6 — MOSAIC STACK
+     ============================================================ -->
+<section class="variation alt" id="v6">
+  <div class="container">
+    <div class="variation-eyebrow">Variation 6</div>
+    <h2 class="variation-title">Mosaic Stack</h2>
+    <p class="variation-note">A single-column stack of full-width bands, alternating left and right, each tinted faintly with the color of its own glass piece.</p>
+
+    <div class="v6-stack">
+      <div class="v6-band" style="background: linear-gradient(90deg, rgba(63,156,138,0.08), transparent 70%);">
+        <div class="v6-visual"><img src="../femme_ferments_glass_assets/tight_png/01_left_outer_teal_points_tight.png" alt="Teal glass shard representing a community volunteer"></div>
+        <div class="v6-text">
+          <h3 class="v6-title">The Volunteer</h3>
+          <p class="role-desc">Shows up before dawn at harvest — no experience required, just willing hands.</p>
+        </div>
+      </div>
+      <div class="v6-band" style="background: linear-gradient(270deg, rgba(107,160,90,0.08), transparent 70%);">
+        <div class="v6-visual"><img src="../femme_ferments_glass_assets/tight_png/06_upper_mid_green_crown_tight.png" alt="Green glass shard representing a partner winemaker"></div>
+        <div class="v6-text">
+          <h3 class="v6-title">The Winemaker</h3>
+          <p class="role-desc">Guides every donated grape from vine to bottle in cellars across the valley.</p>
+        </div>
+      </div>
+      <div class="v6-band" style="background: linear-gradient(90deg, rgba(63,143,160,0.08), transparent 70%);">
+        <div class="v6-visual"><img src="../femme_ferments_glass_assets/tight_png/04_left_lower_green_blue_tight.png" alt="Blue-green glass shard representing a community dreamer"></div>
+        <div class="v6-text">
+          <h3 class="v6-title">The Dreamer</h3>
+          <p class="role-desc">Holds the vision that turned a wine label into a movement for women.</p>
+        </div>
+      </div>
+      <div class="v6-band" style="background: linear-gradient(270deg, rgba(209,121,61,0.08), transparent 70%);">
+        <div class="v6-visual"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Warm orange glass shard representing an event organizer"></div>
+        <div class="v6-text">
+          <h3 class="v6-title">The Organizer</h3>
+          <p class="role-desc">Turns a bottle of wine into a room full of people who believe the same thing.</p>
+        </div>
+      </div>
+      <div class="v6-band" style="background: linear-gradient(90deg, rgba(63,160,201,0.08), transparent 70%);">
+        <div class="v6-visual"><img src="../femme_ferments_glass_assets/tight_png/08_center_core_burst_tight.png" alt="Central burst of glass representing a community advocate"></div>
+        <div class="v6-text">
+          <h3 class="v6-title">The Advocate</h3>
+          <p class="role-desc">Speaks up for the mission and connects us to partners who share it.</p>
+        </div>
+      </div>
+      <div class="v6-band" style="background: linear-gradient(270deg, rgba(111,95,201,0.08), transparent 70%);">
+        <div class="v6-visual"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Purple-blue glass shard representing a winery partner"></div>
+        <div class="v6-text">
+          <h3 class="v6-title">The Partner</h3>
+          <p class="role-desc">Donates grapes, cellar space, and equipment — the backbone of every vintage.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V7 — GLASS TOKENS
+     ============================================================ -->
+<section class="variation" id="v7">
+  <div class="container">
+    <div class="variation-eyebrow">Variation 7</div>
+    <h2 class="variation-title">Glass Tokens</h2>
+    <p class="variation-note">The lightest touch — small tokens of glass, a title, and nothing else. No borders, no cards, just quiet white space.</p>
+
+    <div class="v7-grid">
+      <div class="v7-item">
+        <div class="v7-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/01_left_outer_teal_points_tight.png" alt="Teal glass shard representing a community volunteer"></div>
+        <div class="v7-title">The Volunteer</div>
+      </div>
+      <div class="v7-item">
+        <div class="v7-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/06_upper_mid_green_crown_tight.png" alt="Green glass shard representing a partner winemaker"></div>
+        <div class="v7-title">The Winemaker</div>
+      </div>
+      <div class="v7-item">
+        <div class="v7-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/04_left_lower_green_blue_tight.png" alt="Blue-green glass shard representing a community dreamer"></div>
+        <div class="v7-title">The Dreamer</div>
+      </div>
+      <div class="v7-item">
+        <div class="v7-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Warm orange glass shard representing an event organizer"></div>
+        <div class="v7-title">The Organizer</div>
+      </div>
+      <div class="v7-item">
+        <div class="v7-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/08_center_core_burst_tight.png" alt="Central burst of glass representing a community advocate"></div>
+        <div class="v7-title">The Advocate</div>
+      </div>
+      <div class="v7-item">
+        <div class="v7-img-wrap"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Purple-blue glass shard representing a winery partner"></div>
+        <div class="v7-title">The Partner</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V8 — HERO CARDS
+     ============================================================ -->
+<section class="variation alt" id="v8">
+  <div class="container">
+    <div class="variation-eyebrow">Variation 8</div>
+    <h2 class="variation-title">Hero Cards</h2>
+    <p class="variation-note">Portfolio-style showcase cards — the glass piece takes over the frame, the title sits in a translucent bar, and the description slides up on hover.</p>
+
+    <div class="v8-grid">
+      <div class="v8-card">
+        <div class="v8-img"><img src="../femme_ferments_glass_assets/tight_png/01_left_outer_teal_points_tight.png" alt="Teal glass shard representing a community volunteer"></div>
+        <div class="v8-bar">
+          <div class="v8-bar-title">The Volunteer</div>
+          <p class="v8-bar-desc">Shows up before dawn at harvest — no experience required, just willing hands.</p>
+        </div>
+      </div>
+      <div class="v8-card">
+        <div class="v8-img"><img src="../femme_ferments_glass_assets/tight_png/06_upper_mid_green_crown_tight.png" alt="Green glass shard representing a partner winemaker"></div>
+        <div class="v8-bar">
+          <div class="v8-bar-title">The Winemaker</div>
+          <p class="v8-bar-desc">Guides every donated grape from vine to bottle in cellars across the valley.</p>
+        </div>
+      </div>
+      <div class="v8-card">
+        <div class="v8-img"><img src="../femme_ferments_glass_assets/tight_png/04_left_lower_green_blue_tight.png" alt="Blue-green glass shard representing a community dreamer"></div>
+        <div class="v8-bar">
+          <div class="v8-bar-title">The Dreamer</div>
+          <p class="v8-bar-desc">Holds the vision that turned a wine label into a movement for women.</p>
+        </div>
+      </div>
+      <div class="v8-card">
+        <div class="v8-img"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Warm orange glass shard representing an event organizer"></div>
+        <div class="v8-bar">
+          <div class="v8-bar-title">The Organizer</div>
+          <p class="v8-bar-desc">Turns a bottle of wine into a room full of people who believe the same thing.</p>
+        </div>
+      </div>
+      <div class="v8-card">
+        <div class="v8-img"><img src="../femme_ferments_glass_assets/tight_png/08_center_core_burst_tight.png" alt="Central burst of glass representing a community advocate"></div>
+        <div class="v8-bar">
+          <div class="v8-bar-title">The Advocate</div>
+          <p class="v8-bar-desc">Speaks up for the mission and connects us to partners who share it.</p>
+        </div>
+      </div>
+      <div class="v8-card">
+        <div class="v8-img"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Purple-blue glass shard representing a winery partner"></div>
+        <div class="v8-bar">
+          <div class="v8-bar-title">The Partner</div>
+          <p class="v8-bar-desc">Donates grapes, cellar space, and equipment — the backbone of every vintage.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-mark">Femme Ferments</div>
+    <div class="footer-copy">&copy; 2026 Femme Ferments &nbsp;|&nbsp; Made with &#10084;&#65039; by <a href="https://effulgentpoint.com/" target="_blank" rel="noopener">Effulgent Point</a></div>
+  </div>
+</footer>
+
+</body>
+</html>

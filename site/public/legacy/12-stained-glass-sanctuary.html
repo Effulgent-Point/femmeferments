@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Femme Ferments — Beauty in the Broken Glass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --midnight: #0d0d1a;
+    --midnight-deep: #07070f;
+    --gold: #c9a84c;
+    --gold-light: #e3cd8a;
+    --cream: #f0ebe0;
+    --cream-dim: rgba(240,235,224,0.72);
+
+    --emerald-deep: #022c1e; --emerald-mid: #047857; --emerald-glow: 16,185,129;
+    --sapphire-deep: #0b1440; --sapphire-mid: #1e40af; --sapphire-glow: 59,130,246;
+    --ruby-deep: #3f0718; --ruby-mid: #9f1239; --ruby-glow: 251,113,133;
+    --amber-deep: #3b1503; --amber-mid: #b45309; --amber-glow: 245,158,11;
+    --amethyst-deep: #2a0a42; --amethyst-mid: #6b21a8; --amethyst-glow: 192,132,252;
+    --teal-deep: #032e2b; --teal-mid: #0f766e; --teal-glow: 45,212,191;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--midnight);
+    color: var(--cream);
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    line-height: 1.65;
+    position: relative;
+  }
+
+  body::before{
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+  }
+
+  a{ color: inherit; text-decoration: none; }
+  img{ display:block; max-width:100%; }
+
+  h1, h2, h3, .serif{
+    font-family: 'Cormorant', serif;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  .container{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .divider{
+    width: 110px;
+    height: 1px;
+    margin: 0 auto;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+
+  .fade-in{
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .fade-in.visible{ opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    .fade-in{ transition: none; opacity: 1; transform: none; }
+    .shard-drift{ animation: none !important; }
+  }
+
+  /* ============ NAV ============ */
+  nav{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 26px 48px;
+    background: linear-gradient(to bottom, rgba(7,7,15,0.9), transparent);
+    transition: background 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease, border-color 0.4s ease;
+    border-bottom: 1px solid transparent;
+  }
+  nav.scrolled{
+    background: rgba(7,7,15,0.94);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    padding: 16px 48px;
+    border-bottom: 1px solid rgba(201,168,76,0.18);
+  }
+  .nav-mark{
+    font-family: 'Cormorant', serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.35em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+  }
+  .nav-links{ display: flex; gap: 34px; list-style: none; }
+  .nav-links a{
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    transition: color 0.4s ease;
+  }
+  .nav-links a:hover{ color: var(--gold-light); }
+  @media (max-width: 800px){ .nav-links{ display:none; } }
+
+  /* ============ HERO ============ */
+  .hero{
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 80% 55% at 50% 20%, rgba(120,90,40,0.16), transparent 60%),
+      linear-gradient(180deg, var(--midnight-deep) 0%, var(--midnight) 55%, var(--midnight-deep) 100%);
+    padding: 140px 24px 100px;
+  }
+
+  .hero-vignette{
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: radial-gradient(ellipse 60% 55% at 50% 42%, transparent 0%, transparent 45%, rgba(7,7,15,0.55) 78%, var(--midnight-deep) 100%);
+  }
+
+  .hero-shards{ position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .shard{
+    position: absolute;
+    opacity: 0.55;
+    border: 1px solid rgba(201,168,76,0.4);
+  }
+  .shard-shape-a{ clip-path: polygon(50% 0%, 100% 38%, 78% 100%, 18% 88%, 0% 32%); }
+  .shard-shape-b{ clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+  .shard-drift{
+    animation-name: glassDrift;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-duration: var(--dur, 18s);
+    animation-delay: var(--delay, 0s);
+  }
+  @keyframes glassDrift{
+    from{ transform: translateX(calc(var(--dx, 24px) * -1)); }
+    to{ transform: translateX(var(--dx, 24px)); }
+  }
+  .shard-emerald{ background: linear-gradient(135deg, var(--emerald-mid), var(--emerald-deep)); }
+  .shard-sapphire{ background: linear-gradient(135deg, var(--sapphire-mid), var(--sapphire-deep)); }
+  .shard-ruby{ background: linear-gradient(135deg, var(--ruby-mid), var(--ruby-deep)); }
+  .shard-amber{ background: linear-gradient(135deg, var(--amber-mid), var(--amber-deep)); }
+  .shard-amethyst{ background: linear-gradient(135deg, var(--amethyst-mid), var(--amethyst-deep)); }
+  .shard-teal{ background: linear-gradient(135deg, var(--teal-mid), var(--teal-deep)); }
+
+  .hero-inner{ position: relative; z-index: 2; text-align: center; }
+
+  .hero-eyebrow{
+    font-size: 0.72rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    opacity: 0.85;
+    margin-bottom: clamp(24px, 4vh, 44px);
+  }
+
+  .hero-image-frame{
+    position: relative;
+    width: min(76vw, 620px);
+    aspect-ratio: 2560 / 1738;
+    margin: 0 auto clamp(30px, 5vh, 56px);
+  }
+  .hero-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 55%, transparent 88%);
+    mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 55%, transparent 88%);
+  }
+
+  .hero-title{
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    color: var(--gold-light);
+    font-weight: 400;
+    margin-bottom: 22px;
+  }
+  .hero-title em{ font-style: italic; color: var(--cream); }
+  .hero-poem{
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--cream-dim);
+    line-height: 2;
+    letter-spacing: 0.03em;
+  }
+
+  .scroll-indicator{
+    position: absolute;
+    bottom: 36px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .scroll-indicator span{
+    font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--cream-dim);
+  }
+  .scroll-line{ width: 1px; height: 38px; background: var(--gold); position: relative; overflow: hidden; }
+  .scroll-line::after{
+    content: ""; position: absolute; top: -100%; left: 0; width: 100%; height: 100%;
+    background: var(--cream);
+    animation: scrollDrop 2.2s ease-in-out infinite;
+  }
+  @keyframes scrollDrop{ 0%{ top:-100%; } 60%{ top:100%; } 100%{ top:100%; } }
+
+  /* ============ TRANSITION DEVICES ============ */
+  .arch-crown{
+    width: 100%;
+    height: clamp(64px, 9vw, 120px);
+    clip-path: polygon(0% 100%, 0% 34%, 50% 0%, 100% 34%, 100% 100%);
+    position: relative;
+    z-index: 1;
+  }
+  .arch-crown--emerald{ background: linear-gradient(180deg, var(--emerald-mid), var(--emerald-deep)); }
+  .arch-crown--sapphire{ background: linear-gradient(180deg, var(--sapphire-mid), var(--sapphire-deep)); }
+  .arch-crown--teal{ background: linear-gradient(180deg, var(--teal-mid), var(--teal-deep)); }
+
+  .diagonal-crown{
+    width: 100%;
+    height: clamp(50px, 7vw, 90px);
+    position: relative;
+    z-index: 1;
+  }
+  .diagonal-crown--to-wine{
+    clip-path: polygon(0% 100%, 0% 0%, 100% 60%, 100% 100%);
+    background: linear-gradient(90deg, var(--amber-deep) 0%, var(--ruby-deep) 100%);
+  }
+  .diagonal-crown--to-events{
+    clip-path: polygon(0% 60%, 100% 0%, 100% 100%, 0% 100%);
+    background: var(--amethyst-deep);
+  }
+
+  .tracery-row{
+    width: 100%;
+    height: clamp(38px, 5vw, 56px);
+    background-color: var(--midnight-deep);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='40' viewBox='0 0 60 40'><path d='M0 40 L0 22 Q0 6 15 6 Q30 6 30 22 Q30 6 45 6 Q60 6 60 22 L60 40 Z' fill='none' stroke='%23c9a84c' stroke-width='1.5' opacity='0.55'/></svg>");
+    background-repeat: repeat-x;
+    background-position: center bottom;
+    background-size: 60px 40px;
+  }
+
+  /* ============ SHARED PANEL / HEADER STYLES ============ */
+  .panel{ position: relative; padding: 140px 0; overflow: hidden; }
+  .panel--emerald{ background: radial-gradient(ellipse 70% 55% at 50% -10%, rgba(var(--emerald-glow),0.28), transparent 60%), linear-gradient(165deg, var(--emerald-deep) 0%, var(--emerald-mid) 130%); }
+  .panel--wine{ background: linear-gradient(90deg, var(--amber-deep) 0%, var(--amber-deep) 48%, var(--ruby-deep) 52%, var(--ruby-deep) 100%); }
+  .panel--involved{ background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(var(--sapphire-glow),0.16), transparent 65%), var(--midnight-deep); }
+  .panel--sapphire{ background: radial-gradient(ellipse 70% 55% at 50% -10%, rgba(var(--sapphire-glow),0.28), transparent 60%), linear-gradient(165deg, var(--sapphire-deep) 0%, var(--sapphire-mid) 130%); }
+  .panel--amethyst{ background: radial-gradient(ellipse 70% 55% at 50% -10%, rgba(var(--amethyst-glow),0.28), transparent 60%), linear-gradient(165deg, var(--amethyst-deep) 0%, var(--amethyst-mid) 130%); }
+  .panel--teal{ background: radial-gradient(ellipse 70% 55% at 50% -10%, rgba(var(--teal-glow),0.28), transparent 60%), linear-gradient(165deg, var(--teal-deep) 0%, var(--teal-mid) 130%); }
+
+  .section-header{ text-align: center; margin-bottom: 76px; }
+  .section-eyebrow{
+    font-size: 0.72rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--gold-light); margin-bottom: 20px;
+  }
+  .section-title{ font-size: clamp(2rem, 4.5vw, 3.1rem); color: var(--cream); font-weight: 400; margin-bottom: 22px; }
+  .section-sub{ max-width: 620px; margin: 0 auto; color: var(--cream-dim); font-size: 1rem; line-height: 1.9; }
+
+  .label-plaque{
+    display: inline-flex; flex-direction: column; align-items: center; gap: 8px;
+    padding: 12px 40px;
+    border-top: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+    margin-bottom: 28px;
+  }
+  .label-plaque .brand{
+    font-family: 'Source Sans 3', sans-serif;
+    letter-spacing: 0.38em; font-size: 0.66rem; text-transform: uppercase; color: var(--gold-light);
+  }
+  .label-plaque .tag{
+    font-family: 'Cormorant', serif; font-style: italic; font-size: 0.9rem; color: var(--cream-dim);
+  }
+
+  /* ============ MISSION STATS ============ */
+  .stats-row{
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+    margin: 56px 0 60px;
+    text-align: center;
+  }
+  @media (max-width: 760px){ .stats-row{ grid-template-columns: 1fr; gap: 48px; } }
+  .stat-number{
+    font-family: 'Cormorant', serif; font-weight: 400;
+    font-size: clamp(2.6rem, 5vw, 4rem);
+    color: var(--gold-light); line-height: 1.1; margin-bottom: 10px;
+  }
+  .stat-label{ font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); }
+
+  .cta-btn{
+    display: inline-block;
+    margin-top: 20px;
+    padding: 16px 44px;
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-size: 0.72rem; letter-spacing: 0.26em; text-transform: uppercase;
+    transition: background 0.4s ease, color 0.4s ease;
+  }
+  .cta-btn:hover{ background: var(--gold); color: var(--midnight-deep); }
+
+  /* ============ WINE PANEL ============ */
+  .wine-split{ display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  @media (max-width: 860px){ .wine-split{ grid-template-columns: 1fr; } }
+
+  .wine-label-card{
+    background: rgba(0,0,0,0.22);
+    border: 1px solid rgba(201,168,76,0.35);
+    padding: 52px 42px;
+    position: relative;
+    text-align: center;
+    transition: transform 0.5s ease, border-color 0.5s ease;
+  }
+  .wine-label-card:hover{ transform: translateY(-6px); border-color: rgba(201,168,76,0.7); }
+  .wine-label-card::before{
+    content: "";
+    position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px;
+    border: 1px solid rgba(201,168,76,0.18);
+    pointer-events: none;
+  }
+  .wine-est{
+    font-size: 0.66rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); opacity: 0.85; margin-bottom: 20px;
+  }
+  .wine-name{ font-size: clamp(1.8rem, 3vw, 2.3rem); font-style: italic; color: var(--gold-light); margin-bottom: 8px; }
+  .wine-varietal{
+    font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--cream-dim);
+    padding-bottom: 22px; margin-bottom: 24px; border-bottom: 1px solid rgba(201,168,76,0.25);
+  }
+  .wine-desc{ color: var(--cream-dim); line-height: 1.9; font-size: 0.95rem; margin-bottom: 26px; }
+  .wine-meta{
+    display: flex; justify-content: space-between;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold);
+  }
+
+  /* ============ GET INVOLVED — MOSAIC ============ */
+  .mosaic-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 6px;
+    background: var(--gold);
+    padding: 6px;
+    border: 2px solid var(--gold);
+    clip-path: polygon(0 24px, 6% 8px, 20% 0, 80% 0, 94% 8px, 100% 24px, 100% 100%, 0 100%);
+  }
+  @media (max-width: 900px){ .mosaic-grid{ grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); } }
+  @media (max-width: 560px){ .mosaic-grid{ grid-template-columns: 1fr; grid-template-rows: repeat(6, 1fr); } }
+
+  .mosaic-pane{
+    position: relative;
+    padding: 44px 30px;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.4s ease, filter 0.4s ease;
+  }
+  .mosaic-pane::after{
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.14) 0%, transparent 40%);
+    pointer-events: none;
+  }
+  .mosaic-pane:hover{ transform: scale(1.03); filter: brightness(1.12); z-index: 2; }
+  .mosaic-pane--emerald{ background: radial-gradient(ellipse at 50% 0%, rgba(var(--emerald-glow),0.3), transparent 70%), var(--emerald-mid); }
+  .mosaic-pane--sapphire{ background: radial-gradient(ellipse at 50% 0%, rgba(var(--sapphire-glow),0.3), transparent 70%), var(--sapphire-mid); }
+  .mosaic-pane--ruby{ background: radial-gradient(ellipse at 50% 0%, rgba(var(--ruby-glow),0.3), transparent 70%), var(--ruby-mid); }
+  .mosaic-pane--amber{ background: radial-gradient(ellipse at 50% 0%, rgba(var(--amber-glow),0.3), transparent 70%), var(--amber-mid); }
+  .mosaic-pane--amethyst{ background: radial-gradient(ellipse at 50% 0%, rgba(var(--amethyst-glow),0.3), transparent 70%), var(--amethyst-mid); }
+  .mosaic-pane--teal{ background: radial-gradient(ellipse at 50% 0%, rgba(var(--teal-glow),0.3), transparent 70%), var(--teal-mid); }
+
+  .pane-role{ font-size: 1.35rem; font-style: italic; color: var(--gold-light); margin-bottom: 12px; position: relative; z-index: 1; }
+  .pane-desc{ font-size: 0.88rem; color: rgba(240,235,224,0.88); line-height: 1.75; margin-bottom: 20px; position: relative; z-index: 1; }
+  .pane-cta{
+    font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--cream); border-bottom: 1px solid rgba(240,235,224,0.5);
+    padding-bottom: 3px; position: relative; z-index: 1;
+  }
+  .pane-cta:hover{ border-color: var(--cream); }
+
+  /* ============ PROCESS FLOW ============ */
+  .process-flow{ display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0; }
+  .process-step{
+    background: rgba(0,0,0,0.24);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 30px 24px;
+    text-align: center;
+    width: 180px;
+  }
+  .process-step-num{ font-family: 'Cormorant', serif; font-size: 1.6rem; color: var(--gold-light); margin-bottom: 8px; }
+  .process-step-label{ font-size: 0.82rem; letter-spacing: 0.05em; color: var(--cream-dim); line-height: 1.5; }
+  .process-arrow{ color: var(--gold); font-size: 1.4rem; padding: 0 18px; }
+  @media (max-width: 860px){
+    .process-flow{ flex-direction: column; }
+    .process-arrow{ transform: rotate(90deg); padding: 6px 0; }
+  }
+
+  /* ============ EVENTS ============ */
+  .event-card{
+    max-width: 740px; margin: 0 auto;
+    background: rgba(0,0,0,0.24);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 60px; text-align: center; position: relative;
+  }
+  .event-card::before{
+    content: ""; position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px;
+    border: 1px solid rgba(201,168,76,0.16); pointer-events: none;
+  }
+  .event-date{ font-size: 0.72rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  .event-title{ font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--gold-light); font-style: italic; margin-bottom: 26px; }
+  .event-details{
+    display: flex; justify-content: center; gap: 44px; flex-wrap: wrap;
+    margin-bottom: 32px; color: var(--cream-dim); font-size: 0.9rem;
+  }
+  .event-details div strong{
+    display: block; color: var(--gold); font-size: 0.66rem;
+    letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500;
+  }
+  .event-desc{ color: var(--cream-dim); line-height: 1.9; max-width: 500px; margin: 0 auto 32px; }
+
+  /* ============ JOIN ============ */
+  .join-form{
+    max-width: 460px; margin: 44px auto 0;
+    display: flex;
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 4px;
+  }
+  .join-form input{
+    flex: 1; background: transparent; border: none; outline: none;
+    padding: 14px 8px; color: var(--cream);
+    font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem;
+  }
+  .join-form input::placeholder{ color: var(--cream-dim); opacity: 0.65; }
+  .join-form button{
+    background: none; border: none; color: var(--gold-light);
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    cursor: pointer; padding: 14px 12px; transition: color 0.3s ease;
+  }
+  .join-form button:hover{ color: var(--cream); }
+  .join-sub{ margin-top: 18px; font-size: 0.8rem; color: var(--cream-dim); }
+
+  /* ============ FOOTER ============ */
+  footer{
+    padding: 60px 0 40px; text-align: center;
+    border-top: 1px solid rgba(201,168,76,0.18);
+    background: var(--midnight-deep);
+  }
+  .footer-mark{
+    font-family: 'Cormorant', serif; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold-light); font-size: 0.95rem; margin-bottom: 18px;
+  }
+  .footer-links{ display: flex; justify-content: center; gap: 30px; margin-bottom: 26px; flex-wrap: wrap; }
+  .footer-links a{ font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream-dim); transition: color 0.4s ease; }
+  .footer-links a:hover{ color: var(--gold-light); }
+  .footer-copy{ font-size: 0.72rem; color: var(--cream-dim); opacity: 0.7; }
+  .footer-credit{ margin-top: 8px; font-size: 0.72rem; color: var(--cream-dim); opacity: 0.7; }
+  .footer-credit a{ color: var(--gold); }
+  .footer-credit a:hover{ color: var(--gold-light); }
+</style>
+</head>
+<body>
+
+<nav id="site-nav">
+  <div class="nav-mark">Femme Ferments</div>
+  <ul class="nav-links">
+    <li><a href="#top">Home</a></li>
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#wines">Wines</a></li>
+    <li><a href="#involved">Get Involved</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#join">Join</a></li>
+  </ul>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div class="hero-shards" aria-hidden="true">
+    <div class="shard shard-emerald shard-shape-a shard-drift" style="top:18%; left:8%; width:44px; height:44px; --dx:26px; --dur:19s;"></div>
+    <div class="shard shard-sapphire shard-shape-b shard-drift" style="top:64%; left:12%; width:30px; height:30px; --dx:20px; --dur:15s; --delay:-4s;"></div>
+    <div class="shard shard-ruby shard-shape-a shard-drift" style="top:30%; left:82%; width:38px; height:38px; --dx:24px; --dur:21s; --delay:-8s;"></div>
+    <div class="shard shard-amber shard-shape-b shard-drift" style="top:72%; left:86%; width:26px; height:26px; --dx:18px; --dur:14s; --delay:-2s;"></div>
+    <div class="shard shard-amethyst shard-shape-a shard-drift" style="top:10%; left:46%; width:22px; height:22px; --dx:16px; --dur:17s; --delay:-6s;"></div>
+    <div class="shard shard-teal shard-shape-b shard-drift" style="top:82%; left:50%; width:34px; height:34px; --dx:22px; --dur:23s; --delay:-10s;"></div>
+  </div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Willamette Valley &middot; Oregon</p>
+    <div class="hero-image-frame">
+      <img class="hero-image" src="/logo_stacked.png" alt="Femme Ferments — a watercolor mosaic of shattered glass in jewel tones" fetchpriority="high" decoding="async">
+    </div>
+    <h1 class="hero-title">Beauty in the <em>Broken Glass</em></h1>
+    <p class="hero-poem">Strength in the fractures<br>Grace in the pieces<br>Hope in every shard</p>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</header>
+
+<!-- ============ MISSION (emerald) ============ -->
+<div class="arch-crown arch-crown--emerald" aria-hidden="true"></div>
+<section class="panel panel--emerald" id="mission">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">Our Mission</div>
+      <h2 class="section-title">100% of Profits Empower Women</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="section-sub fade-in">Femme Ferments is built on collaboration, not overhead. Growers donate grapes, partners donate barrel space and bottling time, volunteers donate their hands &mdash; so that every dollar earned from every bottle sold becomes a dollar given.</p>
+
+    <div class="stats-row">
+      <div class="fade-in">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Of Profits to Partners</div>
+      </div>
+      <div class="fade-in">
+        <div class="stat-number">Willamette<br>Valley</div>
+        <div class="stat-label">Oregon Grown, Community Poured</div>
+      </div>
+      <div class="fade-in">
+        <div class="stat-number">2026</div>
+        <div class="stat-label">Founding Vintage</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <a href="#wines" class="cta-btn fade-in">See the Wines</a>
+    </div>
+  </div>
+</section>
+
+<div class="diagonal-crown diagonal-crown--to-wine" aria-hidden="true"></div>
+
+<!-- ============ WINES (amber / ruby split) ============ -->
+<section class="panel panel--wine" id="wines">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="label-plaque">
+        <span class="brand">Femme Ferments</span>
+        <span class="tag">Beauty in the Broken Glass</span>
+      </div>
+      <h2 class="section-title">The Wines</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="wine-split">
+      <div class="wine-label-card fade-in">
+        <div class="wine-est">White &middot; Limited First Release</div>
+        <h3 class="wine-name">Power &amp; Grace</h3>
+        <div class="wine-varietal">Albari&ntilde;o &middot; Eola-Amity Hills</div>
+        <p class="wine-desc">Poised and expressive, this Albari&ntilde;o balances strength and elegance in equal measure &mdash; bright, mineral, and quietly commanding.</p>
+        <div class="wine-meta"><span>Willamette Valley, OR</span><span>Feb 2026</span></div>
+      </div>
+
+      <div class="wine-label-card fade-in">
+        <div class="wine-est">Red &middot; Seasonal Limited Release</div>
+        <h3 class="wine-name">Hope &amp; Grit</h3>
+        <div class="wine-varietal">Pinot Noir &middot; Willamette Valley</div>
+        <p class="wine-desc">Elegant, grounded, and quietly powerful. This Pinot Noir carries the weight of the season with grace and restraint.</p>
+        <div class="wine-meta"><span>Willamette Valley, OR</span><span>Spring 2026</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tracery-row" aria-hidden="true"></div>
+
+<!-- ============ GET INVOLVED — THE MOSAIC ============ -->
+<section class="panel panel--involved" id="involved">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">Get Involved</div>
+      <h2 class="section-title">Every Piece Makes the Picture</h2>
+      <div class="divider"></div>
+      <p class="section-sub" style="margin-top:24px;">Femme Ferments is built by hands, not headquarters. Find where your light fits into the glass.</p>
+    </div>
+
+    <div class="mosaic-grid fade-in">
+      <div class="mosaic-pane mosaic-pane--emerald">
+        <h3 class="pane-role">Harvest Volunteer</h3>
+        <p class="pane-desc">Hands in the vines. Join us during harvest to pick, sort, and celebrate the fruit that becomes our wine.</p>
+        <a href="#join" class="pane-cta">Volunteer at Harvest &rarr;</a>
+      </div>
+      <div class="mosaic-pane mosaic-pane--sapphire">
+        <h3 class="pane-role">Creative Contributor</h3>
+        <p class="pane-desc">Label art, photography, storytelling. Lend your craft to help us share the mission.</p>
+        <a href="#join" class="pane-cta">Share Your Craft &rarr;</a>
+      </div>
+      <div class="mosaic-pane mosaic-pane--ruby">
+        <h3 class="pane-role">Event Host</h3>
+        <p class="pane-desc">Open your venue, your backyard, or your bottle shop for a tasting that funds the cause.</p>
+        <a href="#join" class="pane-cta">Host a Tasting &rarr;</a>
+      </div>
+      <div class="mosaic-pane mosaic-pane--amber">
+        <h3 class="pane-role">Tech &amp; Operations</h3>
+        <p class="pane-desc">Websites, spreadsheets, logistics &mdash; the unglamorous glue that holds a small nonprofit together.</p>
+        <a href="#join" class="pane-cta">Lend Your Skills &rarr;</a>
+      </div>
+      <div class="mosaic-pane mosaic-pane--amethyst">
+        <h3 class="pane-role">Winery Partner</h3>
+        <p class="pane-desc">Donate grapes, barrel space, or bottling time. Every partnership stretches our impact further.</p>
+        <a href="#join" class="pane-cta">Partner With Us &rarr;</a>
+      </div>
+      <div class="mosaic-pane mosaic-pane--teal">
+        <h3 class="pane-role">Community Ambassador</h3>
+        <p class="pane-desc">Spread the word in your circle &mdash; at book club, at church, at the farmers market.</p>
+        <a href="#join" class="pane-cta">Become an Ambassador &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="arch-crown arch-crown--sapphire" aria-hidden="true"></div>
+
+<!-- ============ PROCESS (sapphire) ============ -->
+<section class="panel panel--sapphire" id="process">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">How It Works</div>
+      <h2 class="section-title">How the Glass Comes Together</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="process-flow fade-in">
+      <div class="process-step">
+        <div class="process-step-num">01</div>
+        <div class="process-step-label">Donated<br>Grapes</div>
+      </div>
+      <div class="process-arrow">&rarr;</div>
+      <div class="process-step">
+        <div class="process-step-num">02</div>
+        <div class="process-step-label">Volunteer<br>Hands</div>
+      </div>
+      <div class="process-arrow">&rarr;</div>
+      <div class="process-step">
+        <div class="process-step-num">03</div>
+        <div class="process-step-label">Partner<br>Wineries</div>
+      </div>
+      <div class="process-arrow">&rarr;</div>
+      <div class="process-step">
+        <div class="process-step-num">04</div>
+        <div class="process-step-label">Bottled<br>&amp; Corked</div>
+      </div>
+      <div class="process-arrow">&rarr;</div>
+      <div class="process-step">
+        <div class="process-step-num">05</div>
+        <div class="process-step-label">100% to<br>Partners</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="diagonal-crown diagonal-crown--to-events" aria-hidden="true"></div>
+
+<!-- ============ EVENTS (amethyst) ============ -->
+<section class="panel panel--amethyst" id="events">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="label-plaque">
+        <span class="brand">Femme Ferments</span>
+        <span class="tag">Save the Date</span>
+      </div>
+      <h2 class="section-title">Upcoming Event</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="event-card fade-in">
+      <div class="event-date">April 23, 2026 &middot; 5:00 &ndash; 7:00 PM</div>
+      <h3 class="event-title">Pinot Noir Launch Party</h3>
+      <div class="event-details">
+        <div><strong>Location</strong>The Pub, 326 NE Davis St., McMinnville</div>
+        <div><strong>Tickets</strong>$20 Donation</div>
+      </div>
+      <p class="event-desc">Join us for an intimate evening tasting our debut '24 Albari&ntilde;o and '24 Pinot Noir &mdash; a celebration of craft, community, and the women behind every bottle.</p>
+      <a href="#join" class="cta-btn">Reserve Your Seat</a>
+    </div>
+  </div>
+</section>
+
+<div class="arch-crown arch-crown--teal" aria-hidden="true"></div>
+
+<!-- ============ JOIN (teal) ============ -->
+<section class="panel panel--teal" id="join">
+  <div class="container">
+    <div class="section-header fade-in" style="margin-bottom:0;">
+      <div class="section-eyebrow">Collaborate. Support. Celebrate.</div>
+      <h2 class="section-title">Add Your Light to the Glass</h2>
+      <p class="section-sub">However you can give &mdash; time, craft, grapes, or a glass raised &mdash; there's a piece of this mosaic with your name on it.</p>
+    </div>
+    <form class="join-form fade-in" onsubmit="event.preventDefault();">
+      <input type="email" placeholder="Your email address" required>
+      <button type="submit">Join &rarr;</button>
+    </form>
+    <p class="join-sub fade-in">Be first to hear about new releases, events, and the causes we support.</p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-mark">Femme Ferments</div>
+    <div class="footer-links">
+      <a href="#top">Home</a>
+      <a href="#mission">Mission</a>
+      <a href="#wines">Wines</a>
+      <a href="#involved">Get Involved</a>
+      <a href="#events">Events</a>
+      <a href="https://www.facebook.com/people/Femme-Ferments/61586984057730/" target="_blank" rel="noopener">Facebook</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 Femme Ferments. All rights reserved.</div>
+    <div class="footer-credit">Made with &#10084;&#65039; by <a href="https://effulgentpoint.com/" target="_blank" rel="noopener">Effulgent Point</a></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(function(el){ observer.observe(el); });
+
+  var nav = document.getElementById('site-nav');
+  function updateNav(){
+    if (window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+})();
+</script>
+
+</body>
+</html>

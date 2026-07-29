@@ -1,0 +1,840 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { DEFAULT_CONTENT, type Content } from "@/lib/content";
+
+const PIECE_OPTIONS = [
+  "01_left_outer_teal_points_tight.png",
+  "02_left_top_teal_shards_tight.png",
+  "03_left_mid_blue_green_tight.png",
+  "04_left_lower_green_blue_tight.png",
+  "05_lower_left_blue_tail_tight.png",
+  "06_upper_mid_green_crown_tight.png",
+  "07_mid_left_green_bridge_tight.png",
+  "08_center_core_burst_tight.png",
+  "09_lower_center_cyan_blue_tight.png",
+  "10_upper_yellow_orange_tight.png",
+  "11_right_upper_pink_orange_tight.png",
+  "12_upper_right_purple_sail_tight.png",
+  "13_right_mid_teal_glass_tight.png",
+  "14_right_warm_red_orange_tight.png",
+  "15_right_lower_blue_purple_tight.png",
+  "16_far_right_red_tail_tight.png",
+  "17_lower_right_purple_tail_tight.png",
+  "18_bottom_center_teal_splinters_tight.png",
+];
+
+function clone<T>(v: T): T {
+  return JSON.parse(JSON.stringify(v)) as T;
+}
+
+/* ---------------- field primitives ---------------- */
+const labelStyle: React.CSSProperties = {
+  display: "block",
+  fontFamily: "var(--font-sans)",
+  fontSize: "0.72rem",
+  fontWeight: 600,
+  letterSpacing: "0.08em",
+  textTransform: "uppercase",
+  color: "var(--gold-text)",
+  marginBottom: "0.4rem",
+};
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  padding: "0.6rem 0.75rem",
+  border: "1px solid rgba(74, 14, 43, 0.22)",
+  background: "#fff",
+  borderRadius: "6px",
+  fontFamily: "var(--font-sans)",
+  fontSize: "0.9rem",
+  color: "var(--ink)",
+};
+
+function Field({
+  label,
+  value,
+  onChange,
+  textarea,
+  rows = 3,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  textarea?: boolean;
+  rows?: number;
+}) {
+  return (
+    <label className="block mb-4">
+      <span style={labelStyle}>{label}</span>
+      {textarea ? (
+        <textarea
+          value={value}
+          rows={rows}
+          onChange={(e) => onChange(e.target.value)}
+          style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }}
+        />
+      ) : (
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          style={inputStyle}
+        />
+      )}
+    </label>
+  );
+}
+
+const removeBtn: React.CSSProperties = {
+  flexShrink: 0,
+  width: "38px",
+  border: "1px solid rgba(74, 14, 43, 0.22)",
+  background: "#fff",
+  borderRadius: "6px",
+  color: "var(--wine)",
+  fontSize: "1.1rem",
+  cursor: "pointer",
+};
+const addBtn: React.CSSProperties = {
+  marginTop: "0.5rem",
+  padding: "0.4rem 0.9rem",
+  border: "1px dashed rgba(201, 168, 76, 0.6)",
+  background: "transparent",
+  borderRadius: "6px",
+  color: "var(--gold-text)",
+  fontFamily: "var(--font-sans)",
+  fontSize: "0.78rem",
+  fontWeight: 600,
+  cursor: "pointer",
+};
+
+function StringList({
+  label,
+  values,
+  onChange,
+}: {
+  label: string;
+  values: string[];
+  onChange: (v: string[]) => void;
+}) {
+  return (
+    <div className="mb-4">
+      <span style={labelStyle}>{label}</span>
+      <div className="flex flex-col gap-2">
+        {values.map((v, i) => (
+          <div key={i} className="flex gap-2">
+            <input
+              type="text"
+              value={v}
+              onChange={(e) => {
+                const next = [...values];
+                next[i] = e.target.value;
+                onChange(next);
+              }}
+              style={inputStyle}
+            />
+            <button
+              type="button"
+              onClick={() => onChange(values.filter((_, j) => j !== i))}
+              aria-label={`Remove item ${i + 1}`}
+              style={removeBtn}
+            >
+              &times;
+            </button>
+          </div>
+        ))}
+      </div>
+      <button
+        type="button"
+        onClick={() => onChange([...values, ""])}
+        style={addBtn}
+      >
+        + Add
+      </button>
+    </div>
+  );
+}
+
+const cardStyle: React.CSSProperties = {
+  background: "var(--cream)",
+  border: "1px solid rgba(74, 14, 43, 0.14)",
+  borderRadius: "10px",
+  padding: "1.25rem",
+  marginBottom: "1rem",
+};
+const sectionStyle: React.CSSProperties = {
+  background: "#fff",
+  border: "1px solid rgba(74, 14, 43, 0.1)",
+  borderRadius: "12px",
+  padding: "1.5rem",
+  marginBottom: "1.5rem",
+};
+
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h2
+      style={{
+        fontFamily: "var(--font-serif)",
+        color: "var(--wine)",
+        fontSize: "1.4rem",
+        fontWeight: 600,
+        marginBottom: "1rem",
+      }}
+    >
+      {children}
+    </h2>
+  );
+}
+
+const primaryBtn: React.CSSProperties = {
+  padding: "0.55rem 1.1rem",
+  background: "var(--gold)",
+  color: "var(--ink)",
+  border: "none",
+  borderRadius: "6px",
+  fontFamily: "var(--font-sans)",
+  fontSize: "0.8rem",
+  fontWeight: 700,
+  letterSpacing: "0.04em",
+  cursor: "pointer",
+};
+const ghostBtn: React.CSSProperties = {
+  padding: "0.55rem 1rem",
+  background: "transparent",
+  color: "var(--cream)",
+  border: "1px solid rgba(250, 245, 235, 0.4)",
+  borderRadius: "6px",
+  fontFamily: "var(--font-sans)",
+  fontSize: "0.8rem",
+  fontWeight: 600,
+  cursor: "pointer",
+};
+
+type Phase = "loading" | "login" | "editing";
+
+/* ---------------- editor ---------------- */
+export default function AdminEditor() {
+  const [phase, setPhase] = useState<Phase>("loading");
+  const [serverMode, setServerMode] = useState(false); // authed → can save/publish
+
+  const [passInput, setPassInput] = useState("");
+  const [loginErr, setLoginErr] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  const [draft, setDraft] = useState<Content>(() => clone(DEFAULT_CONTENT));
+  const [dirty, setDirty] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
+  async function loadDraft() {
+    try {
+      const res = await fetch("/api/content", { cache: "no-store" });
+      if (res.ok) {
+        const data = (await res.json()) as Content;
+        setDraft(data);
+        setDirty(false);
+      }
+    } catch {
+      /* keep current draft */
+    }
+  }
+
+  // Decide mode on mount: is the backend configured? are we authed?
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      let authed = false;
+      let isConfigured = false;
+      try {
+        const res = await fetch("/api/auth/check", { cache: "no-store" });
+        if (res.ok) {
+          const j = await res.json();
+          authed = Boolean(j.authed);
+          isConfigured = Boolean(j.configured);
+        }
+      } catch {
+        /* offline / not configured */
+      }
+      if (!alive) return;
+      if (isConfigured && !authed) {
+        setPhase("login");
+      } else {
+        if (authed) {
+          setServerMode(true);
+          await loadDraft();
+        }
+        if (alive) setPhase("editing");
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  function update(mutator: (d: Content) => void) {
+    setDraft((prev) => {
+      const next = clone(prev);
+      mutator(next);
+      return next;
+    });
+    setDirty(true);
+  }
+
+  function flash(msg: string) {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 2800);
+  }
+
+  async function login(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setLoginErr(null);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: passInput }),
+      });
+      if (res.ok) {
+        setServerMode(true);
+        await loadDraft();
+        setPhase("editing");
+      } else if (res.status === 503) {
+        setPhase("editing"); // fall through to offline export mode
+      } else {
+        setLoginErr("Incorrect passcode.");
+      }
+    } catch {
+      setLoginErr("Could not reach the server.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function logout() {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch {
+      /* ignore */
+    }
+    setServerMode(false);
+    setDraft(clone(DEFAULT_CONTENT));
+    setDirty(false);
+    setPhase("login");
+  }
+
+  async function saveDraft(): Promise<boolean> {
+    setBusy(true);
+    try {
+      const res = await fetch("/api/content", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(draft),
+      });
+      if (res.ok) {
+        setDirty(false);
+        flash("Draft saved.");
+        return true;
+      }
+      flash("Save failed — check your connection.");
+      return false;
+    } catch {
+      flash("Save failed — check your connection.");
+      return false;
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function publish() {
+    const saved = await saveDraft();
+    if (!saved) return;
+    setBusy(true);
+    try {
+      const res = await fetch("/api/publish", { method: "POST" });
+      flash(res.ok ? "Published — live in ~30 seconds." : "Publish failed.");
+    } catch {
+      flash("Publish failed.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function revert() {
+    if (!confirm("Discard your edits and reload the last saved content?")) return;
+    if (serverMode) {
+      await loadDraft();
+    } else {
+      setDraft(clone(DEFAULT_CONTENT));
+      setDirty(false);
+    }
+    flash("Reverted.");
+  }
+
+  function download() {
+    const blob = new Blob([JSON.stringify(draft, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "content.json";
+    a.click();
+    URL.revokeObjectURL(url);
+    flash("content.json downloaded.");
+  }
+
+  async function copyJson() {
+    await navigator.clipboard.writeText(JSON.stringify(draft, null, 2));
+    flash("JSON copied to clipboard.");
+  }
+
+  /* ---- loading ---- */
+  if (phase === "loading") {
+    return (
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: "var(--parchment)" }}
+      >
+        <span style={{ fontFamily: "var(--font-sans)", color: "var(--ink-dim)" }}>
+          Loading editor…
+        </span>
+      </div>
+    );
+  }
+
+  /* ---- login ---- */
+  if (phase === "login") {
+    return (
+      <div
+        className="min-h-screen flex items-center justify-center px-6"
+        style={{ background: "var(--parchment)" }}
+      >
+        <form onSubmit={login} style={{ ...sectionStyle, maxWidth: "380px", width: "100%" }}>
+          <SectionTitle>Femme Ferments — Editor</SectionTitle>
+          <Field
+            label="Passcode"
+            value={passInput}
+            onChange={(v) => {
+              setPassInput(v);
+              setLoginErr(null);
+            }}
+          />
+          {loginErr && (
+            <p
+              role="alert"
+              style={{
+                color: "var(--wine)",
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.82rem",
+                marginBottom: "0.75rem",
+              }}
+            >
+              {loginErr}
+            </p>
+          )}
+          <button type="submit" disabled={busy} style={primaryBtn}>
+            {busy ? "Checking…" : "Enter"}
+          </button>
+        </form>
+      </div>
+    );
+  }
+
+  /* ---- editing ---- */
+  return (
+    <div style={{ background: "var(--parchment)", minHeight: "100vh" }}>
+      <div
+        className="sticky top-0 z-10 flex items-center justify-between flex-wrap gap-3"
+        style={{ background: "var(--wine)", padding: "0.9rem 1.25rem" }}
+      >
+        <div className="flex items-center gap-3">
+          <span
+            style={{
+              fontFamily: "var(--font-serif)",
+              color: "var(--cream)",
+              fontSize: "1.1rem",
+              fontWeight: 600,
+            }}
+          >
+            Content Editor
+          </span>
+          {dirty && (
+            <span
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.68rem",
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                color: "var(--wine)",
+                background: "var(--gold)",
+                padding: "0.15rem 0.55rem",
+                borderRadius: "99px",
+                fontWeight: 700,
+              }}
+            >
+              Unsaved
+            </span>
+          )}
+          {!serverMode && (
+            <span
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.64rem",
+                letterSpacing: "0.04em",
+                color: "rgba(250,245,235,0.7)",
+              }}
+            >
+              offline — export only
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <button type="button" onClick={revert} style={ghostBtn}>
+            Revert
+          </button>
+          <button type="button" onClick={copyJson} style={ghostBtn}>
+            Copy JSON
+          </button>
+          <button type="button" onClick={download} style={ghostBtn}>
+            Download
+          </button>
+          {serverMode && (
+            <>
+              <button type="button" onClick={saveDraft} disabled={busy} style={ghostBtn}>
+                Save draft
+              </button>
+              <button type="button" onClick={publish} disabled={busy} style={primaryBtn}>
+                {busy ? "Working…" : "Publish"}
+              </button>
+              <button type="button" onClick={logout} style={ghostBtn}>
+                Log out
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
+      <div className="mx-auto" style={{ maxWidth: "760px", padding: "1.5rem 1.25rem 5rem" }}>
+        <p
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "0.85rem",
+            lineHeight: 1.6,
+            color: "var(--ink-dim)",
+            marginBottom: "1.5rem",
+          }}
+        >
+          {serverMode ? (
+            <>
+              Edit any text below. <strong>Save draft</strong> stores your
+              changes privately; <strong>Publish</strong> makes them live on the
+              site (visible within ~30 seconds).
+            </>
+          ) : (
+            <>
+              The publishing backend isn&rsquo;t connected yet, so this is
+              export-only: edit and <strong>Download</strong> the{" "}
+              <code>content.json</code>. To enable one-click Publish, see{" "}
+              <code>docs/cms-vercel-setup.md</code>.
+            </>
+          )}
+        </p>
+
+        {/* VISION */}
+        <section style={sectionStyle}>
+          <SectionTitle>The Vision</SectionTitle>
+          <Field
+            label="Headline"
+            value={draft.vision.headline}
+            onChange={(v) => update((d) => (d.vision.headline = v))}
+          />
+          <Field
+            label="Body"
+            textarea
+            rows={5}
+            value={draft.vision.body}
+            onChange={(v) => update((d) => (d.vision.body = v))}
+          />
+          <Field
+            label="Pull quote"
+            value={draft.vision.quote}
+            onChange={(v) => update((d) => (d.vision.quote = v))}
+          />
+        </section>
+
+        {/* VALLEY */}
+        <section style={sectionStyle}>
+          <SectionTitle>The Land</SectionTitle>
+          <Field
+            label="Headline"
+            value={draft.valley.headline}
+            onChange={(v) => update((d) => (d.valley.headline = v))}
+          />
+          <Field
+            label="Body"
+            textarea
+            rows={5}
+            value={draft.valley.body}
+            onChange={(v) => update((d) => (d.valley.body = v))}
+          />
+          <div style={cardStyle}>
+            <span style={labelStyle}>Get-Involved Call to Action</span>
+            <Field
+              label="Small label"
+              value={draft.valley.cta.label}
+              onChange={(v) => update((d) => (d.valley.cta.label = v))}
+            />
+            <Field
+              label="Heading"
+              value={draft.valley.cta.heading}
+              onChange={(v) => update((d) => (d.valley.cta.heading = v))}
+            />
+            <Field
+              label="Description"
+              textarea
+              value={draft.valley.cta.description}
+              onChange={(v) => update((d) => (d.valley.cta.description = v))}
+            />
+          </div>
+        </section>
+
+        {/* WINES */}
+        <section style={sectionStyle}>
+          <SectionTitle>The Wines</SectionTitle>
+          {draft.wines.map((wine, i) => (
+            <div key={i} style={cardStyle}>
+              <div className="flex justify-between items-center mb-2">
+                <span style={labelStyle}>Wine {i + 1}</span>
+                <button
+                  type="button"
+                  onClick={() => update((d) => d.wines.splice(i, 1))}
+                  style={removeBtn}
+                  aria-label={`Remove wine ${i + 1}`}
+                >
+                  &times;
+                </button>
+              </div>
+              <Field
+                label="Varietal"
+                value={wine.varietal}
+                onChange={(v) => update((d) => (d.wines[i].varietal = v))}
+              />
+              <Field
+                label="Name"
+                value={wine.name}
+                onChange={(v) => update((d) => (d.wines[i].name = v))}
+              />
+              <Field
+                label="Year"
+                value={wine.year}
+                onChange={(v) => update((d) => (d.wines[i].year = v))}
+              />
+              <Field
+                label="Description"
+                textarea
+                value={wine.description}
+                onChange={(v) => update((d) => (d.wines[i].description = v))}
+              />
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() =>
+              update((d) =>
+                d.wines.push({ varietal: "", name: "", year: "", description: "" })
+              )
+            }
+            style={addBtn}
+          >
+            + Add wine
+          </button>
+        </section>
+
+        {/* ROLES */}
+        <section style={sectionStyle}>
+          <SectionTitle>Community Roles</SectionTitle>
+          {draft.roles.map((role, i) => (
+            <div key={role.id || i} style={cardStyle}>
+              <div className="flex justify-between items-center mb-2">
+                <span style={labelStyle}>
+                  No. {role.number} — {role.title || "Untitled"}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => update((d) => d.roles.splice(i, 1))}
+                  style={removeBtn}
+                  aria-label={`Remove role ${i + 1}`}
+                >
+                  &times;
+                </button>
+              </div>
+              <div className="flex gap-3 items-start">
+                <Image
+                  src={`/glass-assets/tight_png/${role.piece}`}
+                  alt=""
+                  width={64}
+                  height={64}
+                  style={{ objectFit: "contain", flexShrink: 0, height: "auto" }}
+                />
+                <div className="flex-1">
+                  <label className="block mb-4">
+                    <span style={labelStyle}>Glass piece</span>
+                    <select
+                      value={role.piece}
+                      onChange={(e) =>
+                        update((d) => (d.roles[i].piece = e.target.value))
+                      }
+                      style={inputStyle}
+                    >
+                      {PIECE_OPTIONS.map((p) => (
+                        <option key={p} value={p}>
+                          {p.replace("_tight.png", "").replace(/_/g, " ")}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Field
+                  label="Number"
+                  value={role.number}
+                  onChange={(v) => update((d) => (d.roles[i].number = v))}
+                />
+                <Field
+                  label="Title"
+                  value={role.title}
+                  onChange={(v) => update((d) => (d.roles[i].title = v))}
+                />
+              </div>
+              <Field
+                label="Description"
+                textarea
+                value={role.description}
+                onChange={(v) => update((d) => (d.roles[i].description = v))}
+              />
+              <StringList
+                label="What You'll Do"
+                values={role.tasks}
+                onChange={(v) => update((d) => (d.roles[i].tasks = v))}
+              />
+              <StringList
+                label="What We Provide"
+                values={role.perks}
+                onChange={(v) => update((d) => (d.roles[i].perks = v))}
+              />
+              <Field
+                label="Time commitment"
+                value={role.time}
+                onChange={(v) => update((d) => (d.roles[i].time = v))}
+              />
+            </div>
+          ))}
+        </section>
+
+        {/* HOW IT WORKS */}
+        <section style={sectionStyle}>
+          <SectionTitle>How It Works</SectionTitle>
+          {draft.flowSteps.map((step, i) => (
+            <div key={i} style={cardStyle}>
+              <div className="flex justify-between items-center mb-2">
+                <span style={labelStyle}>Step {i + 1}</span>
+                <button
+                  type="button"
+                  onClick={() => update((d) => d.flowSteps.splice(i, 1))}
+                  style={removeBtn}
+                  aria-label={`Remove step ${i + 1}`}
+                >
+                  &times;
+                </button>
+              </div>
+              <Field
+                label="Title"
+                value={step.title}
+                onChange={(v) => update((d) => (d.flowSteps[i].title = v))}
+              />
+              <Field
+                label="Description"
+                textarea
+                value={step.description}
+                onChange={(v) => update((d) => (d.flowSteps[i].description = v))}
+              />
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() =>
+              update((d) => d.flowSteps.push({ title: "", description: "" }))
+            }
+            style={addBtn}
+          >
+            + Add step
+          </button>
+        </section>
+
+        {/* EVENT */}
+        <section style={sectionStyle}>
+          <SectionTitle>The Event</SectionTitle>
+          <Field
+            label="Title"
+            value={draft.event.title}
+            onChange={(v) => update((d) => (d.event.title = v))}
+          />
+          <div className="grid grid-cols-2 gap-3">
+            <Field
+              label="Date"
+              value={draft.event.date}
+              onChange={(v) => update((d) => (d.event.date = v))}
+            />
+            <Field
+              label="Location"
+              value={draft.event.location}
+              onChange={(v) => update((d) => (d.event.location = v))}
+            />
+          </div>
+          <StringList
+            label="Detail lines"
+            values={draft.event.details}
+            onChange={(v) => update((d) => (d.event.details = v))}
+          />
+          <Field
+            label="Description"
+            textarea
+            value={draft.event.description}
+            onChange={(v) => update((d) => (d.event.description = v))}
+          />
+        </section>
+
+        {/* PARTNERS */}
+        <section style={sectionStyle}>
+          <SectionTitle>Partners</SectionTitle>
+          <StringList
+            label="Partner names"
+            values={draft.partners}
+            onChange={(v) => update((d) => (d.partners = v))}
+          />
+        </section>
+      </div>
+
+      {toast && (
+        <div
+          role="status"
+          className="fixed left-1/2 -translate-x-1/2"
+          style={{
+            bottom: "1.5rem",
+            background: "var(--ink)",
+            color: "var(--cream)",
+            padding: "0.7rem 1.3rem",
+            borderRadius: "99px",
+            fontFamily: "var(--font-sans)",
+            fontSize: "0.85rem",
+            boxShadow: "0 8px 30px rgba(0,0,0,0.25)",
+          }}
+        >
+          {toast}
+        </div>
+      )}
+    </div>
+  );
+}

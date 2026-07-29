@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Femme Ferments — Beauty in the Broken Glass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=Playfair+Display+SC:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --espresso:#1c110d;
+    --espresso-rgb:28,17,13;
+    --parchment:#d4c5a9;
+    --parchment-rgb:212,197,169;
+    --parchment-deep:#c3b28f;
+    --sienna:#a0522d;
+    --sienna-rgb:160,82,45;
+    --olive:#3a4a1d;
+    --olive-rgb:58,74,29;
+    --gold:#c49b3c;
+    --gold-rgb:196,155,60;
+    --ink:#0f0f0f;
+    --ink-rgb:15,15,15;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--espresso);
+    color:var(--parchment);
+    font-family:'Crimson Text', serif;
+    font-size:19px;
+    line-height:1.75;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* ---------- fine grain overlay, works over both light & dark sections ---------- */
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:1000;
+    opacity:0.4;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(-45deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 3px),
+      radial-gradient(circle at 15% 20%, rgba(0,0,0,0.12) 0px, transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(0,0,0,0.12) 0px, transparent 45%);
+    mix-blend-mode:overlay;
+  }
+
+  .display{
+    font-family:'Playfair Display SC', serif;
+    letter-spacing:0.04em;
+  }
+
+  .italic-serif{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+  }
+
+  .letterpress-dark{
+    color:var(--espresso);
+    text-shadow:
+      0 1px 0 rgba(255,255,255,0.5),
+      0 -1px 1px rgba(28,17,13,0.4);
+  }
+
+  .letterpress-light{
+    color:var(--parchment);
+    text-shadow:
+      0 -1px 0 rgba(0,0,0,0.65),
+      0 1px 1px rgba(255,255,255,0.1);
+  }
+
+  .letterpress-gold{
+    color:var(--gold);
+    text-shadow:
+      0 1px 0 rgba(255,255,255,0.12),
+      0 -1px 1px rgba(0,0,0,0.6);
+  }
+
+  section{
+    position:relative;
+    z-index:1;
+    padding:7rem 1.5rem;
+  }
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+  }
+
+  h1,h2,h3{ line-height:1.12; }
+
+  a{ color:inherit; }
+
+  img{ max-width:100%; display:block; }
+
+  /* ---------- ornamental divider ---------- */
+  .divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:1.1rem;
+    margin:1.75rem 0;
+    user-select:none;
+    color:var(--gold);
+  }
+  .divider::before,
+  .divider::after{
+    content:'';
+    height:1px;
+    width:80px;
+    background:linear-gradient(to right, transparent, currentColor, transparent);
+    opacity:0.75;
+  }
+  .divider .mark{
+    font-size:1.4rem;
+    transform:translateY(-2px);
+  }
+
+  .kicker{
+    font-family:'Playfair Display SC', serif;
+    font-size:0.62rem;
+    letter-spacing:0.38em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+  .kicker.on-light{ color:var(--sienna); }
+  .kicker-center{ text-align:center; }
+
+  .btn{
+    display:inline-block;
+    margin-top:2.2rem;
+    padding:0.9rem 2.4rem;
+    font-family:'Playfair Display SC', serif;
+    font-size:0.8rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--parchment);
+    background:var(--espresso);
+    border:1px solid var(--gold);
+    box-shadow:0 3px 0 rgba(0,0,0,0.5);
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+    cursor:pointer;
+  }
+  .btn:hover{
+    transform:translateY(2px);
+    box-shadow:0 1px 0 rgba(0,0,0,0.5);
+  }
+  .btn.on-light{
+    color:var(--parchment);
+    background:var(--espresso);
+  }
+
+  /* ---------- reveal-on-scroll ---------- */
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.is-visible{ opacity:1; transform:translateY(0); }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+    *{ scroll-behavior:auto !important; animation:none !important; transition-duration:0.01ms !important; }
+  }
+
+  /* ============ NAV ============ */
+  nav.masthead{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(var(--espresso-rgb),0.96);
+    border-bottom:1px solid rgba(var(--gold-rgb),0.5);
+    backdrop-filter:blur(6px);
+  }
+  .nav-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:1rem 1.5rem;
+    position:relative;
+  }
+  .brandmark{
+    font-family:'Playfair Display SC', serif;
+    font-size:0.95rem;
+    letter-spacing:0.28em;
+    color:var(--parchment);
+    text-decoration:none;
+    order:1;
+  }
+  .nav-links{
+    list-style:none;
+    display:flex;
+    gap:2rem;
+    order:2;
+  }
+  .nav-links a{
+    font-family:'Playfair Display SC', serif;
+    font-size:0.68rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--parchment);
+    opacity:0.8;
+    padding-bottom:4px;
+    border-bottom:1px solid transparent;
+    transition:opacity 0.2s ease, border-color 0.2s ease;
+  }
+  .nav-links a:hover{ opacity:1; border-color:var(--gold); }
+  .nav-toggle{ display:none; }
+  .nav-burger{
+    display:none;
+    order:3;
+    font-size:1.3rem;
+    color:var(--gold);
+    cursor:pointer;
+  }
+  @media (max-width:820px){
+    .nav-burger{ display:block; }
+    .nav-links{
+      display:none;
+      position:absolute;
+      top:100%;
+      left:0;
+      right:0;
+      flex-direction:column;
+      gap:0;
+      background:var(--espresso);
+      border-bottom:1px solid rgba(var(--gold-rgb),0.5);
+      order:3;
+    }
+    .nav-links a{
+      padding:1rem 1.5rem;
+      width:100%;
+      border-bottom:1px solid rgba(var(--gold-rgb),0.15);
+    }
+    .nav-toggle:checked ~ .nav-links{ display:flex; }
+  }
+
+  /* ============ HERO ============ */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:5rem 1.25rem 4rem;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 15%, rgba(var(--gold-rgb),0.1), transparent 65%),
+      var(--espresso);
+  }
+
+  .hero .kicker{ margin-bottom:0.5rem; }
+
+  .label-panel{
+    position:relative;
+    max-width:640px;
+    width:100%;
+    background:var(--parchment);
+    padding:1.6rem 1.6rem 2.2rem;
+    border:1px solid rgba(28,17,13,0.4);
+    box-shadow:
+      0 30px 70px rgba(0,0,0,0.55),
+      0 0 0 9999px rgba(0,0,0,0) inset;
+  }
+  .label-panel::before{
+    content:'';
+    position:absolute;
+    inset:9px;
+    border:1px solid rgba(28,17,13,0.35);
+    pointer-events:none;
+  }
+  .label-panel .corner{
+    position:absolute;
+    width:20px;
+    height:20px;
+    border:2px solid var(--sienna);
+    z-index:2;
+  }
+  .label-panel .corner.tl{ top:-2px; left:-2px; border-right:none; border-bottom:none; }
+  .label-panel .corner.tr{ top:-2px; right:-2px; border-left:none; border-bottom:none; }
+  .label-panel .corner.bl{ bottom:-2px; left:-2px; border-right:none; border-top:none; }
+  .label-panel .corner.br{ bottom:-2px; right:-2px; border-left:none; border-top:none; }
+  .label-panel .stamp{
+    position:absolute;
+    top:14px;
+    right:14px;
+    font-family:'Playfair Display SC', serif;
+    font-size:0.55rem;
+    letter-spacing:0.15em;
+    color:var(--sienna);
+    border:1px solid var(--sienna);
+    padding:0.3rem 0.5rem;
+    z-index:2;
+    background:var(--parchment);
+  }
+  .label-panel img{
+    position:relative;
+    z-index:1;
+    filter:drop-shadow(0 8px 18px rgba(28,17,13,0.25));
+  }
+
+  .hero h1{
+    margin-top:2.4rem;
+    font-size:clamp(2.8rem, 9vw, 6.5rem);
+    max-width:900px;
+  }
+
+  .hero .sub{
+    margin-top:1.8rem;
+    max-width:560px;
+    font-size:1.08rem;
+    color:rgba(var(--parchment-rgb),0.85);
+  }
+
+  .scroll-cue{
+    margin-top:3rem;
+    font-family:'Playfair Display SC', serif;
+    font-size:0.6rem;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:rgba(var(--gold-rgb),0.7);
+  }
+  .scroll-cue::after{
+    content:'';
+    display:block;
+    width:1px;
+    height:36px;
+    background:linear-gradient(to bottom, var(--gold), transparent);
+    margin:0.7rem auto 0;
+  }
+
+  /* ============ THE CRAFT (parchment, editorial) ============ */
+  .craft{
+    background:var(--parchment);
+    color:var(--espresso);
+    border-top:1px solid rgba(28,17,13,0.15);
+    border-bottom:1px solid rgba(28,17,13,0.15);
+  }
+  .craft h2{
+    text-align:center;
+    font-size:clamp(2.1rem, 5.5vw, 3.6rem);
+  }
+  .craft .byline{
+    text-align:center;
+    font-size:0.85rem;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    color:var(--sienna);
+    margin-top:0.6rem;
+  }
+  .craft-columns{
+    margin-top:3rem;
+    columns:2 280px;
+    column-gap:3rem;
+    text-align:justify;
+  }
+  .craft-columns p{ margin-bottom:1.1rem; }
+  .craft-columns p:first-of-type::first-letter{
+    font-family:'Playfair Display SC', serif;
+    font-size:3.6rem;
+    float:left;
+    line-height:0.78;
+    padding:0.1rem 0.5rem 0 0;
+    color:var(--sienna);
+  }
+  blockquote.pull-quote{
+    column-span:all;
+    margin:2.6rem 0;
+    text-align:center;
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-size:clamp(1.5rem, 3.5vw, 2.3rem);
+    color:var(--sienna);
+    line-height:1.4;
+  }
+  blockquote.pull-quote::before,
+  blockquote.pull-quote::after{
+    content:'';
+  }
+
+  .back-label{
+    margin-top:3.5rem;
+    max-width:640px;
+    margin-left:auto;
+    margin-right:auto;
+    border:1px solid rgba(28,17,13,0.4);
+    padding:2rem 2.2rem;
+    background:var(--parchment-deep);
+    position:relative;
+  }
+  .back-label::before{
+    content:'';
+    position:absolute;
+    inset:6px;
+    border:1px solid rgba(28,17,13,0.25);
+    pointer-events:none;
+  }
+  .back-label .kicker-title{
+    font-family:'Playfair Display SC', serif;
+    font-size:0.85rem;
+    letter-spacing:0.2em;
+    text-align:center;
+    color:var(--espresso);
+    margin-bottom:1.4rem;
+  }
+  .back-label dl{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:0.6rem 1.2rem;
+    font-size:0.92rem;
+  }
+  .back-label dt{
+    font-family:'Playfair Display SC', serif;
+    font-size:0.62rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--sienna);
+    white-space:nowrap;
+    align-self:start;
+    padding-top:0.15rem;
+  }
+  .back-label dd{ opacity:0.9; }
+
+  /* ============ WINE COLLECTION (ink, spotlit labels) ============ */
+  .collection{
+    background:var(--ink);
+    color:var(--parchment);
+  }
+  .collection h2{
+    text-align:center;
+    font-size:clamp(2rem, 5.5vw, 3.4rem);
+  }
+  .wine-grid{
+    margin-top:3.5rem;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+    gap:3rem;
+  }
+  .wine-plinth{
+    display:flex;
+    justify-content:center;
+    padding:2rem 1rem;
+    background:radial-gradient(ellipse at 50% 30%, rgba(var(--gold-rgb),0.14), transparent 70%);
+  }
+  .wine-label{
+    background:var(--parchment);
+    color:var(--espresso);
+    border:2px solid var(--espresso);
+    padding:2.6rem 2.1rem;
+    position:relative;
+    text-align:center;
+    max-width:320px;
+    box-shadow:0 25px 55px rgba(0,0,0,0.5);
+    transition:transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .wine-label:hover{
+    transform:translateY(-6px);
+    box-shadow:0 32px 65px rgba(0,0,0,0.6);
+  }
+  .wine-label::before{
+    content:'';
+    position:absolute;
+    inset:8px;
+    border:1px solid var(--gold);
+    pointer-events:none;
+  }
+  .wine-label .seal{
+    width:60px;
+    height:60px;
+    margin:0 auto 1.1rem;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Playfair Display SC', serif;
+    font-size:0.7rem;
+    letter-spacing:0.05em;
+    color:var(--sienna);
+    position:relative;
+  }
+  .seal.sun{ border:2px solid var(--sienna); }
+  .seal.sun::before{
+    content:'';
+    position:absolute;
+    inset:-9px;
+    border-radius:50%;
+    background:
+      repeating-conic-gradient(rgba(160,82,45,0.55) 0deg 4deg, transparent 4deg 18deg);
+    z-index:-1;
+  }
+  .seal.cluster{ border:2px solid var(--olive); color:var(--olive); }
+  .seal.cluster::before{
+    content:'';
+    position:absolute;
+    inset:-9px;
+    border-radius:50%;
+    box-shadow:
+      0 -10px 0 -6px var(--olive),
+      0 10px 0 -6px var(--olive),
+      -10px 0 0 -6px var(--olive),
+      10px 0 0 -6px var(--olive),
+      -7px -7px 0 -6px var(--olive),
+      7px -7px 0 -6px var(--olive),
+      -7px 7px 0 -6px var(--olive),
+      7px 7px 0 -6px var(--olive);
+  }
+  .wine-label .name-tag{
+    font-size:0.62rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--sienna);
+    margin-bottom:0.4rem;
+  }
+  .wine-label .varietal{
+    font-size:2rem;
+    margin-bottom:0.15rem;
+  }
+  .wine-label .cuvee{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-size:1.15rem;
+    color:var(--sienna);
+    margin-bottom:1.3rem;
+  }
+  .wine-label .rule{
+    width:60px;
+    height:1px;
+    background:var(--gold);
+    margin:0 auto 1.3rem;
+  }
+  .wine-label .notes{ font-size:0.98rem; opacity:0.92; }
+  .wine-label .region{
+    margin-top:1.3rem;
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--olive);
+  }
+  .wine-label .vintage-line{
+    margin-top:0.4rem;
+    font-size:0.72rem;
+    letter-spacing:0.1em;
+    color:rgba(28,17,13,0.6);
+  }
+
+  /* ============ THE MOVEMENT (espresso, asymmetric role cards) ============ */
+  .movement{
+    background:var(--espresso);
+  }
+  .movement h2{
+    text-align:center;
+    font-size:clamp(2.6rem, 8vw, 5.6rem);
+  }
+  .movement .intro{
+    max-width:620px;
+    margin:1.6rem auto 0;
+    text-align:center;
+    color:rgba(var(--parchment-rgb),0.85);
+  }
+  .movement-grid{
+    margin-top:4.5rem;
+    display:grid;
+    grid-template-columns:repeat(12, 1fr);
+    gap:2.75rem;
+  }
+  .role-card{
+    grid-column:span 12;
+    background:var(--parchment);
+    color:var(--espresso);
+    padding:2.6rem 2.1rem 2.3rem;
+    position:relative;
+    box-shadow:0 18px 34px rgba(0,0,0,0.4);
+    transition:transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  @media (min-width:820px){
+    .role-card{ grid-column:span 4; }
+    .role-harvester{ transform:rotate(-1.1deg); }
+    .role-storyteller{ transform:rotate(0.8deg); }
+    .role-host{ grid-column:span 4; transform:rotate(-0.4deg); }
+    .role-builder{ grid-column:span 5; transform:rotate(1deg); }
+    .role-connector{ grid-column:span 7; transform:rotate(-0.7deg); }
+    .role-maker{ grid-column:3 / span 8; transform:rotate(0.5deg); }
+  }
+  .role-card:hover{
+    transform:rotate(0deg) translateY(-5px) !important;
+    box-shadow:0 26px 46px rgba(0,0,0,0.5);
+  }
+  .role-no{
+    font-size:0.62rem;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    color:var(--sienna);
+    margin-bottom:0.6rem;
+  }
+  .role-card h3{
+    font-family:'Playfair Display SC', serif;
+    font-size:1.7rem;
+    margin-bottom:0.9rem;
+  }
+  .role-card p{ font-size:0.98rem; opacity:0.9; }
+  .role-card .role-link{
+    display:inline-block;
+    margin-top:1.3rem;
+    font-family:'Playfair Display SC', serif;
+    font-size:0.65rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--espresso);
+    text-decoration:none;
+    border-bottom:1px solid var(--sienna);
+    padding-bottom:2px;
+  }
+
+  /* role ornaments — each card gets a distinct treatment */
+  .role-harvester{ border-top:5px solid var(--olive); }
+  .role-harvester::before{
+    content:'';
+    position:absolute;
+    top:-9px; left:22px;
+    width:22px; height:34px;
+    background:var(--olive);
+    border-radius:0 100% 0 100%;
+    transform:rotate(-20deg);
+    box-shadow:0 0 0 3px var(--parchment);
+  }
+
+  .role-storyteller{
+    clip-path:polygon(0 0, 100% 0, 100% 96%, 96% 100%, 92% 96%, 88% 100%, 84% 96%, 80% 100%, 76% 96%, 72% 100%, 68% 96%, 64% 100%, 60% 96%, 56% 100%, 52% 96%, 48% 100%, 44% 96%, 40% 100%, 36% 96%, 32% 100%, 28% 96%, 24% 100%, 20% 96%, 16% 100%, 12% 96%, 8% 100%, 4% 96%, 0 100%);
+    border-top:2px solid var(--sienna);
+  }
+
+  .role-host{
+    padding-top:3.4rem;
+  }
+  .role-host::before{
+    content:'The Invitation';
+    position:absolute;
+    top:0; left:50%;
+    transform:translate(-50%,-60%);
+    background:var(--gold);
+    color:var(--ink);
+    font-family:'Playfair Display SC', serif;
+    font-size:0.6rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    padding:0.5rem 1.1rem;
+    box-shadow:0 4px 0 rgba(0,0,0,0.3);
+    white-space:nowrap;
+  }
+
+  .role-builder{ border:1px solid var(--espresso); }
+  .role-builder::before, .role-builder::after,
+  .role-builder .tick-bl, .role-builder .tick-br{
+    content:'';
+    position:absolute;
+    width:16px; height:16px;
+  }
+  .role-builder::before{ top:8px; left:8px; border-top:2px solid var(--espresso); border-left:2px solid var(--espresso); }
+  .role-builder::after{ top:8px; right:8px; border-top:2px solid var(--espresso); border-right:2px solid var(--espresso); }
+  .role-builder .tick-bl{ bottom:8px; left:8px; border-bottom:2px solid var(--espresso); border-left:2px solid var(--espresso); }
+  .role-builder .tick-br{ bottom:8px; right:8px; border-bottom:2px solid var(--espresso); border-right:2px solid var(--espresso); }
+
+  .role-connector{ padding-top:3.2rem; }
+  .role-connector .rings{
+    position:absolute;
+    top:-16px; left:32px;
+    width:60px; height:34px;
+  }
+  .role-connector .rings::before, .role-connector .rings::after{
+    content:'';
+    position:absolute;
+    width:30px; height:30px;
+    border-radius:50%;
+    border:2px solid;
+  }
+  .role-connector .rings::before{ left:0; border-color:var(--olive); }
+  .role-connector .rings::after{ left:22px; border-color:var(--gold); }
+
+  .role-maker{ padding-top:3rem; }
+  .role-maker::before{
+    content:'';
+    position:absolute;
+    top:-11px; left:50%;
+    transform:translateX(-50%);
+    width:16px; height:16px;
+    border-radius:50%;
+    background:var(--espresso);
+    box-shadow:0 0 0 3px var(--parchment), 0 0 0 4px rgba(28,17,13,0.4);
+  }
+  .role-maker .wax-seal{
+    position:absolute;
+    top:-6px; right:20px;
+    width:44px; height:44px;
+    border-radius:50%;
+    background:var(--sienna);
+    color:var(--parchment);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Playfair Display SC', serif;
+    font-size:0.9rem;
+    box-shadow:0 4px 8px rgba(0,0,0,0.4);
+  }
+
+  /* ============ HOW IT WORKS (olive, process diagram) ============ */
+  .process{
+    background:var(--olive);
+    color:var(--parchment);
+  }
+  .process h2{
+    text-align:center;
+    font-size:clamp(2.1rem, 5.5vw, 3.6rem);
+  }
+  .process .intro{
+    max-width:560px;
+    margin:1.4rem auto 0;
+    text-align:center;
+    color:rgba(var(--parchment-rgb),0.85);
+  }
+  .process-flow{
+    margin-top:4.5rem;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    position:relative;
+  }
+  .process-flow::before{
+    content:'';
+    position:absolute;
+    top:47px;
+    left:8%;
+    right:8%;
+    height:0;
+    border-top:2px dashed rgba(var(--gold-rgb),0.5);
+    z-index:0;
+  }
+  .process-step{
+    flex:1 1 170px;
+    max-width:220px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding:0 1rem;
+    position:relative;
+    z-index:1;
+  }
+  .medallion{
+    width:94px;
+    height:94px;
+    border-radius:50%;
+    background:var(--olive);
+    border:2px solid var(--gold);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Playfair Display SC', serif;
+    color:var(--gold);
+    font-size:1.4rem;
+    margin-bottom:1.3rem;
+  }
+  .process-step.final .medallion{
+    width:112px;
+    height:112px;
+    background:var(--gold);
+    color:var(--ink);
+    font-size:1.6rem;
+    box-shadow:0 0 0 6px rgba(var(--gold-rgb),0.2);
+  }
+  .step-no{
+    font-size:0.6rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:rgba(var(--gold-rgb),0.85);
+    margin-bottom:0.4rem;
+  }
+  .process-step h3{
+    font-family:'Playfair Display SC', serif;
+    font-size:1.05rem;
+  }
+  @media (max-width:760px){
+    .process-flow{ flex-direction:column; gap:2.75rem; }
+    .process-flow::before{ display:none; }
+    .process-step:not(:first-child)::before{
+      content:'';
+      position:absolute;
+      top:-2.75rem;
+      left:50%;
+      width:0;
+      height:2.75rem;
+      border-left:2px dashed rgba(var(--gold-rgb),0.5);
+    }
+  }
+
+  /* ============ EVENTS (ink, foil poster) ============ */
+  .events{
+    background:var(--ink);
+    text-align:center;
+  }
+  .poster{
+    max-width:640px;
+    margin:0 auto;
+    border:1px solid var(--gold);
+    padding:3.2rem 2.2rem;
+    position:relative;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(var(--gold-rgb),0.08), transparent 65%),
+      var(--espresso);
+  }
+  .poster::before{
+    content:'';
+    position:absolute;
+    inset:8px;
+    border:1px solid rgba(var(--gold-rgb),0.5);
+    pointer-events:none;
+  }
+  .ribbon{
+    display:inline-block;
+    background:var(--gold);
+    color:var(--ink);
+    font-family:'Playfair Display SC', serif;
+    font-size:0.75rem;
+    letter-spacing:0.28em;
+    padding:0.5rem 1.5rem;
+    margin-bottom:1.6rem;
+    box-shadow:0 4px 0 rgba(0,0,0,0.5);
+  }
+  .poster h3{
+    font-size:clamp(1.9rem, 5vw, 3rem);
+    color:var(--parchment);
+  }
+  .poster .event-meta{
+    margin-top:1.4rem;
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-size:1.15rem;
+    color:var(--gold);
+  }
+  .poster p.desc{
+    margin-top:1.3rem;
+    color:rgba(var(--parchment-rgb),0.88);
+  }
+  .poster .ticket-line{
+    margin-top:2.2rem;
+    padding-top:1.6rem;
+    border-top:1px dashed rgba(var(--gold-rgb),0.5);
+    font-size:0.78rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:rgba(var(--parchment-rgb),0.6);
+  }
+
+  /* ============ JOIN (parchment postcard) ============ */
+  .join{
+    background:var(--parchment);
+    color:var(--espresso);
+  }
+  .join-card{
+    max-width:560px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .join h2{
+    font-size:clamp(2rem, 5.5vw, 3.4rem);
+  }
+  .join .intro{
+    margin-top:1.2rem;
+    color:rgba(28,17,13,0.85);
+  }
+  .join-form{
+    margin-top:2.6rem;
+    display:flex;
+    gap:1rem;
+    border-bottom:1px solid rgba(28,17,13,0.4);
+    padding-bottom:0.8rem;
+  }
+  .join-form input{
+    flex:1;
+    background:transparent;
+    border:none;
+    font-family:'Crimson Text', serif;
+    font-size:1.1rem;
+    color:var(--espresso);
+    padding:0.4rem 0.2rem;
+  }
+  .join-form input:focus{ outline:none; }
+  .join-form input::placeholder{ color:rgba(28,17,13,0.45); }
+  .join-form button{
+    font-family:'Playfair Display SC', serif;
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    background:none;
+    border:none;
+    color:var(--sienna);
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .join-fine{
+    margin-top:1.2rem;
+    font-size:0.75rem;
+    letter-spacing:0.06em;
+    color:rgba(28,17,13,0.55);
+  }
+
+  /* ============ FOOTER ============ */
+  footer{
+    background:var(--ink);
+    color:rgba(var(--parchment-rgb),0.75);
+    text-align:center;
+    padding:2.6rem 1.5rem;
+    font-size:0.85rem;
+    border-top:3px double var(--gold);
+  }
+  footer a{
+    color:var(--gold);
+    text-decoration:none;
+    border-bottom:1px solid rgba(var(--gold-rgb),0.4);
+  }
+  footer a:hover{ border-bottom-color:var(--gold); }
+  footer .heart{ color:var(--sienna); }
+
+  @media (max-width:600px){
+    section{ padding:5rem 1.2rem; }
+    .label-panel{ padding:1.2rem 1.2rem 1.8rem; }
+    .join-form{ flex-direction:column; align-items:stretch; gap:0.8rem; }
+    .join-form button{ text-align:left; }
+  }
+
+</style>
+</head>
+<body id="top">
+
+  <nav class="masthead">
+    <div class="wrap nav-inner">
+      <a href="#top" class="brandmark">Femme&nbsp;Ferments</a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="nav-burger" aria-label="Toggle menu">&#9776;</label>
+      <ul class="nav-links">
+        <li><a href="#craft">The Craft</a></li>
+        <li><a href="#collection">Collection</a></li>
+        <li><a href="#movement">Movement</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#join">Join</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="divider"><span class="mark">&#10070;</span></div>
+    <div class="kicker">Willamette Valley, Oregon &middot; Est. This Vintage</div>
+    <div class="label-panel reveal">
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
+      <span class="stamp">No.&nbsp;001</span>
+      <img src="../reference/assets/brand-image.png" alt="Femme Ferments — watercolor mosaic of shattered glass in jewel tones">
+    </div>
+    <h1 class="italic-serif letterpress-light">Beauty in the Broken Glass</h1>
+    <p class="sub">Small-batch wines, hand-crafted in partnership with women winemakers across the Valley &mdash; every bottle poured toward a purpose.</p>
+    <a href="#collection" class="btn">Discover the Collection</a>
+    <div class="scroll-cue">Scroll</div>
+  </section>
+
+  <section class="craft" id="craft">
+    <div class="wrap">
+      <div class="kicker on-light kicker-center reveal">A Letterpress Notice</div>
+      <h2 class="display letterpress-dark reveal">Wines Crafted for a Purpose</h2>
+      <div class="byline reveal">Printed in the Willamette Valley &mdash; Est. this Vintage</div>
+      <div class="craft-columns reveal">
+        <p>Every bottle we produce begins with a broken thing made beautiful again. Femme Ferments was founded on the belief that craft &mdash; patient, deliberate, hand-tended craft &mdash; can carry more than flavor. It can carry purpose.</p>
+        <p>Nothing about our wine is manufactured in the ordinary sense. It is assembled, vintage by vintage, from the generosity of an entire valley: growers who donate their fruit, volunteers who donate their hands, and winemakers who donate their craft.</p>
+        <blockquote class="pull-quote">&ldquo;We didn't set out to own a vineyard. We set out to prove that a whole valley could pour itself into something greater.&rdquo;</blockquote>
+        <p>Grapes are picked by volunteer harvest crews at partner vineyards, corks and glass are contributed by valley suppliers, and each lot is finished at a partner winery under the guidance of women winemakers. Nothing here is rushed, and nothing is mass-produced.</p>
+        <p>And when the glass is empty, the work continues: one hundred percent of our profits are donated directly to organizations that empower women across Oregon &mdash; because a bottle shared should leave the world a little better than it found it.</p>
+      </div>
+      <div class="back-label reveal">
+        <div class="kicker-title display letterpress-dark">How Each Bottle Comes Together</div>
+        <dl>
+          <dt>Fruit</dt><dd>Donated grapes from partner growers across the Willamette Valley</dd>
+          <dt>Harvest</dt><dd>Hand-picked by volunteer crews, season after season</dd>
+          <dt>Materials</dt><dd>Corks, glass, and labels donated by valley suppliers</dd>
+          <dt>Craft</dt><dd>Finished at partner wineries, guided by women winemakers</dd>
+          <dt>Proceeds</dt><dd>100% of profits donated to women's empowerment programs</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="collection" id="collection">
+    <div class="wrap">
+      <div class="kicker kicker-center reveal">The Collection</div>
+      <h2 class="display letterpress-light reveal">Two Vintages, One Valley</h2>
+      <div class="wine-grid">
+        <div class="wine-plinth reveal">
+          <div class="wine-label">
+            <div class="seal sun">EST.<br>OR</div>
+            <div class="name-tag">Power &amp; Grace</div>
+            <div class="varietal display">Albari&ntilde;o</div>
+            <div class="cuvee">Poised &amp; Expressive</div>
+            <div class="rule"></div>
+            <p class="notes">Bright citrus peel and orchard blossom, lifted by a saline minerality drawn from the Valley's volcanic soil. Crisp, precise, and unmistakably handcrafted.</p>
+            <div class="region">Eola-Amity Hills &middot; Willamette Valley</div>
+            <div class="vintage-line">2025 Vintage &middot; Released February 2026</div>
+          </div>
+        </div>
+        <div class="wine-plinth reveal">
+          <div class="wine-label">
+            <div class="seal cluster">EST.<br>OR</div>
+            <div class="name-tag">Hope &amp; Grit</div>
+            <div class="varietal display">Pinot Noir</div>
+            <div class="cuvee">Elegant &amp; Grounded</div>
+            <div class="rule"></div>
+            <p class="notes">Red cherry and wild bramble over notes of forest floor and warm baking spice. Silky tannins, a long and thoughtful finish &mdash; built to be shared slowly.</p>
+            <div class="region">Willamette Valley &middot; Small Lot</div>
+            <div class="vintage-line">2025 Vintage &middot; Releasing Summer 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="movement" id="movement">
+    <div class="wrap">
+      <div class="kicker kicker-center reveal">The Movement</div>
+      <h2 class="display letterpress-light reveal">Every Bottle Starts with You</h2>
+      <p class="intro reveal">Femme Ferments only works because a whole community pours itself in &mdash; growers, harvesters, hosts, builders, and makers. Here is where you fit.</p>
+      <div class="movement-grid">
+        <div class="role-card role-harvester reveal">
+          <div class="role-no">No. 01</div>
+          <h3>The Harvester</h3>
+          <p>Pick donated grapes at partner vineyards during harvest season &mdash; no experience required, just willing hands.</p>
+          <a href="#join" class="role-link">Get Involved &rarr;</a>
+        </div>
+        <div class="role-card role-storyteller reveal">
+          <div class="role-no">No. 02</div>
+          <h3>The Storyteller</h3>
+          <p>Photograph the harvest, write the newsletter, run the social feeds &mdash; help us tell the story bottle by bottle.</p>
+          <a href="#join" class="role-link">Get Involved &rarr;</a>
+        </div>
+        <div class="role-card role-host reveal">
+          <div class="role-no">No. 03</div>
+          <h3>The Host</h3>
+          <p>Organize tastings, launch parties, and community gatherings that bring people together around what we're building.</p>
+          <a href="#join" class="role-link">Get Involved &rarr;</a>
+        </div>
+        <div class="role-card role-builder reveal">
+          <span class="tick-bl"></span><span class="tick-br"></span>
+          <div class="role-no">No. 04</div>
+          <h3>The Builder</h3>
+          <p>Lend your skills in tech, website work, operations, and logistics &mdash; the scaffolding that keeps everything running.</p>
+          <a href="#join" class="role-link">Get Involved &rarr;</a>
+        </div>
+        <div class="role-card role-connector reveal">
+          <span class="rings"></span>
+          <div class="role-no">No. 05</div>
+          <h3>The Connector</h3>
+          <p>Introduce us to nonprofits, wineries, and donors who share our mission &mdash; every good partnership starts with an introduction.</p>
+          <a href="#join" class="role-link">Get Involved &rarr;</a>
+        </div>
+        <div class="role-card role-maker reveal">
+          <span class="wax-seal">FF</span>
+          <div class="role-no">No. 06</div>
+          <h3>The Maker</h3>
+          <p>Join us in the cellar for bottling, labeling, corking, and all the hands-on prep that turns wine into a finished vintage.</p>
+          <a href="#join" class="role-link">Get Involved &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process" id="process">
+    <div class="wrap">
+      <div class="kicker kicker-center reveal">From Grape to Glass</div>
+      <h2 class="display letterpress-light reveal">How It Works</h2>
+      <p class="intro reveal">Every bottle follows the same path &mdash; from a donated vine to a program that changes a life.</p>
+      <div class="process-flow reveal">
+        <div class="process-step">
+          <div class="medallion">I</div>
+          <div class="step-no">Step One</div>
+          <h3>Donated Grapes</h3>
+        </div>
+        <div class="process-step">
+          <div class="medallion">II</div>
+          <div class="step-no">Step Two</div>
+          <h3>Volunteer Harvest</h3>
+        </div>
+        <div class="process-step">
+          <div class="medallion">III</div>
+          <div class="step-no">Step Three</div>
+          <h3>Partner Winery</h3>
+        </div>
+        <div class="process-step">
+          <div class="medallion">IV</div>
+          <div class="step-no">Step Four</div>
+          <h3>Crafted Wine</h3>
+        </div>
+        <div class="process-step final">
+          <div class="medallion">100</div>
+          <div class="step-no">Step Five</div>
+          <h3>100% to Women's Empowerment</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="events" id="events">
+    <div class="wrap">
+      <div class="poster reveal">
+        <span class="ribbon">Save the Date</span>
+        <div class="kicker kicker-center">An Evening in the Valley</div>
+        <h3 class="display letterpress-light">Pinot Noir Launch Party</h3>
+        <div class="event-meta">Thursday, April 23rd, 2026 &middot; 5&ndash;7 PM</div>
+        <p class="desc">The Pub &middot; 326 NE Davis St, McMinnville, Oregon. Join us for the first pour of our founding vintages &mdash; Power &amp; Grace and Hope &amp; Grit &mdash; alongside the stories behind every bottle.</p>
+        <a href="#join" class="btn">Reserve Your Seat</a>
+        <div class="ticket-line">$20 Suggested Donation &middot; All Proceeds Support the Mission</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="join" id="join">
+    <div class="wrap join-card">
+      <div class="kicker kicker-center reveal">Become Part of the Story</div>
+      <h2 class="display letterpress-dark reveal">Join the Movement</h2>
+      <p class="intro reveal">Sign up to hear about new releases, volunteer days, and events &mdash; straight from the cellar.</p>
+      <form class="join-form reveal" onsubmit="return false;">
+        <input type="email" placeholder="Your email address" autocomplete="email" required aria-label="Email address">
+        <button type="submit">Subscribe</button>
+      </form>
+      <p class="join-fine">No spam. Just wine, purpose, and the occasional invitation.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Femme Ferments &mdash; Beauty in the Broken Glass</p>
+    <p style="margin-top:0.5rem;">Made with <span class="heart">&hearts;</span> by <a href="https://effulgentpoint.com/" target="_blank" rel="noopener noreferrer">Effulgent Point</a></p>
+  </footer>
+
+  <script>
+    (function(){
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var revealEls = document.querySelectorAll('.reveal');
+
+      if(reduceMotion || !('IntersectionObserver' in window)){
+        revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+      } else {
+        var observer = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if(entry.isIntersecting){
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+        revealEls.forEach(function(el){ observer.observe(el); });
+      }
+
+      var header = document.querySelector('nav.masthead');
+      var navToggle = document.getElementById('nav-toggle');
+      var links = document.querySelectorAll('.nav-links a');
+
+      links.forEach(function(link){
+        link.addEventListener('click', function(e){
+          var targetId = link.getAttribute('href');
+          if(targetId.charAt(0) !== '#') return;
+          var target = document.querySelector(targetId);
+          if(!target) return;
+          e.preventDefault();
+          var headerHeight = header ? header.offsetHeight : 0;
+          var top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+          window.scrollTo({ top: top, behavior: reduceMotion ? 'auto' : 'smooth' });
+          if(navToggle){ navToggle.checked = false; }
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>

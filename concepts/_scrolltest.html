@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"></head>
+<body style="margin:0;">
+<iframe id="f" src="final-6-scroll-assemble.html" style="width:1440px;height:900px;border:0;display:block;"></iframe>
+<script>
+var params = new URLSearchParams(location.search);
+var pct = parseFloat(params.get('pct') || '0');
+var f = document.getElementById('f');
+f.addEventListener('load', function(){
+  var win = f.contentWindow;
+  var doc = f.contentDocument;
+  setTimeout(function(){
+    var total = doc.documentElement.scrollHeight - win.innerHeight;
+    win.scrollTo(0, Math.max(0, total * pct));
+  }, 50);
+});
+</script>
+</body></html>

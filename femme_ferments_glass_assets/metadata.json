@@ -1,0 +1,569 @@
+{
+  "source_file": "logo_orig.jpg",
+  "source_size_px": {
+    "width": 1275,
+    "height": 945
+  },
+  "section_count": 18,
+  "alignment_note": "Canvas PNGs share the original 1275x945 canvas, so they stack perfectly at left:0/top:0. Tight PNGs are cropped and use bbox metadata for placement.",
+  "sections": [
+    {
+      "id": 1,
+      "name": "left_outer_teal_points",
+      "canvas_png": "canvas_png/01_left_outer_teal_points_canvas.png",
+      "tight_png": "tight_png/01_left_outer_teal_points_tight.png",
+      "alpha_mask_png": "masks/01_left_outer_teal_points_alpha_mask.png",
+      "bbox_px": {
+        "x": 89,
+        "y": 155,
+        "width": 336,
+        "height": 344
+      },
+      "anchor_center_px": {
+        "x": 236.45,
+        "y": 351.85
+      },
+      "anchor_center_percent": {
+        "x": 18.545,
+        "y": 37.232
+      },
+      "source_seed_px": {
+        "x": 150,
+        "y": 350
+      },
+      "average_rgb": [
+        48,
+        149,
+        171
+      ],
+      "visible_pixel_count": 40820
+    },
+    {
+      "id": 2,
+      "name": "left_top_teal_shards",
+      "canvas_png": "canvas_png/02_left_top_teal_shards_canvas.png",
+      "tight_png": "tight_png/02_left_top_teal_shards_tight.png",
+      "alpha_mask_png": "masks/02_left_top_teal_shards_alpha_mask.png",
+      "bbox_px": {
+        "x": 184,
+        "y": 135,
+        "width": 297,
+        "height": 198
+      },
+      "anchor_center_px": {
+        "x": 337.31,
+        "y": 239.73
+      },
+      "anchor_center_percent": {
+        "x": 26.456,
+        "y": 25.369
+      },
+      "source_seed_px": {
+        "x": 285,
+        "y": 230
+      },
+      "average_rgb": [
+        137,
+        199,
+        189
+      ],
+      "visible_pixel_count": 26655
+    },
+    {
+      "id": 3,
+      "name": "left_mid_blue_green",
+      "canvas_png": "canvas_png/03_left_mid_blue_green_canvas.png",
+      "tight_png": "tight_png/03_left_mid_blue_green_tight.png",
+      "alpha_mask_png": "masks/03_left_mid_blue_green_alpha_mask.png",
+      "bbox_px": {
+        "x": 250,
+        "y": 348,
+        "width": 176,
+        "height": 138
+      },
+      "anchor_center_px": {
+        "x": 339.71,
+        "y": 423.67
+      },
+      "anchor_center_percent": {
+        "x": 26.644,
+        "y": 44.833
+      },
+      "source_seed_px": {
+        "x": 300,
+        "y": 385
+      },
+      "average_rgb": [
+        46,
+        126,
+        148
+      ],
+      "visible_pixel_count": 13615
+    },
+    {
+      "id": 4,
+      "name": "left_lower_green_blue",
+      "canvas_png": "canvas_png/04_left_lower_green_blue_canvas.png",
+      "tight_png": "tight_png/04_left_lower_green_blue_tight.png",
+      "alpha_mask_png": "masks/04_left_lower_green_blue_alpha_mask.png",
+      "bbox_px": {
+        "x": 107,
+        "y": 429,
+        "width": 489,
+        "height": 253
+      },
+      "anchor_center_px": {
+        "x": 334.43,
+        "y": 562.35
+      },
+      "anchor_center_percent": {
+        "x": 26.23,
+        "y": 59.508
+      },
+      "source_seed_px": {
+        "x": 285,
+        "y": 545
+      },
+      "average_rgb": [
+        70,
+        141,
+        136
+      ],
+      "visible_pixel_count": 66521
+    },
+    {
+      "id": 5,
+      "name": "lower_left_blue_tail",
+      "canvas_png": "canvas_png/05_lower_left_blue_tail_canvas.png",
+      "tight_png": "tight_png/05_lower_left_blue_tail_tight.png",
+      "alpha_mask_png": "masks/05_lower_left_blue_tail_alpha_mask.png",
+      "bbox_px": {
+        "x": 176,
+        "y": 614,
+        "width": 361,
+        "height": 193
+      },
+      "anchor_center_px": {
+        "x": 351.29,
+        "y": 708.86
+      },
+      "anchor_center_percent": {
+        "x": 27.552,
+        "y": 75.012
+      },
+      "source_seed_px": {
+        "x": 420,
+        "y": 700
+      },
+      "average_rgb": [
+        90,
+        144,
+        163
+      ],
+      "visible_pixel_count": 36146
+    },
+    {
+      "id": 6,
+      "name": "upper_mid_green_crown",
+      "canvas_png": "canvas_png/06_upper_mid_green_crown_canvas.png",
+      "tight_png": "tight_png/06_upper_mid_green_crown_tight.png",
+      "alpha_mask_png": "masks/06_upper_mid_green_crown_alpha_mask.png",
+      "bbox_px": {
+        "x": 399,
+        "y": 158,
+        "width": 183,
+        "height": 256
+      },
+      "anchor_center_px": {
+        "x": 493.41,
+        "y": 315.12
+      },
+      "anchor_center_percent": {
+        "x": 38.699,
+        "y": 33.346
+      },
+      "source_seed_px": {
+        "x": 520,
+        "y": 235
+      },
+      "average_rgb": [
+        109,
+        183,
+        161
+      ],
+      "visible_pixel_count": 25136
+    },
+    {
+      "id": 7,
+      "name": "mid_left_green_bridge",
+      "canvas_png": "canvas_png/07_mid_left_green_bridge_canvas.png",
+      "tight_png": "tight_png/07_mid_left_green_bridge_tight.png",
+      "alpha_mask_png": "masks/07_mid_left_green_bridge_alpha_mask.png",
+      "bbox_px": {
+        "x": 391,
+        "y": 393,
+        "width": 237,
+        "height": 170
+      },
+      "anchor_center_px": {
+        "x": 488.65,
+        "y": 469.47
+      },
+      "anchor_center_percent": {
+        "x": 38.325,
+        "y": 49.679
+      },
+      "source_seed_px": {
+        "x": 500,
+        "y": 430
+      },
+      "average_rgb": [
+        82,
+        163,
+        156
+      ],
+      "visible_pixel_count": 17639
+    },
+    {
+      "id": 8,
+      "name": "center_core_burst",
+      "canvas_png": "canvas_png/08_center_core_burst_canvas.png",
+      "tight_png": "tight_png/08_center_core_burst_tight.png",
+      "alpha_mask_png": "masks/08_center_core_burst_alpha_mask.png",
+      "bbox_px": {
+        "x": 472,
+        "y": 125,
+        "width": 247,
+        "height": 455
+      },
+      "anchor_center_px": {
+        "x": 602.36,
+        "y": 346.91
+      },
+      "anchor_center_percent": {
+        "x": 47.244,
+        "y": 36.71
+      },
+      "source_seed_px": {
+        "x": 635,
+        "y": 440
+      },
+      "average_rgb": [
+        140,
+        196,
+        168
+      ],
+      "visible_pixel_count": 42395
+    },
+    {
+      "id": 9,
+      "name": "lower_center_cyan_blue",
+      "canvas_png": "canvas_png/09_lower_center_cyan_blue_canvas.png",
+      "tight_png": "tight_png/09_lower_center_cyan_blue_tight.png",
+      "alpha_mask_png": "masks/09_lower_center_cyan_blue_alpha_mask.png",
+      "bbox_px": {
+        "x": 456,
+        "y": 534,
+        "width": 278,
+        "height": 276
+      },
+      "anchor_center_px": {
+        "x": 608.87,
+        "y": 661.47
+      },
+      "anchor_center_percent": {
+        "x": 47.755,
+        "y": 69.997
+      },
+      "source_seed_px": {
+        "x": 610,
+        "y": 640
+      },
+      "average_rgb": [
+        76,
+        127,
+        166
+      ],
+      "visible_pixel_count": 38029
+    },
+    {
+      "id": 10,
+      "name": "upper_yellow_orange",
+      "canvas_png": "canvas_png/10_upper_yellow_orange_canvas.png",
+      "tight_png": "tight_png/10_upper_yellow_orange_tight.png",
+      "alpha_mask_png": "masks/10_upper_yellow_orange_alpha_mask.png",
+      "bbox_px": {
+        "x": 610,
+        "y": 113,
+        "width": 338,
+        "height": 281
+      },
+      "anchor_center_px": {
+        "x": 745.87,
+        "y": 251.28
+      },
+      "anchor_center_percent": {
+        "x": 58.5,
+        "y": 26.59
+      },
+      "source_seed_px": {
+        "x": 735,
+        "y": 235
+      },
+      "average_rgb": [
+        215,
+        172,
+        137
+      ],
+      "visible_pixel_count": 39342
+    },
+    {
+      "id": 11,
+      "name": "right_upper_pink_orange",
+      "canvas_png": "canvas_png/11_right_upper_pink_orange_canvas.png",
+      "tight_png": "tight_png/11_right_upper_pink_orange_tight.png",
+      "alpha_mask_png": "masks/11_right_upper_pink_orange_alpha_mask.png",
+      "bbox_px": {
+        "x": 769,
+        "y": 154,
+        "width": 213,
+        "height": 214
+      },
+      "anchor_center_px": {
+        "x": 877.93,
+        "y": 299.59
+      },
+      "anchor_center_percent": {
+        "x": 68.857,
+        "y": 31.703
+      },
+      "source_seed_px": {
+        "x": 880,
+        "y": 285
+      },
+      "average_rgb": [
+        222,
+        157,
+        128
+      ],
+      "visible_pixel_count": 16742
+    },
+    {
+      "id": 12,
+      "name": "upper_right_purple_sail",
+      "canvas_png": "canvas_png/12_upper_right_purple_sail_canvas.png",
+      "tight_png": "tight_png/12_upper_right_purple_sail_tight.png",
+      "alpha_mask_png": "masks/12_upper_right_purple_sail_alpha_mask.png",
+      "bbox_px": {
+        "x": 916,
+        "y": 125,
+        "width": 182,
+        "height": 206
+      },
+      "anchor_center_px": {
+        "x": 1005.25,
+        "y": 233.94
+      },
+      "anchor_center_percent": {
+        "x": 78.844,
+        "y": 24.755
+      },
+      "source_seed_px": {
+        "x": 1010,
+        "y": 220
+      },
+      "average_rgb": [
+        158,
+        138,
+        188
+      ],
+      "visible_pixel_count": 17103
+    },
+    {
+      "id": 13,
+      "name": "right_mid_teal_glass",
+      "canvas_png": "canvas_png/13_right_mid_teal_glass_canvas.png",
+      "tight_png": "tight_png/13_right_mid_teal_glass_tight.png",
+      "alpha_mask_png": "masks/13_right_mid_teal_glass_alpha_mask.png",
+      "bbox_px": {
+        "x": 717,
+        "y": 325,
+        "width": 268,
+        "height": 208
+      },
+      "anchor_center_px": {
+        "x": 858.05,
+        "y": 422.55
+      },
+      "anchor_center_percent": {
+        "x": 67.298,
+        "y": 44.714
+      },
+      "source_seed_px": {
+        "x": 850,
+        "y": 410
+      },
+      "average_rgb": [
+        134,
+        163,
+        147
+      ],
+      "visible_pixel_count": 28613
+    },
+    {
+      "id": 14,
+      "name": "right_warm_red_orange",
+      "canvas_png": "canvas_png/14_right_warm_red_orange_canvas.png",
+      "tight_png": "tight_png/14_right_warm_red_orange_tight.png",
+      "alpha_mask_png": "masks/14_right_warm_red_orange_alpha_mask.png",
+      "bbox_px": {
+        "x": 886,
+        "y": 221,
+        "width": 327,
+        "height": 339
+      },
+      "anchor_center_px": {
+        "x": 1051.35,
+        "y": 406.57
+      },
+      "anchor_center_percent": {
+        "x": 82.459,
+        "y": 43.023
+      },
+      "source_seed_px": {
+        "x": 1010,
+        "y": 455
+      },
+      "average_rgb": [
+        200,
+        141,
+        135
+      ],
+      "visible_pixel_count": 45919
+    },
+    {
+      "id": 15,
+      "name": "right_lower_blue_purple",
+      "canvas_png": "canvas_png/15_right_lower_blue_purple_canvas.png",
+      "tight_png": "tight_png/15_right_lower_blue_purple_tight.png",
+      "alpha_mask_png": "masks/15_right_lower_blue_purple_alpha_mask.png",
+      "bbox_px": {
+        "x": 640,
+        "y": 369,
+        "width": 371,
+        "height": 399
+      },
+      "anchor_center_px": {
+        "x": 834.88,
+        "y": 580.24
+      },
+      "anchor_center_percent": {
+        "x": 65.48,
+        "y": 61.401
+      },
+      "source_seed_px": {
+        "x": 900,
+        "y": 590
+      },
+      "average_rgb": [
+        102,
+        130,
+        166
+      ],
+      "visible_pixel_count": 61164
+    },
+    {
+      "id": 16,
+      "name": "far_right_red_tail",
+      "canvas_png": "canvas_png/16_far_right_red_tail_canvas.png",
+      "tight_png": "tight_png/16_far_right_red_tail_tight.png",
+      "alpha_mask_png": "masks/16_far_right_red_tail_alpha_mask.png",
+      "bbox_px": {
+        "x": 993,
+        "y": 451,
+        "width": 220,
+        "height": 166
+      },
+      "anchor_center_px": {
+        "x": 1117.99,
+        "y": 536.08
+      },
+      "anchor_center_percent": {
+        "x": 87.686,
+        "y": 56.728
+      },
+      "source_seed_px": {
+        "x": 1110,
+        "y": 520
+      },
+      "average_rgb": [
+        141,
+        119,
+        136
+      ],
+      "visible_pixel_count": 20635
+    },
+    {
+      "id": 17,
+      "name": "lower_right_purple_tail",
+      "canvas_png": "canvas_png/17_lower_right_purple_tail_canvas.png",
+      "tight_png": "tight_png/17_lower_right_purple_tail_tight.png",
+      "alpha_mask_png": "masks/17_lower_right_purple_tail_alpha_mask.png",
+      "bbox_px": {
+        "x": 901,
+        "y": 550,
+        "width": 280,
+        "height": 243
+      },
+      "anchor_center_px": {
+        "x": 1045.6,
+        "y": 663.7
+      },
+      "anchor_center_percent": {
+        "x": 82.008,
+        "y": 70.233
+      },
+      "source_seed_px": {
+        "x": 1020,
+        "y": 690
+      },
+      "average_rgb": [
+        115,
+        131,
+        174
+      ],
+      "visible_pixel_count": 27925
+    },
+    {
+      "id": 18,
+      "name": "bottom_center_teal_splinters",
+      "canvas_png": "canvas_png/18_bottom_center_teal_splinters_canvas.png",
+      "tight_png": "tight_png/18_bottom_center_teal_splinters_tight.png",
+      "alpha_mask_png": "masks/18_bottom_center_teal_splinters_alpha_mask.png",
+      "bbox_px": {
+        "x": 635,
+        "y": 564,
+        "width": 227,
+        "height": 246
+      },
+      "anchor_center_px": {
+        "x": 752.07,
+        "y": 712.69
+      },
+      "anchor_center_percent": {
+        "x": 58.986,
+        "y": 75.417
+      },
+      "source_seed_px": {
+        "x": 720,
+        "y": 735
+      },
+      "average_rgb": [
+        61,
+        134,
+        161
+      ],
+      "visible_pixel_count": 26198
+    }
+  ]
+}

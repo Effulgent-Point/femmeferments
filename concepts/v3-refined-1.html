@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Femme Ferments — Beauty in the Broken Glass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#faf5eb;
+    --parchment:#f4ead2;
+    --parchment-deep:#ece0c2;
+    --gold:#c9a84c;
+    --wine:#4a0e2b;
+    --copper:#b8632e;
+    --ink:#2c1c12;
+    --ink-dim:#6b5a52;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    overflow-x:hidden;
+  }
+
+  body.modal-open{ overflow:hidden; }
+
+  h1,h2,h3{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
+    margin:0;
+    color:var(--ink);
+  }
+
+  img{ max-width:100%; display:block; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .eyebrow{
+    color:var(--gold);
+    font-size:0.7rem;
+    letter-spacing:0.4em;
+    text-transform:uppercase;
+    font-weight:600;
+  }
+
+  .chapter-marker{
+    color:var(--gold);
+    font-size:0.7rem;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    font-weight:600;
+    display:block;
+    margin-bottom:0.75rem;
+  }
+
+  .divider{
+    width:60px;
+    height:2px;
+    background:var(--gold);
+    margin:1.5rem auto;
+    border:none;
+  }
+
+  .divider.left{ margin:1.5rem 0; }
+
+  section{
+    position:relative;
+    padding:7rem 1.5rem;
+    overflow:hidden;
+  }
+
+  .bg-cream{ background:var(--cream); }
+  .bg-parchment{ background:var(--parchment); }
+
+  .section-inner{
+    max-width:1100px;
+    margin:0 auto;
+    position:relative;
+    z-index:2;
+  }
+
+  .center{ text-align:center; }
+
+  .body-copy{
+    max-width:720px;
+    margin:1.5rem auto 0;
+    font-size:1.05rem;
+    line-height:1.85;
+    color:var(--ink-dim);
+  }
+
+  .body-copy.left-align{ margin-left:0; }
+
+  .pull-quote{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:clamp(1.4rem, 3vw, 1.9rem);
+    color:var(--wine);
+    max-width:640px;
+    margin:2.5rem auto 0;
+    line-height:1.5;
+  }
+
+  .bg-glass-piece{
+    position:absolute;
+    pointer-events:none;
+    opacity:0.22;
+    z-index:1;
+  }
+
+  /* ---------- NAV ---------- */
+  .navbar{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:600;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 40px;
+    background:linear-gradient(rgba(250,245,235,0.94), transparent);
+    transition:background 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+  }
+
+  .navbar.scrolled{
+    padding:11px 40px;
+    background:rgba(250,245,235,0.95);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    box-shadow:0 10px 28px rgba(74,14,43,0.1);
+  }
+
+  .navbar .nav-logo img{
+    width:clamp(120px, 14vw, 180px);
+    height:auto;
+  }
+
+  .nav-links{
+    display:flex;
+    gap:2.2rem;
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+
+  .nav-links a{
+    font-size:0.7rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    font-weight:600;
+    transition:color 0.25s ease;
+  }
+
+  .nav-links a:hover{ color:var(--wine); }
+
+  @media (max-width:900px){
+    .nav-links{ display:none; }
+    .navbar{ padding:16px 24px; justify-content:center; }
+    .navbar.scrolled{ padding:11px 24px; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero-track{
+    position:relative;
+    height:105vh;
+    background:var(--cream);
+  }
+
+  .hero-sticky{
+    position:sticky;
+    top:0;
+    height:100vh;
+    padding-top:70px;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    overflow:hidden;
+    box-sizing:border-box;
+  }
+
+  .hero-content{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    width:100%;
+    padding:1.5rem 1rem 0;
+  }
+
+  .hero-eyebrow{
+    color:var(--gold);
+    font-size:0.7rem;
+    letter-spacing:0.4em;
+    text-transform:uppercase;
+    font-weight:600;
+    margin-bottom:0.5rem;
+  }
+
+  .hero-glass-wrap{
+    position:relative;
+    width:min(700px, 50vw);
+    aspect-ratio:1275/945;
+    margin-bottom:0;
+  }
+
+  .hero-glass-static, .hero-glass-piece{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+  }
+
+  .hero-glass-piece{
+    will-change:transform, opacity;
+  }
+
+  .hero-logo-stacked{
+    width:min(320px, 50vw);
+    margin-bottom:0.25rem;
+  }
+
+  .hero-tagline{
+    width:min(420px, 65vw);
+    mix-blend-mode:multiply;
+    margin-top:0.25rem;
+  }
+
+  .hero-scroll-cue{
+    margin-top:2rem;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:0.6rem;
+  }
+
+  .hero-scroll-cue span{
+    font-size:0.65rem;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    font-weight:600;
+  }
+
+  .hero-scroll-line{
+    width:1px;
+    height:36px;
+    background:linear-gradient(var(--gold), transparent);
+  }
+
+  /* ---------- GET INVOLVED CTA ---------- */
+  .cta-box{
+    border-left:3px solid var(--gold);
+    background:var(--parchment-deep);
+    padding:24px;
+    margin-top:2.5rem;
+    max-width:520px;
+  }
+
+  .cta-label{
+    color:var(--gold);
+    font-size:0.65rem;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    font-weight:700;
+    display:block;
+    margin-bottom:0.6rem;
+  }
+
+  .cta-heading{
+    font-size:1.15rem;
+    margin-bottom:0.6rem;
+  }
+
+  .cta-desc{
+    font-size:0.88rem;
+    color:var(--ink-dim);
+    line-height:1.6;
+  }
+
+  /* ---------- WINE CARDS ---------- */
+  .wine-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:2rem;
+    margin-top:3rem;
+  }
+
+  @media (max-width:700px){
+    .wine-grid{ grid-template-columns:1fr; }
+  }
+
+  .wine-card{
+    background:var(--parchment);
+    border-top:3px solid var(--gold);
+    box-shadow:0 8px 30px rgba(44,28,18,0.08);
+    padding:2.5rem 2rem;
+    text-align:center;
+  }
+
+  .wine-card .wine-varietal{
+    font-size:0.7rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+    margin-bottom:0.5rem;
+  }
+
+  .wine-card h3{
+    font-size:1.8rem;
+    margin-bottom:0.75rem;
+  }
+
+  .wine-card p{
+    font-size:0.92rem;
+    color:var(--ink-dim);
+    line-height:1.7;
+  }
+
+  /* ---------- MISSION / COUNTER ---------- */
+  .counter-wrap{
+    text-align:center;
+  }
+
+  .counter-number{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(4rem, 12vw, 8rem);
+    font-weight:600;
+    color:var(--wine);
+    line-height:1;
+  }
+
+  .counter-sub{
+    font-size:1rem;
+    color:var(--ink-dim);
+    letter-spacing:0.05em;
+    margin-top:0.5rem;
+  }
+
+  .flow-steps{
+    list-style:none;
+    margin:4rem auto 0;
+    padding:0;
+    max-width:640px;
+    display:flex;
+    flex-direction:column;
+    gap:1.75rem;
+  }
+
+  .flow-step{
+    display:flex;
+    align-items:flex-start;
+    gap:1.25rem;
+    text-align:left;
+  }
+
+  .flow-num{
+    flex:0 0 auto;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:var(--gold);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.85rem;
+    font-weight:700;
+    font-family:'Inter', sans-serif;
+  }
+
+  .flow-text h4{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.2rem;
+    font-weight:600;
+    margin-bottom:0.2rem;
+  }
+
+  .flow-text p{
+    font-size:0.85rem;
+    color:var(--ink-dim);
+    margin:0;
+  }
+
+  /* ---------- COMMUNITY CARDS ---------- */
+  .community-intro{
+    max-width:600px;
+    margin:1.5rem auto 0;
+    text-align:center;
+    color:var(--ink-dim);
+    font-size:1rem;
+    line-height:1.75;
+  }
+
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+    margin-top:3.5rem;
+  }
+
+  @media (max-width:900px){
+    .card-grid{ grid-template-columns:repeat(2, 1fr); }
+  }
+
+  @media (max-width:600px){
+    .card-grid{ grid-template-columns:1fr; }
+  }
+
+  .spec-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width:900px; margin:2.5rem auto 0; }
+  .spec-card{
+    position: relative;
+    background: var(--cream);
+    border: 1px solid rgba(74,14,43,0.18);
+    padding: 40px 34px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(44,28,18,0.12);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+    cursor: pointer;
+  }
+  .spec-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(44,28,18,0.18);
+  }
+  .spec-no{ position:absolute; top:16px; left:20px; font-size:0.66rem; letter-spacing:0.14em; color: var(--gold); text-transform: uppercase; }
+  .spec-img{ height: 200px; display:flex; align-items:center; justify-content:center; margin-bottom: 22px; }
+  .spec-img img{ max-height:100%; max-width:78%; transition: transform 0.4s ease; }
+  .spec-card:hover .spec-img img{ transform: scale(1.05) rotate(-2deg); }
+  .spec-divider{ width: 54px; height: 10px; margin: 0 auto 20px; position:relative; }
+  .spec-divider::before{ content:""; position:absolute; top:50%; left:0; right:0; height:1px; background: var(--gold); }
+  .spec-divider::after{ content:""; position:absolute; top:50%; left:50%; width:6px; height:6px; transform: translate(-50%,-50%) rotate(45deg); background: var(--gold); }
+  .spec-label{ font-size: 0.86rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--wine); margin-bottom: 16px; font-weight:600; }
+  .spec-desc{ max-width: 340px; margin: 0 auto; font-size:0.92rem; line-height:1.7; color:var(--ink-dim); }
+  @media (max-width: 640px){ .spec-grid{ grid-template-columns: 1fr; } }
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(44,28,18,0.7);
+    z-index:1000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:2rem 1rem;
+  }
+
+  .modal-overlay.open{
+    display:flex;
+  }
+
+  .modal-panel{
+    background:var(--cream);
+    max-width:560px;
+    width:100%;
+    max-height:85vh;
+    overflow-y:auto;
+    border-radius:12px;
+    position:relative;
+    padding:2.5rem 2rem 2.5rem;
+  }
+
+  .modal-close{
+    position:absolute;
+    top:16px;
+    right:16px;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    border:none;
+    background:rgba(44,28,18,0.06);
+    color:var(--ink);
+    font-size:1.1rem;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background 0.25s ease, color 0.25s ease;
+  }
+
+  .modal-close:hover{
+    background:var(--wine);
+    color:#fff;
+  }
+
+  .modal-panel img.modal-glass{
+    width:100%;
+    max-width:200px;
+    height:auto;
+    margin:0 auto 1.25rem;
+  }
+
+  .modal-panel .role-no{ display:block; text-align:center; margin-bottom:0.5rem; color:var(--gold); font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; font-weight:700; }
+
+  .modal-panel h3{
+    font-size:1.8rem;
+    text-align:center;
+  }
+
+  .modal-panel .divider{ margin:1.25rem auto; }
+
+  .modal-section-title{
+    color:var(--gold);
+    font-size:0.7rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    font-weight:700;
+    margin:1.5rem 0 0.6rem;
+  }
+
+  .modal-panel ul{
+    margin:0;
+    padding-left:1.2rem;
+    font-size:0.92rem;
+    color:var(--ink-dim);
+    line-height:1.7;
+  }
+
+  .modal-time{
+    font-style:italic;
+    font-size:0.9rem;
+    color:var(--ink-dim);
+    margin-top:1.5rem;
+  }
+
+  .modal-cta{
+    display:inline-block;
+    margin-top:1.75rem;
+    padding:14px 32px;
+    background:var(--gold);
+    color:#fff;
+    font-size:0.85rem;
+    font-weight:600;
+    letter-spacing:0.05em;
+    border-radius:6px;
+    text-align:center;
+  }
+
+  .modal-cta-wrap{ text-align:center; }
+
+  /* ---------- EVENTS ---------- */
+  .event-card{
+    background:var(--cream);
+    box-shadow:0 8px 30px rgba(44,28,18,0.08);
+    border-radius:8px;
+    padding:2.5rem;
+    max-width:600px;
+    margin:3rem auto 0;
+    text-align:center;
+  }
+
+  .event-date{
+    color:var(--gold);
+    font-size:0.75rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    font-weight:700;
+    margin-bottom:0.75rem;
+  }
+
+  .event-card h3{
+    font-size:1.9rem;
+    margin-bottom:1rem;
+  }
+
+  .event-details{
+    display:flex;
+    flex-direction:column;
+    gap:0.5rem;
+    font-size:0.95rem;
+    color:var(--ink-dim);
+  }
+
+  /* ---------- PARTNERS MARQUEE ---------- */
+  .marquee-wrap{
+    position:relative;
+    overflow:hidden;
+    margin-top:3rem;
+    -webkit-mask-image:linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image:linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  .marquee-track{
+    display:flex;
+    gap:2rem;
+    width:max-content;
+    animation:marquee-scroll 28s linear infinite;
+  }
+
+  @keyframes marquee-scroll{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+
+  .marquee-logo{
+    width:120px;
+    height:50px;
+    border-radius:8px;
+    background:#e8e0d0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.65rem;
+    color:var(--ink-dim);
+    letter-spacing:0.05em;
+    flex:0 0 auto;
+  }
+
+  /* ---------- COME TOGETHER ---------- */
+  .assemble-section{
+    background:var(--cream);
+    padding-top:6rem;
+    text-align:center;
+  }
+
+  .assemble-container{
+    width:100vw;
+    margin-left:calc(-50vw + 50%);
+    position:relative;
+    aspect-ratio:1275/945;
+    max-width:1275px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .assemble-piece{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    opacity:0;
+    transition:transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+  }
+
+  .assemble-piece.in-view{
+    opacity:1;
+    transform:translate(0,0) !important;
+  }
+
+  .assemble-heading{
+    font-size:clamp(1.8rem, 4vw, 2.5rem);
+    margin-top:2.5rem;
+  }
+
+  .signup-form{
+    display:flex;
+    gap:0.75rem;
+    justify-content:center;
+    margin:2.5rem auto 0;
+    max-width:420px;
+    flex-wrap:wrap;
+  }
+
+  .signup-form input{
+    flex:1 1 220px;
+    padding:14px 18px;
+    border:1px solid rgba(44,28,18,0.2);
+    border-radius:6px;
+    font-family:'Inter', sans-serif;
+    font-size:0.9rem;
+    background:#fff;
+    color:var(--ink);
+  }
+
+  .signup-form input:focus{
+    outline:2px solid var(--gold);
+    outline-offset:1px;
+  }
+
+  .signup-form button{
+    padding:14px 28px;
+    background:var(--gold);
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    font-size:0.85rem;
+    font-weight:600;
+    letter-spacing:0.03em;
+    cursor:pointer;
+    transition:background 0.25s ease;
+  }
+
+  .signup-form button:hover{ background:var(--copper); }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:3rem 1.5rem 4rem;
+    text-align:center;
+    background:var(--cream);
+    font-size:0.85rem;
+    color:var(--ink-dim);
+  }
+
+  footer a{
+    color:var(--wine);
+    font-weight:600;
+    border-bottom:1px solid transparent;
+    transition:border-color 0.25s ease;
+  }
+
+  footer a:hover{ border-color:var(--wine); }
+
+  /* ---------- FADE-IN REVEAL ---------- */
+  .fade-in{
+    opacity:1;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .fade-in{ opacity:1; transform:none; transition:none; }
+    .hero-glass-piece{ transition:none; }
+    .assemble-piece{ opacity:1; transform:none !important; transition:none; }
+    .marquee-track{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-logo">
+    <img src="../FF_Logo.png" alt="Femme Ferments">
+  </div>
+  <ul class="nav-links">
+    <li><a href="#top">Home</a></li>
+    <li><a href="#vision">Vision</a></li>
+    <li><a href="#wines">Wines</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#join">Join</a></li>
+  </ul>
+</nav>
+
+<div id="top"></div>
+
+<!-- ================= HERO ================= -->
+<div class="hero-track" id="heroTrack">
+  <div class="hero-sticky">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Willamette Valley &middot; Oregon</div>
+
+      <img class="hero-logo-stacked" src="../logo_stacked.png" alt="Femme Ferments">
+
+      <div class="hero-glass-wrap" id="heroGlassWrap">
+        <img class="hero-glass-piece" data-x="18.5" data-y="37.2" src="../femme_ferments_glass_assets/canvas_png/01_left_outer_teal_points_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="26.5" data-y="25.4" src="../femme_ferments_glass_assets/canvas_png/02_left_top_teal_shards_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="26.6" data-y="44.8" src="../femme_ferments_glass_assets/canvas_png/03_left_mid_blue_green_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="26.2" data-y="59.5" src="../femme_ferments_glass_assets/canvas_png/04_left_lower_green_blue_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="27.6" data-y="75.0" src="../femme_ferments_glass_assets/canvas_png/05_lower_left_blue_tail_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="38.7" data-y="33.3" src="../femme_ferments_glass_assets/canvas_png/06_upper_mid_green_crown_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="38.3" data-y="49.7" src="../femme_ferments_glass_assets/canvas_png/07_mid_left_green_bridge_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="47.2" data-y="36.7" src="../femme_ferments_glass_assets/canvas_png/08_center_core_burst_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="47.8" data-y="70.0" src="../femme_ferments_glass_assets/canvas_png/09_lower_center_cyan_blue_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="58.5" data-y="26.6" src="../femme_ferments_glass_assets/canvas_png/10_upper_yellow_orange_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="68.9" data-y="31.7" src="../femme_ferments_glass_assets/canvas_png/11_right_upper_pink_orange_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="78.8" data-y="24.8" src="../femme_ferments_glass_assets/canvas_png/12_upper_right_purple_sail_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="67.3" data-y="44.7" src="../femme_ferments_glass_assets/canvas_png/13_right_mid_teal_glass_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="82.5" data-y="43.0" src="../femme_ferments_glass_assets/canvas_png/14_right_warm_red_orange_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="65.5" data-y="61.4" src="../femme_ferments_glass_assets/canvas_png/15_right_lower_blue_purple_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="87.7" data-y="56.7" src="../femme_ferments_glass_assets/canvas_png/16_far_right_red_tail_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="82.0" data-y="70.2" src="../femme_ferments_glass_assets/canvas_png/17_lower_right_purple_tail_canvas.png" alt="">
+        <img class="hero-glass-piece" data-x="59.0" data-y="75.4" src="../femme_ferments_glass_assets/canvas_png/18_bottom_center_teal_splinters_canvas.png" alt="">
+      </div>
+
+      <img class="hero-tagline" src="../FF_Tagline.png" alt="Beauty in the Broken Glass" style="margin-top:28px;">
+
+      <div class="hero-scroll-cue">
+        <span>Scroll to Begin the Story</span>
+        <div class="hero-scroll-line"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CHAPTER 1 — THE VISION ================= -->
+<section class="bg-cream" id="vision">
+  <img class="bg-glass-piece fade-in" style="width:55%; top:-8%; left:-12%;" src="../femme_ferments_glass_assets/tight_png/01_left_outer_teal_points_tight.png" alt="">
+  <img class="bg-glass-piece fade-in" style="width:50%; bottom:-10%; right:-14%;" src="../femme_ferments_glass_assets/tight_png/02_left_top_teal_shards_tight.png" alt="">
+  <div class="section-inner center">
+    <span class="chapter-marker fade-in">Chapter One</span>
+    <h2 class="fade-in" style="font-size:clamp(2rem, 5vw, 3.2rem);">The Vision</h2>
+    <hr class="divider fade-in">
+    <p class="body-copy fade-in">
+      Femme Ferments began with a simple, stubborn idea: that wine — an industry long shaped by
+      men's names on the label — could instead become a vessel for women's independence. We
+      gather donated fruit, borrowed cellars, and volunteer hands to craft small-batch wines,
+      and we funnel every dollar of profit back into programs that give women the resources to
+      build something of their own.
+    </p>
+    <p class="pull-quote fade-in">&ldquo;100% of our profits empower women.&rdquo;</p>
+  </div>
+</section>
+
+<!-- ================= CHAPTER 2 — THE LAND ================= -->
+<section class="bg-parchment">
+  <img class="bg-glass-piece fade-in" style="width:52%; top:-6%; right:-10%;" src="../femme_ferments_glass_assets/tight_png/06_upper_mid_green_crown_tight.png" alt="">
+  <img class="bg-glass-piece fade-in" style="width:48%; bottom:-12%; left:-10%;" src="../femme_ferments_glass_assets/tight_png/07_mid_left_green_bridge_tight.png" alt="">
+  <div class="section-inner">
+    <span class="chapter-marker fade-in">Chapter Two</span>
+    <h2 class="fade-in" style="font-size:clamp(2rem, 5vw, 3.2rem);">The Land</h2>
+    <hr class="divider left fade-in">
+    <p class="body-copy left-align fade-in">
+      Willamette Valley's cool nights and volcanic soil have made it one of the great Pinot Noir
+      regions on earth — but the vineyards and cellars here have opened their gates to us for
+      another reason too. Partner growers set aside rows of fruit each harvest, and neighboring
+      wineries lend us press time and tank space, because they believe the valley is big enough
+      to grow both great wine and greater opportunity.
+    </p>
+    <div class="cta-box fade-in">
+      <span class="cta-label">Get Involved</span>
+      <h3 class="cta-heading">Become a Winery Partner &rarr;</h3>
+      <p class="cta-desc">Donate grapes, cellar space, or equipment time — and help fund the next chapter for women in this valley.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHAPTER 3 — THE CRAFT ================= -->
+<section class="bg-cream" id="wines">
+  <img class="bg-glass-piece fade-in" style="width:46%; top:-6%; left:-8%;" src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="">
+  <img class="bg-glass-piece fade-in" style="width:50%; bottom:-10%; right:-12%;" src="../femme_ferments_glass_assets/tight_png/11_right_upper_pink_orange_tight.png" alt="">
+  <div class="section-inner center">
+    <span class="chapter-marker fade-in">Chapter Three</span>
+    <h2 class="fade-in" style="font-size:clamp(2rem, 5vw, 3.2rem);">The Craft</h2>
+    <hr class="divider fade-in">
+    <div class="wine-grid">
+      <div class="wine-card fade-in">
+        <div class="wine-varietal">Alba&ntilde;o</div>
+        <h3>Power &amp; Grace</h3>
+        <p>Bright, mineral, and unyielding — this white carries the crisp acidity of the valley's cool nights alongside a floral, honeyed finish.</p>
+      </div>
+      <div class="wine-card fade-in">
+        <div class="wine-varietal">Pinot Noir</div>
+        <h3>Hope &amp; Grit</h3>
+        <p>Silky tannins over notes of dark cherry and forest floor — a red that rewards patience, much like the women it was crafted to support.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHAPTER 4 — THE MISSION ================= -->
+<section class="bg-parchment">
+  <img class="bg-glass-piece fade-in" style="width:44%; top:-8%; right:-6%;" src="../femme_ferments_glass_assets/tight_png/08_center_core_burst_tight.png" alt="">
+  <img class="bg-glass-piece fade-in" style="width:48%; bottom:-10%; left:-8%;" src="../femme_ferments_glass_assets/tight_png/13_right_mid_teal_glass_tight.png" alt="">
+  <div class="section-inner">
+    <div class="counter-wrap fade-in">
+      <span class="chapter-marker">Chapter Four</span>
+      <h2 style="font-size:clamp(2rem, 5vw, 3.2rem);">The Mission</h2>
+      <div class="counter-number" id="counterNumber" data-target="100">0</div>
+      <div class="counter-sub">of our profits empower women</div>
+    </div>
+
+    <ul class="flow-steps">
+      <li class="flow-step fade-in">
+        <div class="flow-num">1</div>
+        <div class="flow-text">
+          <h4>Donated Grapes</h4>
+          <p>Partner vineyards set aside rows of fruit each harvest, at no cost to us.</p>
+        </div>
+      </li>
+      <li class="flow-step fade-in">
+        <div class="flow-num">2</div>
+        <div class="flow-text">
+          <h4>Volunteer Harvest</h4>
+          <p>Community hands pick, sort, and process the fruit together.</p>
+        </div>
+      </li>
+      <li class="flow-step fade-in">
+        <div class="flow-num">3</div>
+        <div class="flow-text">
+          <h4>Partner Cellar</h4>
+          <p>A neighboring winery lends tank space and press time for the ferment.</p>
+        </div>
+      </li>
+      <li class="flow-step fade-in">
+        <div class="flow-num">4</div>
+        <div class="flow-text">
+          <h4>Donated Corks</h4>
+          <p>Suppliers contribute closures and packaging to keep costs at zero.</p>
+        </div>
+      </li>
+      <li class="flow-step fade-in">
+        <div class="flow-num">5</div>
+        <div class="flow-text">
+          <h4>Crafted Wine</h4>
+          <p>Every bottle sold sends its full profit back into our women's programs.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= CHAPTER 5 — YOUR PART ================= -->
+<section class="bg-cream" id="community">
+  <div class="section-inner center">
+    <span class="eyebrow fade-in">Your Part</span>
+    <h2 class="fade-in" style="font-size:clamp(2rem, 5vw, 3.2rem); margin-top:0.75rem;">Six Ways to Pour Yourself In</h2>
+    <p class="community-intro fade-in">Femme Ferments only works because a whole community pours itself in. Here is where you fit.</p>
+
+    <div class="spec-grid">
+      <div class="spec-card fade-in" data-role="harvester">
+        <div class="spec-no">No. 01</div>
+        <div class="spec-img"><img src="../femme_ferments_glass_assets/tight_png/01_left_outer_teal_points_tight.png" alt=""></div>
+        <div class="spec-divider"></div>
+        <div class="spec-label">The Harvester</div>
+        <p class="spec-desc">Pick donated fruit at partner vineyards each harvest -- no experience necessary, just willing hands.</p>
+      </div>
+      <div class="spec-card fade-in" data-role="storyteller">
+        <div class="spec-no">No. 02</div>
+        <div class="spec-img"><img src="../femme_ferments_glass_assets/tight_png/06_upper_mid_green_crown_tight.png" alt=""></div>
+        <div class="spec-divider"></div>
+        <div class="spec-label">The Storyteller</div>
+        <p class="spec-desc">Photograph the crush, write the newsletter, keep the community in the loop between vintages.</p>
+      </div>
+      <div class="spec-card fade-in" data-role="host">
+        <div class="spec-no">No. 03</div>
+        <div class="spec-img"><img src="../femme_ferments_glass_assets/tight_png/04_left_lower_green_blue_tight.png" alt=""></div>
+        <div class="spec-divider"></div>
+        <div class="spec-label">The Host</div>
+        <p class="spec-desc">Organize tastings and gatherings that introduce new people to what we're building.</p>
+      </div>
+      <div class="spec-card fade-in" data-role="builder">
+        <div class="spec-no">No. 04</div>
+        <div class="spec-img"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt=""></div>
+        <div class="spec-divider"></div>
+        <div class="spec-label">The Builder</div>
+        <p class="spec-desc">Lend your skills -- design, carpentry, logistics -- to keep our operation running.</p>
+      </div>
+      <div class="spec-card fade-in" data-role="connector">
+        <div class="spec-no">No. 05</div>
+        <div class="spec-img"><img src="../femme_ferments_glass_assets/tight_png/08_center_core_burst_tight.png" alt=""></div>
+        <div class="spec-divider"></div>
+        <div class="spec-label">The Connector</div>
+        <p class="spec-desc">Bridge the gap between Femme Ferments and your network of donors and allies.</p>
+      </div>
+      <div class="spec-card fade-in" data-role="maker">
+        <div class="spec-no">No. 06</div>
+        <div class="spec-img"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt=""></div>
+        <div class="spec-divider"></div>
+        <div class="spec-label">The Maker</div>
+        <p class="spec-desc">If you're a winemaker, your craft is the heart of every bottle we produce.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MODAL ================= -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-panel">
+    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <img class="modal-glass" id="modalGlass" src="" alt="">
+    <div class="role-no" id="modalNo"></div>
+    <h3 id="modalTitle"></h3>
+    <hr class="divider">
+    <div class="modal-section-title">What You'll Do</div>
+    <ul id="modalDo"></ul>
+    <div class="modal-section-title">What We Provide</div>
+    <ul id="modalProvide"></ul>
+    <p class="modal-time" id="modalTime"></p>
+    <div class="modal-cta-wrap">
+      <a href="#join" class="modal-cta" id="modalCta">Become a Volunteer &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CHAPTER 6 — GATHER ================= -->
+<section class="bg-parchment" id="events">
+  <img class="bg-glass-piece fade-in" style="width:46%; top:-8%; right:-8%;" src="../femme_ferments_glass_assets/tight_png/14_right_warm_red_orange_tight.png" alt="">
+  <div class="section-inner center">
+    <span class="chapter-marker fade-in">Chapter Six</span>
+    <h2 class="fade-in" style="font-size:clamp(2rem, 5vw, 3.2rem);">Gather</h2>
+    <hr class="divider fade-in">
+    <div class="event-card fade-in">
+      <div class="event-date">September 12, 2026</div>
+      <h3>Launch Party &amp; First Pour</h3>
+      <div class="event-details">
+        <span>Willamette Valley, Oregon &middot; 5:00 PM</span>
+        <span>Suggested donation: $45 per guest</span>
+        <span>All proceeds support our women's harvest program</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PARTNERS ================= -->
+<section class="bg-cream">
+  <div class="section-inner center">
+    <h2 class="fade-in" style="font-size:clamp(1.6rem, 4vw, 2.2rem);">Our Partners &amp; Supporters</h2>
+    <div class="marquee-wrap fade-in">
+      <div class="marquee-track">
+        <div class="marquee-logo">Partner 01</div>
+        <div class="marquee-logo">Partner 02</div>
+        <div class="marquee-logo">Partner 03</div>
+        <div class="marquee-logo">Partner 04</div>
+        <div class="marquee-logo">Partner 05</div>
+        <div class="marquee-logo">Partner 06</div>
+        <div class="marquee-logo">Partner 07</div>
+        <div class="marquee-logo">Partner 08</div>
+        <div class="marquee-logo">Partner 01</div>
+        <div class="marquee-logo">Partner 02</div>
+        <div class="marquee-logo">Partner 03</div>
+        <div class="marquee-logo">Partner 04</div>
+        <div class="marquee-logo">Partner 05</div>
+        <div class="marquee-logo">Partner 06</div>
+        <div class="marquee-logo">Partner 07</div>
+        <div class="marquee-logo">Partner 08</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COME TOGETHER ================= -->
+<section class="assemble-section" id="join">
+  <div class="section-inner">
+    <span class="eyebrow fade-in">Come Together</span>
+  </div>
+  <div class="assemble-container" id="assembleContainer">
+    <img class="assemble-piece" data-x="18.5" data-y="37.2" src="../femme_ferments_glass_assets/canvas_png/01_left_outer_teal_points_canvas.png" alt="">
+    <img class="assemble-piece" data-x="26.5" data-y="25.4" src="../femme_ferments_glass_assets/canvas_png/02_left_top_teal_shards_canvas.png" alt="">
+    <img class="assemble-piece" data-x="26.6" data-y="44.8" src="../femme_ferments_glass_assets/canvas_png/03_left_mid_blue_green_canvas.png" alt="">
+    <img class="assemble-piece" data-x="26.2" data-y="59.5" src="../femme_ferments_glass_assets/canvas_png/04_left_lower_green_blue_canvas.png" alt="">
+    <img class="assemble-piece" data-x="27.6" data-y="75.0" src="../femme_ferments_glass_assets/canvas_png/05_lower_left_blue_tail_canvas.png" alt="">
+    <img class="assemble-piece" data-x="38.7" data-y="33.3" src="../femme_ferments_glass_assets/canvas_png/06_upper_mid_green_crown_canvas.png" alt="">
+    <img class="assemble-piece" data-x="38.3" data-y="49.7" src="../femme_ferments_glass_assets/canvas_png/07_mid_left_green_bridge_canvas.png" alt="">
+    <img class="assemble-piece" data-x="47.2" data-y="36.7" src="../femme_ferments_glass_assets/canvas_png/08_center_core_burst_canvas.png" alt="">
+    <img class="assemble-piece" data-x="47.8" data-y="70.0" src="../femme_ferments_glass_assets/canvas_png/09_lower_center_cyan_blue_canvas.png" alt="">
+    <img class="assemble-piece" data-x="58.5" data-y="26.6" src="../femme_ferments_glass_assets/canvas_png/10_upper_yellow_orange_canvas.png" alt="">
+    <img class="assemble-piece" data-x="68.9" data-y="31.7" src="../femme_ferments_glass_assets/canvas_png/11_right_upper_pink_orange_canvas.png" alt="">
+    <img class="assemble-piece" data-x="78.8" data-y="24.8" src="../femme_ferments_glass_assets/canvas_png/12_upper_right_purple_sail_canvas.png" alt="">
+    <img class="assemble-piece" data-x="67.3" data-y="44.7" src="../femme_ferments_glass_assets/canvas_png/13_right_mid_teal_glass_canvas.png" alt="">
+    <img class="assemble-piece" data-x="82.5" data-y="43.0" src="../femme_ferments_glass_assets/canvas_png/14_right_warm_red_orange_canvas.png" alt="">
+    <img class="assemble-piece" data-x="65.5" data-y="61.4" src="../femme_ferments_glass_assets/canvas_png/15_right_lower_blue_purple_canvas.png" alt="">
+    <img class="assemble-piece" data-x="87.7" data-y="56.7" src="../femme_ferments_glass_assets/canvas_png/16_far_right_red_tail_canvas.png" alt="">
+    <img class="assemble-piece" data-x="82.0" data-y="70.2" src="../femme_ferments_glass_assets/canvas_png/17_lower_right_purple_tail_canvas.png" alt="">
+    <img class="assemble-piece" data-x="59.0" data-y="75.4" src="../femme_ferments_glass_assets/canvas_png/18_bottom_center_teal_splinters_canvas.png" alt="">
+  </div>
+
+  <div class="section-inner center">
+    <h2 class="assemble-heading fade-in">Every Piece Makes the Picture</h2>
+    <form class="signup-form fade-in" id="signupForm">
+      <input type="email" placeholder="Your email address" required aria-label="Email address">
+      <button type="submit">Join Us &rarr;</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  Made with <span aria-hidden="true">&hearts;</span> by <a href="https://effulgentpoint.com/" target="_blank" rel="noopener">Effulgent Point</a>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- NAV SCROLL STATE ---------- */
+  var navbar = document.getElementById('navbar');
+  function updateNav(){
+    if(window.scrollY > 60){
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  }
+  window.addEventListener('scroll', updateNav, { passive:true });
+  updateNav();
+
+  /* ---------- HERO SHATTER ---------- */
+  var heroTrack = document.getElementById('heroTrack');
+  var heroPieces = document.querySelectorAll('.hero-glass-piece');
+  var heroTicking = false;
+
+  function applyHeroShatter(){
+    heroTicking = false;
+    if(reducedMotion){ return; }
+
+    var trackHeight = heroTrack.offsetHeight;
+    var viewportHeight = window.innerHeight;
+    var scrollable = trackHeight - viewportHeight;
+    var progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+    progress = Math.max(0, Math.min(1, progress));
+
+    var vw = window.innerWidth / 100;
+    var ease = progress * progress;
+    heroPieces.forEach(function(piece){
+      var ax = parseFloat(piece.dataset.x);
+      var ay = parseFloat(piece.dataset.y);
+      var tx = (ax - 50) * ease * 14 * vw / 100;
+      var ty = (ay - 50) * ease * 6 * vw / 100 + ease * 5 * vw;
+      var o = Math.max(0, 1 - ease * 2.5);
+      piece.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0)';
+      piece.style.opacity = o;
+    });
+  }
+
+  function onScroll(){
+    if(!heroTicking){
+      heroTicking = true;
+      window.requestAnimationFrame(applyHeroShatter);
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', onScroll);
+  applyHeroShatter();
+
+  /* ---------- FADE-IN REVEAL ---------- */
+  var fadeEls = document.querySelectorAll('.fade-in');
+  if('IntersectionObserver' in window && !reducedMotion){
+    var revealObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.05 });
+    fadeEls.forEach(function(el){ revealObserver.observe(el); });
+  } else {
+    fadeEls.forEach(function(el){ el.classList.add('visible'); });
+  }
+
+  /* ---------- COUNTER ---------- */
+  var counterEl = document.getElementById('counterNumber');
+  var counterStarted = false;
+  function runCounter(){
+    if(counterStarted) return;
+    counterStarted = true;
+    var target = parseInt(counterEl.dataset.target, 10);
+    if(reducedMotion){
+      counterEl.textContent = target + '%';
+      return;
+    }
+    var duration = 1400;
+    var startTime = null;
+    function step(ts){
+      if(!startTime) startTime = ts;
+      var elapsed = ts - startTime;
+      var pct = Math.min(elapsed / duration, 1);
+      var value = Math.round(pct * target);
+      counterEl.textContent = value + '%';
+      if(pct < 1){
+        window.requestAnimationFrame(step);
+      }
+    }
+    window.requestAnimationFrame(step);
+  }
+
+  if('IntersectionObserver' in window){
+    var counterObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          runCounter();
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.5 });
+    counterObserver.observe(counterEl);
+  } else {
+    runCounter();
+  }
+
+  /* ---------- ASSEMBLE (COME TOGETHER) ---------- */
+  var assembleContainer = document.getElementById('assembleContainer');
+  var assemblePieces = document.querySelectorAll('.assemble-piece');
+
+  function setAssembleInitial(){
+    assemblePieces.forEach(function(piece){
+      var ax = parseFloat(piece.dataset.x);
+      var ay = parseFloat(piece.dataset.y);
+      var tx = (ax - 50) * 4;
+      var ty = (ay - 50) * 4;
+      piece.style.transform = 'translate(' + tx + '%,' + ty + '%)';
+    });
+  }
+
+  if(!reducedMotion){
+    setAssembleInitial();
+  }
+
+  if('IntersectionObserver' in window && !reducedMotion){
+    var assembleObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          assemblePieces.forEach(function(piece, i){
+            setTimeout(function(){
+              piece.classList.add('in-view');
+            }, i * (800 / assemblePieces.length));
+          });
+          assembleObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.3 });
+    assembleObserver.observe(assembleContainer);
+  } else {
+    assemblePieces.forEach(function(piece){ piece.classList.add('in-view'); });
+  }
+
+  /* ---------- COMMUNITY MODAL ---------- */
+  var roleData = {
+    harvester: {
+      no: 'No. 01',
+      title: 'The Harvester',
+      img: '../femme_ferments_glass_assets/tight_png/01_left_outer_teal_points_tight.png',
+      doItems: [
+        'Pick and sort donated fruit at partner vineyards during harvest weekends',
+        'Work alongside other volunteers under the guidance of our vineyard partners',
+        'Help transport fruit from the vine to the partner cellar'
+      ],
+      provideItems: [
+        'Gloves, buckets, and all harvesting tools',
+        'Snacks, water, and shade breaks throughout the day',
+        'A Femme Ferments harvest t-shirt for your first shift'
+      ],
+      time: 'A few weekend mornings each September and October.'
+    },
+    storyteller: {
+      no: 'No. 02',
+      title: 'The Storyteller',
+      img: '../femme_ferments_glass_assets/tight_png/06_upper_mid_green_crown_tight.png',
+      doItems: [
+        'Photograph the harvest, crush, and community events',
+        'Write and edit our seasonal newsletter',
+        'Help manage our social media presence between vintages'
+      ],
+      provideItems: [
+        'Access to past photo archives and brand guidelines',
+        'Editorial support and feedback on drafts',
+        'Credit for your work across our channels'
+      ],
+      time: 'A few hours per month, on your own schedule.'
+    },
+    host: {
+      no: 'No. 03',
+      title: 'The Host',
+      img: '../femme_ferments_glass_assets/tight_png/04_left_lower_green_blue_tight.png',
+      doItems: [
+        'Plan and coordinate tastings and community gatherings',
+        'Welcome new guests and introduce them to our mission',
+        'Coordinate logistics with venues and partner wineries'
+      ],
+      provideItems: [
+        'Event templates, checklists, and a planning budget',
+        'Wine, glassware, and printed materials',
+        'A team of volunteers to help on event day'
+      ],
+      time: 'Roughly one event every one to two months.'
+    },
+    builder: {
+      no: 'No. 04',
+      title: 'The Builder',
+      img: '../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png',
+      doItems: [
+        'Lend design, carpentry, or logistics skills to active projects',
+        'Help maintain our tasting room and event spaces',
+        'Support behind-the-scenes operations however you’re able'
+      ],
+      provideItems: [
+        'Clear project briefs and materials',
+        'Flexible scheduling around your availability',
+        'Recognition for your contribution in our materials'
+      ],
+      time: 'Project-based — as little or as much as you can give.'
+    },
+    connector: {
+      no: 'No. 05',
+      title: 'The Connector',
+      img: '../femme_ferments_glass_assets/tight_png/08_center_core_burst_tight.png',
+      doItems: [
+        'Introduce Femme Ferments to potential donors and allies',
+        'Help build relationships with local businesses and press',
+        'Represent us at community and industry events'
+      ],
+      provideItems: [
+        'Talking points, one-pagers, and a donor deck',
+        'Direct access to our founding team',
+        'Recognition as a founding community connector'
+      ],
+      time: 'As opportunities arise — no fixed schedule.'
+    },
+    maker: {
+      no: 'No. 06',
+      title: 'The Maker',
+      img: '../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png',
+      doItems: [
+        'Guide the winemaking process from crush to bottle',
+        'Mentor volunteers during harvest and cellar work',
+        'Help shape the style and quality of every vintage'
+      ],
+      provideItems: [
+        'Access to partner cellar space and equipment',
+        'A dedicated volunteer crew during key cellar work',
+        'Full creative input on blending and style decisions'
+      ],
+      time: 'Seasonal — most intensive during harvest and crush.'
+    }
+  };
+
+  var overlay = document.getElementById('modalOverlay');
+  var modalGlass = document.getElementById('modalGlass');
+  var modalNo = document.getElementById('modalNo');
+  var modalTitle = document.getElementById('modalTitle');
+  var modalDo = document.getElementById('modalDo');
+  var modalProvide = document.getElementById('modalProvide');
+  var modalTime = document.getElementById('modalTime');
+  var modalCta = document.getElementById('modalCta');
+  var modalClose = document.getElementById('modalClose');
+  var roleCards = document.querySelectorAll('.spec-card');
+
+  function fillList(el, items){
+    el.innerHTML = '';
+    items.forEach(function(text){
+      var li = document.createElement('li');
+      li.textContent = text;
+      el.appendChild(li);
+    });
+  }
+
+  function openModal(key){
+    var data = roleData[key];
+    if(!data) return;
+    modalGlass.src = data.img;
+    modalGlass.alt = data.title;
+    modalNo.textContent = data.no;
+    modalTitle.textContent = data.title;
+    fillList(modalDo, data.doItems);
+    fillList(modalProvide, data.provideItems);
+    modalTime.textContent = data.time;
+    modalCta.textContent = 'Become a ' + data.title.replace('The ', '') + ' →';
+    overlay.classList.add('open');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeModal(){
+    overlay.classList.remove('open');
+    document.body.classList.remove('modal-open');
+  }
+
+  roleCards.forEach(function(card){
+    card.addEventListener('click', function(){
+      openModal(card.dataset.role);
+    });
+  });
+
+  modalClose.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){
+    if(e.target === overlay){ closeModal(); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && overlay.classList.contains('open')){ closeModal(); }
+  });
+
+  /* ---------- SIGNUP FORM (placeholder submit) ---------- */
+  var signupForm = document.getElementById('signupForm');
+  signupForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var input = signupForm.querySelector('input');
+    var button = signupForm.querySelector('button');
+    button.textContent = 'Thank You!';
+    input.value = '';
+    setTimeout(function(){ button.innerHTML = 'Join Us &rarr;'; }, 2600);
+  });
+
+})();
+</script>
+
+</body>
+</html>

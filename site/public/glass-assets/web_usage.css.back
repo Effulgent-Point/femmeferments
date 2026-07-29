@@ -1,0 +1,6 @@
+/* Femme Ferments glass chunks: canvas assets stack at 0,0 over each other. */
+.glass-stage { position: relative; width: 100%; aspect-ratio: 1275 / 945; overflow: visible; }
+.glass-stage .glass-piece { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transform-origin: var(--cx) var(--cy); will-change: transform, opacity; }
+/* Example staggered reveal: set --delay per image from metadata.json */
+.glass-stage .glass-piece { opacity: 0; transform: translate3d(var(--dx,0), var(--dy,0), 0) scale(.98); animation: glassIn 900ms cubic-bezier(.2,.8,.2,1) forwards; animation-delay: var(--delay,0ms); }
+@keyframes glassIn { to { opacity: 1; transform: translate3d(0,0,0) scale(1); } }

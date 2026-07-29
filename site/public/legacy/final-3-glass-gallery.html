@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>Femme Ferments — Glass Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #f6efe0;
+    --cream-deep: #ead9bb;
+    --espresso: #241811;
+    --espresso-dim: rgba(36,24,17,0.72);
+    --ink: #08090a;
+    --ink-deep: #050506;
+    --gold: #c9a84c;
+    --gold-soft: #e6cf8f;
+
+    --teal-deep: #0a1a1a;
+    --teal: #0d2626;
+    --teal-mid: #123434;
+    --teal-glow: #3f9c8a;
+    --teal-soft: #8fd8c7;
+
+    --green-deep: #0a1a0a;
+    --green: #0d260d;
+    --green-mid: #163a16;
+    --green-glow: #6db7a1;
+    --green-soft: #a9d8bd;
+
+    --wine-deep: #1c0610;
+    --wine: #2c0a19;
+    --wine-mid: #401227;
+    --ruby: #b13d55;
+
+    --amber-deep: #1c1206;
+    --amber: #2c1c0a;
+    --amber-mid: #3d2810;
+    --copper: #b17a44;
+    --amber-glow: #d7ac89;
+
+    --purple-deep: #170f2b;
+    --purple: #241a44;
+    --purple-mid: #34205c;
+    --purple-glow: #8c5fc9;
+    --purple-soft: #c9adf5;
+
+    --gathering-deep: #170c04;
+    --gathering: #241407;
+    --gathering-mid: #331c09;
+    --warm-glow: #c88f7c;
+  }
+
+  *{ box-sizing: border-box; margin: 0; padding: 0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  a{ color: inherit; text-decoration: none; }
+  img{ display: block; max-width: 100%; }
+  button{ font: inherit; color: inherit; }
+
+  h1, h2, h3, .serif{
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+  }
+
+  .container{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .panel{
+    position: relative;
+    padding: 150px 0;
+    overflow: hidden;
+    scroll-margin-top: 76px;
+  }
+
+  .divider{
+    width: 90px;
+    height: 1px;
+    margin: 0 auto 36px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+
+  .eyebrow{
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 20px;
+  }
+
+  .fade-in{ opacity: 0; transform: translateY(28px); transition: opacity 1s ease, transform 1s ease; }
+  .fade-in.visible{ opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    .fade-in, .role-card, .flow-detail{ transition: none !important; }
+    .fade-in{ opacity: 1; transform: none; }
+    .scroll-line::after{ animation: none; top: 100%; }
+  }
+
+  /* ============ NAV ============ */
+  nav{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(8,9,10,0.5);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(201,168,76,0.14);
+    transition: background 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+  }
+  nav.scrolled{
+    background: rgba(8,9,10,0.86);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    padding: 14px 48px;
+  }
+  .nav-mark img{ height: 24px; width: auto; filter: invert(1); }
+  .nav-links{ display: flex; gap: 26px; list-style: none; }
+  .nav-links a{
+    font-size: 0.66rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: rgba(246,239,224,0.65);
+    transition: color 0.3s ease;
+  }
+  .nav-links a:hover{ color: var(--gold-soft); }
+  @media (max-width: 920px){ .nav-links{ display: none; } }
+
+  /* ============ SHARED: split layout (glass piece + content) ============ */
+  .split{
+    display: grid;
+    grid-template-columns: minmax(240px, 0.85fr) 1.15fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .split.split-reverse{ grid-template-columns: 1.15fr minmax(240px, 0.85fr); }
+  .split-visual{ order: 0; position: relative; display: flex; align-items: center; justify-content: center; min-height: 280px; }
+  .split.split-reverse .split-visual{ order: 2; }
+  .split-content{ order: 1; }
+  .split.split-reverse .split-content{ order: 1; }
+  @media (max-width: 860px){
+    .split, .split.split-reverse{ grid-template-columns: 1fr; gap: 36px; }
+    .split-visual, .split.split-reverse .split-visual{ order: 0; min-height: 220px; }
+    .split-content, .split.split-reverse .split-content{ order: 1; }
+  }
+
+  .split-glass{
+    position: relative;
+    z-index: 1;
+    width: min(80%, 420px);
+    filter: drop-shadow(0 20px 50px rgba(0,0,0,0.45));
+  }
+  .split-glow{
+    position: absolute;
+    inset: 6%;
+    z-index: 0;
+    filter: blur(56px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .section-title{
+    font-size: clamp(2rem, 4.6vw, 3.3rem);
+    font-weight: 500;
+    margin-bottom: 22px;
+  }
+  .section-lead{
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    margin-bottom: 26px;
+  }
+  .section-body{
+    font-size: 1rem;
+    line-height: 1.95;
+  }
+
+  /* ============ TRANSITIONS ============ */
+  .transition{ position: relative; width: 100%; z-index: 2; }
+  .transition-diagonal{ height: 120px; }
+  .td-hero-vision{ background: linear-gradient(100deg, var(--cream) 0%, var(--cream) 48%, var(--teal-deep) 52%, var(--teal-deep) 100%); }
+  .td-craft-how{ background: linear-gradient(260deg, var(--wine-deep) 0%, var(--wine-deep) 48%, var(--amber-deep) 52%, var(--amber-deep) 100%); }
+  .td-gathering-join{ background: linear-gradient(100deg, var(--gathering-deep) 0%, var(--gathering-deep) 48%, var(--cream) 52%, var(--cream) 100%); }
+
+  .transition-wave{ height: 130px; position: relative; }
+  .transition-wave svg{ position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .tw-vision-vineyard{ background: var(--teal-mid); }
+  .tw-how-yourpart{ background: var(--amber-mid); }
+
+  .transition-fade{ height: 160px; position: relative; overflow: hidden; }
+  .tf-vineyard-craft{ background: var(--wine-deep); }
+  .tf-vineyard-craft::before{ content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, var(--green-mid) 0%, transparent 100%); }
+
+  .transition-hardcut{ height: 90px; position: relative; display: flex; align-items: center; justify-content: center; }
+  .th-yourpart-gathering{ background: linear-gradient(180deg, var(--purple) 0%, var(--purple) 50%, var(--gathering) 50%, var(--gathering) 100%); }
+  .hardcut-ornament{ position: relative; width: 220px; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); }
+  .hardcut-ornament::before{ content: ""; position: absolute; top: 50%; left: 50%; width: 10px; height: 10px; transform: translate(-50%, -50%) rotate(45deg); background: var(--gold); }
+
+  /* ============ HERO ============ */
+  .hero{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 160px 24px 110px;
+    background: radial-gradient(ellipse 75% 55% at 50% 8%, rgba(201,168,76,0.16), transparent 62%), linear-gradient(180deg, var(--cream) 0%, var(--cream-deep) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-glass-bg{
+    position: absolute;
+    top: 50%; left: 50%;
+    width: min(140vw, 1400px);
+    transform: translate(-50%, -50%);
+    opacity: 0.15;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .hero-inner{ position: relative; z-index: 1; max-width: 620px; }
+  .hero-sub{
+    font-size: 0.78rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: #9a6a2c;
+  }
+  .scroll-indicator{ margin-top: 60px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .scroll-indicator span{ font-size: 0.6rem; letter-spacing: 0.32em; text-transform: uppercase; color: #9a6a2c; }
+  .scroll-line{ width: 1px; height: 42px; background: rgba(154,106,44,0.4); position: relative; overflow: hidden; }
+  .scroll-line::after{ content: ""; position: absolute; top: -100%; left: 0; width: 100%; height: 100%; background: #9a6a2c; animation: scrollDrop 2.2s ease-in-out infinite; }
+  @keyframes scrollDrop{ 0%{ top: -100%; } 60%{ top: 100%; } 100%{ top: 100%; } }
+
+  /* ============ VISION (dark teal) ============ */
+  .vision{
+    background: radial-gradient(ellipse 80% 60% at 80% 0%, rgba(63,156,138,0.18), transparent 65%), linear-gradient(160deg, var(--teal-deep) 0%, var(--teal) 100%);
+    color: var(--cream);
+  }
+  .vision .split-glow{ background: radial-gradient(circle, var(--teal-glow), transparent 70%); }
+  .vision .section-title{ color: var(--cream); }
+  .vision .section-lead{ color: var(--teal-soft); }
+  .vision .section-body{ color: rgba(246,239,224,0.72); margin-bottom: 40px; }
+
+  .stat-block{ display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+  .stat-num{
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(3.6rem, 9vw, 5.6rem);
+    line-height: 1;
+    color: var(--gold-soft);
+  }
+  .stat-num span{ font-size: 0.4em; vertical-align: super; color: var(--gold); }
+  .stat-caption{ font-size: 0.78rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--teal-soft); max-width: 180px; }
+
+  /* ============ VINEYARD (deep green) ============ */
+  .vineyard{
+    background: radial-gradient(ellipse 80% 60% at 20% 0%, rgba(109,183,161,0.18), transparent 65%), linear-gradient(160deg, var(--green-deep) 0%, var(--green) 100%);
+    color: var(--cream);
+  }
+  .vineyard .split-glow{ background: radial-gradient(circle, var(--green-glow), transparent 70%); }
+  .vineyard .section-title{ color: var(--cream); }
+  .vineyard .section-lead{ color: var(--green-soft); }
+  .vineyard .section-body{ color: rgba(246,239,224,0.72); }
+  .vineyard-quote{
+    margin-top: 36px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+    color: var(--gold-soft);
+    border-left: 3px solid var(--gold);
+    padding-left: 24px;
+  }
+
+  /* ============ CRAFT (dark burgundy) ============ */
+  .craft{
+    background: radial-gradient(ellipse 85% 60% at 50% 100%, rgba(140,30,70,0.22), transparent 70%), var(--wine-deep);
+    color: var(--cream);
+    text-align: center;
+  }
+  .craft-glass-bg{
+    position: absolute;
+    top: 50%; left: 50%;
+    width: min(70vw, 560px);
+    transform: translate(-50%, -50%);
+    opacity: 0.3;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .craft .container{ z-index: 1; }
+  .craft .section-title{ color: var(--cream); }
+  .craft .section-lead{ color: var(--gold-soft); max-width: 560px; margin-left: auto; margin-right: auto; }
+  .craft .section-body{ color: rgba(246,239,224,0.72); max-width: 620px; margin: 0 auto; }
+
+  .wine-grid{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 36px; margin-top: 56px; }
+  @media (max-width: 780px){ .wine-grid{ grid-template-columns: 1fr; } }
+  .wine-card{
+    position: relative;
+    background: linear-gradient(160deg, #3a0f22 0%, #1c0714 100%);
+    border: 1px solid var(--gold);
+    padding: 42px 34px;
+  }
+  .wine-eyebrow{ font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(246,239,224,0.6); margin-bottom: 18px; }
+  .wine-name{ font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; font-size: clamp(1.8rem, 3.2vw, 2.4rem); color: var(--gold-soft); margin-bottom: 6px; }
+  .wine-varietal{ font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(246,239,224,0.55); padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid rgba(201,168,76,0.24); }
+  .wine-desc{ font-size: 0.92rem; color: rgba(246,239,224,0.72); line-height: 1.85; margin-bottom: 20px; }
+  .wine-meta{ display: flex; justify-content: space-between; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+
+  /* ============ HOW WE DO IT (amber) ============ */
+  .how{
+    background: radial-gradient(ellipse 80% 60% at 80% 0%, rgba(215,172,137,0.2), transparent 65%), linear-gradient(160deg, var(--amber-deep) 0%, var(--amber) 100%);
+    color: var(--cream);
+  }
+  .how .split-glow{ background: radial-gradient(circle, var(--amber-glow), transparent 70%); }
+  .how .section-title{ color: var(--cream); }
+  .how .section-lead{ color: var(--amber-glow); }
+  .how .section-body{ color: rgba(246,239,224,0.72); }
+
+  .flow{ display: flex; align-items: flex-start; justify-content: center; flex-wrap: wrap; gap: 0; margin-top: 64px; position: relative; z-index: 1; }
+  .flow-item{ display: flex; flex-direction: column; align-items: center; }
+  .flow-node{
+    position: relative;
+    width: 136px; height: 136px;
+    flex: 0 0 auto;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  .flow-node::before{
+    content: "";
+    position: absolute; inset: 0;
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+    background: linear-gradient(160deg, var(--gold) 0%, var(--copper) 100%);
+    transition: background 0.35s ease;
+  }
+  .flow-node::after{
+    content: "";
+    position: absolute; inset: 3px;
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+    background: linear-gradient(160deg, var(--amber-mid) 0%, var(--amber-deep) 100%);
+  }
+  .flow-node[aria-expanded="true"]::after{ background: linear-gradient(160deg, #4a3018 0%, var(--amber-mid) 100%); }
+  .flow-icon{ position: relative; z-index: 1; font-size: 1.7rem; margin-bottom: 6px; }
+  .flow-label{ position: relative; z-index: 1; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(246,239,224,0.75); line-height: 1.4; }
+  .flow-toggle{ position: relative; z-index: 1; margin-top: 8px; font-size: 0.85rem; color: var(--gold-soft); }
+  .flow-item.is-final .flow-node{ width: 154px; height: 154px; }
+  .flow-item.is-final .flow-node::before{ background: linear-gradient(160deg, var(--gold-soft) 0%, var(--gold) 100%); }
+  .flow-item.is-final .flow-icon{ font-size: 2rem; }
+  .flow-item.is-final .flow-label{ font-size: 0.72rem; color: var(--cream); }
+  .flow-connector{ flex: 0 0 44px; height: 2px; background: linear-gradient(to right, var(--gold), var(--gold-soft)); margin: 68px 2px 0; }
+  .flow-detail{
+    max-width: 280px;
+    margin: 0 10px 0;
+    padding: 0 4px;
+    font-size: 0.86rem;
+    line-height: 1.75;
+    color: rgba(246,239,224,0.75);
+    text-align: center;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.4s ease;
+  }
+  .flow-detail.open{ max-height: 200px; opacity: 1; margin-top: 14px; }
+  @media (max-width: 900px){
+    .flow{ flex-direction: column; }
+    .flow-connector{ width: 2px; height: 32px; flex: 0 0 32px; background: linear-gradient(to bottom, var(--gold), var(--gold-soft)); margin: 4px 0; }
+  }
+
+  /* ============ YOUR PART (purple, loved section) ============ */
+  .yourpart{
+    background: radial-gradient(ellipse 85% 65% at 20% 0%, rgba(140,95,201,0.24), transparent 70%), linear-gradient(160deg, var(--purple-deep) 0%, var(--purple) 55%, var(--purple-mid) 100%);
+    color: var(--cream);
+  }
+  .yourpart .split-glow{ background: radial-gradient(circle, var(--purple-glow), transparent 70%); }
+  .yourpart .section-title{ color: var(--cream); }
+  .yourpart .section-lead{ color: var(--purple-soft); }
+  .yourpart .section-body{ color: rgba(246,239,224,0.72); }
+
+  .role-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 64px; position: relative; z-index: 1; }
+  @media (max-width: 920px){ .role-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px){ .role-grid{ grid-template-columns: 1fr; } }
+
+  .role-card{
+    position: relative;
+    background: rgba(20,10,36,0.4);
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 30px 26px 26px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease, border-color 0.3s ease;
+  }
+  .role-grid.visible .role-card{ opacity: 1; transform: translateY(0); }
+  .role-grid.visible .role-card:nth-child(1){ transition-delay: 0.05s; }
+  .role-grid.visible .role-card:nth-child(2){ transition-delay: 0.25s; }
+  .role-grid.visible .role-card:nth-child(3){ transition-delay: 0.45s; }
+  .role-grid.visible .role-card:nth-child(4){ transition-delay: 0.65s; }
+  .role-grid.visible .role-card:nth-child(5){ transition-delay: 0.85s; }
+  .role-grid.visible .role-card:nth-child(6){ transition-delay: 1.05s; }
+  .role-card:hover{ border-color: var(--gold); }
+  .role-glass{ position: absolute; top: -26px; right: -26px; width: 96px; opacity: 0.4; pointer-events: none; z-index: 0; }
+  .role-no{ position: relative; z-index: 1; font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--purple-soft); margin-bottom: 14px; }
+  .role-title{ position: relative; z-index: 1; font-size: 1.42rem; color: var(--cream); font-style: italic; margin-bottom: 10px; }
+  .role-desc{ position: relative; z-index: 1; font-size: 0.88rem; color: rgba(246,239,224,0.72); line-height: 1.75; }
+
+  /* ============ GATHERING (warm dark) ============ */
+  .gathering{
+    background: radial-gradient(ellipse 75% 60% at 80% 100%, rgba(200,141,135,0.22), transparent 70%), linear-gradient(160deg, var(--gathering) 0%, var(--gathering-deep) 100%);
+    color: var(--cream);
+    text-align: center;
+  }
+  .gathering-deco{ position: absolute; bottom: -6%; right: -6%; width: min(34vw, 420px); opacity: 0.5; z-index: 0; pointer-events: none; }
+  .gathering .container{ z-index: 1; }
+  .gathering .section-title{ color: var(--cream); }
+  .gathering .section-lead{ color: var(--gold-soft); max-width: 520px; margin-left: auto; margin-right: auto; }
+  .gathering .section-body{ color: rgba(246,239,224,0.72); max-width: 560px; margin: 0 auto; }
+
+  .event-card{
+    max-width: 640px;
+    margin: 48px auto 0;
+    background: rgba(246,239,224,0.045);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 44px 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .event-date{ font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  .event-title{ font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(1.6rem, 3.2vw, 2.1rem); color: var(--gold-soft); margin-bottom: 22px; }
+  .event-details{ display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; font-size: 0.88rem; color: rgba(246,239,224,0.75); }
+  .event-details div strong{ display: block; font-size: 0.64rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+
+  /* ============ JOIN (light) ============ */
+  .join{
+    background: radial-gradient(ellipse 80% 55% at 50% 100%, rgba(201,168,76,0.14), transparent 65%), var(--cream);
+    color: var(--espresso);
+    text-align: center;
+  }
+  .join .section-title{ color: var(--espresso); }
+  .join .section-lead{
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 600;
+    background: linear-gradient(90deg, var(--purple-glow), #9a6a2c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 40px;
+  }
+  .join-form{
+    max-width: 440px;
+    margin: 0 auto 34px;
+    display: flex;
+    border-bottom: 1px solid #9a5a30;
+    padding-bottom: 6px;
+  }
+  .join-form input{ flex: 1; background: transparent; border: none; outline: none; padding: 14px 8px; color: var(--espresso); font-family: 'Inter', sans-serif; font-size: 0.92rem; }
+  .join-form input::placeholder{ color: var(--espresso-dim); opacity: 0.7; }
+  .join-form button{ background: none; border: none; color: #9a5a30; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; padding: 14px 10px; transition: color 0.3s ease; }
+  .join-form button:hover{ color: var(--espresso); }
+  .join-social{ display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
+  .join-social a{ font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: #9a5a30; border-bottom: 1px solid rgba(154,90,48,0.4); }
+  .join-social a:hover{ color: var(--espresso); border-color: #9a5a30; }
+
+  /* ============ FOOTER ============ */
+  footer{ padding: 56px 0 40px; text-align: center; background: var(--ink-deep); border-top: 1px solid rgba(201,168,76,0.15); }
+  .footer-mark{ font-family: 'Cormorant Garamond', serif; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold-soft); font-size: 0.9rem; margin-bottom: 16px; }
+  .footer-copy{ font-size: 0.74rem; color: rgba(246,239,224,0.7); }
+  .footer-copy a{ color: var(--gold-soft); }
+</style>
+</head>
+<body>
+
+<nav id="site-nav">
+  <div class="nav-mark"><img src="/FF_Logo.png" alt="Femme Ferments"></div>
+  <ul class="nav-links">
+    <li><a href="#vision">Vision</a></li>
+    <li><a href="#vineyard">Vineyard</a></li>
+    <li><a href="#craft">Craft</a></li>
+    <li><a href="#how">How We Do It</a></li>
+    <li><a href="#yourpart">Your Part</a></li>
+    <li><a href="#gathering">Gathering</a></li>
+    <li><a href="#join">Join</a></li>
+  </ul>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <img class="hero-glass-bg" src="/glass-assets/femme_ferments_glass_only_full_canvas.png" alt="" aria-hidden="true">
+  <div class="hero-inner">
+    <h1 class="fade-in"><img src="/logo_stacked.png" alt="Femme Ferments" style="max-width:300px;width:75%;height:auto;margin:0 auto;display:block;"></h1>
+    <img class="hero-tagline fade-in" src="/FF_Tagline.png" alt="Beauty in the broken glass" style="max-width:480px;width:85%;height:auto;margin:1.5rem auto;display:block;">
+    <p class="hero-sub fade-in">Willamette Valley, Oregon</p>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+</section>
+
+<div class="transition transition-diagonal td-hero-vision" aria-hidden="true"></div>
+
+<!-- ============ THE VISION ============ -->
+<section class="panel vision" id="vision">
+  <div class="container">
+    <div class="split">
+      <div class="split-visual fade-in">
+        <div class="split-glow"></div>
+        <img class="split-glass" src="/glass-assets/tight_png/01_left_outer_teal_points_tight.png" alt="Teal glass shard, a fragment of the Femme Ferments mosaic">
+      </div>
+      <div class="split-content">
+        <div class="eyebrow fade-in">Our Purpose</div>
+        <h2 class="section-title fade-in">What if every bottle told a story of resilience?</h2>
+        <p class="section-lead fade-in">Broken things, gathered with care, become more beautiful than they ever were whole.</p>
+        <p class="section-body fade-in">Femme Ferments is a nonprofit wine project rooted in Oregon&rsquo;s Willamette Valley. We turn donated grapes, borrowed cellars, and volunteer hours into bottles that fund real, lasting change &mdash; one fracture of color at a time.</p>
+        <div class="stat-block fade-in">
+          <div class="stat-num" id="mission-counter"><span class="counter-num" data-target="100">0</span><span>%</span></div>
+          <div class="stat-caption">Of Our Profits Empower Women</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="transition transition-wave tw-vision-vineyard" aria-hidden="true">
+  <svg viewBox="0 0 1440 130" preserveAspectRatio="none">
+    <path d="M0,60 C240,10 480,100 720,55 C960,15 1200,95 1440,50 L1440,130 L0,130 Z" fill="var(--green-deep)"></path>
+  </svg>
+</div>
+
+<!-- ============ THE VINEYARD ============ -->
+<section class="panel vineyard" id="vineyard">
+  <div class="container">
+    <div class="split split-reverse">
+      <div class="split-visual fade-in">
+        <div class="split-glow"></div>
+        <img class="split-glass" src="/glass-assets/tight_png/06_upper_mid_green_crown_tight.png" alt="Green glass shard, a fragment of the Femme Ferments mosaic">
+      </div>
+      <div class="split-content">
+        <div class="eyebrow fade-in">Chapter Two</div>
+        <h2 class="section-title fade-in">The Vineyard</h2>
+        <p class="section-lead fade-in">Rooted in the Willamette Valley.</p>
+        <p class="section-body fade-in">Our story begins in the volcanic soil and marine sediment of Oregon&rsquo;s Willamette Valley &mdash; cool nights and patient growers coaxing extraordinary character from every cluster. We don&rsquo;t own vineyards; we partner with them. Small, family-run sites across the Eola-Amity Hills donate fruit each season because they believe a valley this generous should give back in more ways than wine alone.</p>
+        <p class="vineyard-quote fade-in">&ldquo;A valley this generous should give back in more ways than wine alone.&rdquo;</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="transition transition-fade tf-vineyard-craft" aria-hidden="true"></div>
+
+<!-- ============ THE CRAFT ============ -->
+<section class="panel craft" id="craft">
+  <img class="craft-glass-bg" src="/glass-assets/tight_png/08_center_core_burst_tight.png" alt="" aria-hidden="true">
+  <div class="container">
+    <div class="eyebrow fade-in">Chapter Three</div>
+    <h2 class="section-title fade-in">The Craft</h2>
+    <div class="divider fade-in"></div>
+    <p class="section-lead fade-in">Made by many hands.</p>
+    <p class="section-body fade-in">Every bottle is assembled from an entire community&rsquo;s generosity: donated grapes, volunteers who show up for the harvest, borrowed cellar space, and corks donated by valley suppliers. What we lack in budget, we make up for in the number of hands willing to help.</p>
+
+    <div class="wine-grid">
+      <div class="wine-card fade-in">
+        <div class="wine-eyebrow">Albari&ntilde;o &middot; Eola-Amity Hills</div>
+        <h3 class="wine-name">Power &amp; Grace</h3>
+        <div class="wine-varietal">White &middot; Limited First Release</div>
+        <p class="wine-desc">Poised and expressive, this Albari&ntilde;o balances strength and elegance in equal measure &mdash; bright, mineral, and quietly commanding.</p>
+        <div class="wine-meta"><span>Willamette Valley, OR</span><span>Feb 2026</span></div>
+      </div>
+      <div class="wine-card fade-in">
+        <div class="wine-eyebrow">Pinot Noir &middot; Willamette Valley</div>
+        <h3 class="wine-name">Hope &amp; Grit</h3>
+        <div class="wine-varietal">Red &middot; Seasonal Limited Release</div>
+        <p class="wine-desc">Elegant, grounded, and quietly powerful &mdash; a wine that carries the weight of the season with grace, made for those who understand restraint.</p>
+        <div class="wine-meta"><span>Willamette Valley, OR</span><span>Spring 2026</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="transition transition-diagonal td-craft-how" aria-hidden="true"></div>
+
+<!-- ============ HOW WE DO IT ============ -->
+<section class="panel how" id="how">
+  <div class="container">
+    <div class="split">
+      <div class="split-visual fade-in">
+        <div class="split-glow"></div>
+        <img class="split-glass" src="/glass-assets/tight_png/10_upper_yellow_orange_tight.png" alt="Amber glass shard, a fragment of the Femme Ferments mosaic">
+      </div>
+      <div class="split-content">
+        <div class="eyebrow fade-in">Chapter Four</div>
+        <h2 class="section-title fade-in">How We Do It</h2>
+        <p class="section-lead fade-in">It works because almost everything we use is given, not bought.</p>
+        <p class="section-body fade-in">Tap each step below to see how a donated grape becomes real, lasting impact.</p>
+      </div>
+    </div>
+
+    <div class="flow fade-in" id="flow">
+      <div class="flow-item">
+        <button class="flow-node" type="button" aria-expanded="false" aria-controls="flow-detail-1">
+          <span class="flow-icon" aria-hidden="true">&#127813;</span>
+          <span class="flow-label">Donated<br>Grapes</span>
+          <span class="flow-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="flow-detail" id="flow-detail-1">Partner vineyards in Eola-Amity Hills donate their fruit each harvest season &mdash; no purchase orders, just growers who believe in the mission.</div>
+      </div>
+      <div class="flow-connector" aria-hidden="true"></div>
+      <div class="flow-item">
+        <button class="flow-node" type="button" aria-expanded="false" aria-controls="flow-detail-2">
+          <span class="flow-icon" aria-hidden="true">&#128588;</span>
+          <span class="flow-label">Volunteer<br>Hands</span>
+          <span class="flow-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="flow-detail" id="flow-detail-2">A rotating crew of volunteers picks, sorts, and presses every cluster by hand &mdash; punching down and racking through the whole ferment.</div>
+      </div>
+      <div class="flow-connector" aria-hidden="true"></div>
+      <div class="flow-item">
+        <button class="flow-node" type="button" aria-expanded="false" aria-controls="flow-detail-3">
+          <span class="flow-icon" aria-hidden="true">&#127963;&#65039;</span>
+          <span class="flow-label">Partner<br>Cellar</span>
+          <span class="flow-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="flow-detail" id="flow-detail-3">Wine is finished, aged, and bottled in a borrowed cellar &mdash; our partner winery lending space and equipment, vintage after vintage.</div>
+      </div>
+      <div class="flow-connector" aria-hidden="true"></div>
+      <div class="flow-item is-final">
+        <button class="flow-node" type="button" aria-expanded="false" aria-controls="flow-detail-4">
+          <span class="flow-icon" aria-hidden="true">100</span>
+          <span class="flow-label">100%<br>Impact</span>
+          <span class="flow-toggle" aria-hidden="true">+</span>
+        </button>
+        <div class="flow-detail" id="flow-detail-4">Supporting nonprofits that empower women in our community &mdash; every dollar of profit, no exceptions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="transition transition-wave tw-how-yourpart" aria-hidden="true">
+  <svg viewBox="0 0 1440 130" preserveAspectRatio="none">
+    <path d="M0,50 C240,100 480,10 720,50 C960,90 1200,20 1440,55 L1440,0 L0,0 Z" fill="var(--purple-deep)"></path>
+  </svg>
+</div>
+
+<!-- ============ YOUR PART ============ -->
+<section class="panel yourpart" id="yourpart">
+  <div class="container">
+    <div class="split" style="margin-bottom: 0;">
+      <div class="split-visual fade-in">
+        <div class="split-glow"></div>
+        <img class="split-glass" src="/glass-assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Blue and purple glass shard, a fragment of the Femme Ferments mosaic">
+      </div>
+      <div class="split-content">
+        <div class="eyebrow fade-in">Chapter Five</div>
+        <h2 class="section-title fade-in">Be Part of Something Beautiful</h2>
+        <p class="section-lead fade-in">Every piece makes the picture.</p>
+        <p class="section-body fade-in">Whatever time, skill, or connection you bring, there&rsquo;s a place for it in this story.</p>
+      </div>
+    </div>
+
+    <div class="role-grid" id="role-grid">
+      <article class="role-card">
+        <img class="role-glass" src="/glass-assets/tight_png/04_left_lower_green_blue_tight.png" alt="" aria-hidden="true">
+        <div class="role-no">No. 01</div>
+        <h3 class="role-title">Harvest Volunteer</h3>
+        <p class="role-desc">Pick grapes at partner vineyards &mdash; no experience necessary, just willing hands and a love of long days outdoors.</p>
+      </article>
+      <article class="role-card">
+        <img class="role-glass" src="/glass-assets/tight_png/11_right_upper_pink_orange_tight.png" alt="" aria-hidden="true">
+        <div class="role-no">No. 02</div>
+        <h3 class="role-title">Creative Contributor</h3>
+        <p class="role-desc">Photography, design, and storytelling that carry our story forward, bottle by bottle.</p>
+      </article>
+      <article class="role-card">
+        <img class="role-glass" src="/glass-assets/tight_png/13_right_mid_teal_glass_tight.png" alt="" aria-hidden="true">
+        <div class="role-no">No. 03</div>
+        <h3 class="role-title">Event Host</h3>
+        <p class="role-desc">Organize tastings and launch parties that bring the community together, glass in hand.</p>
+      </article>
+      <article class="role-card">
+        <img class="role-glass" src="/glass-assets/tight_png/09_lower_center_cyan_blue_tight.png" alt="" aria-hidden="true">
+        <div class="role-no">No. 04</div>
+        <h3 class="role-title">Tech &amp; Operations</h3>
+        <p class="role-desc">Website, logistics, and the quiet nonprofit operations that keep everything running smoothly.</p>
+      </article>
+      <article class="role-card">
+        <img class="role-glass" src="/glass-assets/tight_png/16_far_right_red_tail_tight.png" alt="" aria-hidden="true">
+        <div class="role-no">No. 05</div>
+        <h3 class="role-title">Winery Partner</h3>
+        <p class="role-desc">Donate grapes, equipment, or cellar space &mdash; the backbone of every vintage we release.</p>
+      </article>
+      <article class="role-card">
+        <img class="role-glass" src="/glass-assets/tight_png/12_upper_right_purple_sail_tight.png" alt="" aria-hidden="true">
+        <div class="role-no">No. 06</div>
+        <h3 class="role-title">Community Ambassador</h3>
+        <p class="role-desc">Spread the word and connect us with nonprofits doing the work. Every introduction plants a seed.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="transition transition-hardcut th-yourpart-gathering" aria-hidden="true"><div class="hardcut-ornament"></div></div>
+
+<!-- ============ THE GATHERING ============ -->
+<section class="panel gathering" id="gathering">
+  <img class="gathering-deco" src="/glass-assets/tight_png/14_right_warm_red_orange_tight.png" alt="" aria-hidden="true">
+  <div class="container">
+    <div class="eyebrow fade-in">Chapter Six</div>
+    <h2 class="section-title fade-in">The Gathering</h2>
+    <div class="divider fade-in"></div>
+    <p class="section-lead fade-in">Wine is better shared.</p>
+    <p class="section-body fade-in">Our launch parties and tastings are where the mission becomes tangible &mdash; where donors meet volunteers meet the people our wine ultimately supports.</p>
+
+    <div class="event-card fade-in">
+      <div class="event-date">April 23, 2026 &middot; 5:00 &ndash; 7:00 PM</div>
+      <h3 class="event-title">Pinot Noir Launch Party</h3>
+      <div class="event-details">
+        <div><strong>Location</strong>The Pub, 326 NE Davis St., McMinnville</div>
+        <div><strong>Tickets</strong>$20 Donation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="transition transition-diagonal td-gathering-join" aria-hidden="true"></div>
+
+<!-- ============ JOIN THE STORY ============ -->
+<section class="panel join" id="join">
+  <div class="container">
+    <div class="eyebrow fade-in" style="color:#9a6a2c;">Chapter Seven</div>
+    <h2 class="section-title fade-in">Join the Story</h2>
+    <div class="divider fade-in"></div>
+    <p class="section-lead fade-in">Collaborate! Support! Celebrate!</p>
+    <p class="section-body fade-in" style="max-width: 560px; margin: 0 auto 40px; color: var(--espresso-dim);">Every piece makes the picture. Sign up to hear about new releases, volunteer days, and events &mdash; straight from the cellar.</p>
+
+    <form class="join-form fade-in" onsubmit="event.preventDefault();">
+      <input type="email" placeholder="Your email address" required>
+      <button type="submit">Join &rarr;</button>
+    </form>
+
+    <div class="join-social fade-in">
+      <a href="https://www.facebook.com/people/Femme-Ferments/61586984057730/" target="_blank" rel="noopener">Facebook &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-mark">Femme Ferments</div>
+    <div class="footer-copy">&copy; 2026 Femme Ferments | Made with &#10084;&#65039; by <a href="https://effulgentpoint.com/" target="_blank" rel="noopener">Effulgent Point</a></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* fade-in reveal */
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.fade-in').forEach(function(el){ observer.observe(el); });
+
+  /* role cards reveal one at a time via staggered transition-delay */
+  var roleGrid = document.getElementById('role-grid');
+  if (roleGrid) {
+    var roleObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          roleObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -60px 0px' });
+    roleObserver.observe(roleGrid);
+  }
+
+  /* nav darkens on scroll */
+  var nav = document.getElementById('site-nav');
+  function updateNav(){
+    if (window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  /* mission stat count-up */
+  var counterEl = document.querySelector('.counter-num');
+  var counterWrap = document.getElementById('mission-counter');
+  if (counterEl && counterWrap) {
+    var target = parseInt(counterEl.dataset.target, 10);
+    if (prefersReduced) {
+      counterEl.textContent = target;
+    } else {
+      var counterObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            var start = null;
+            var duration = 1400;
+            function step(ts){
+              if (!start) start = ts;
+              var progress = Math.min(1, (ts - start) / duration);
+              counterEl.textContent = Math.round(progress * target);
+              if (progress < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+            counterObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      counterObserver.observe(counterWrap);
+    }
+  }
+
+  /* clickable "How We Do It" flow — expand/collapse detail on click */
+  document.querySelectorAll('.flow-node').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      var detail = document.getElementById(btn.getAttribute('aria-controls'));
+      var toggle = btn.querySelector('.flow-toggle');
+      btn.setAttribute('aria-expanded', String(!expanded));
+      if (detail) detail.classList.toggle('open', !expanded);
+      if (toggle) toggle.textContent = expanded ? '+' : '×';
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
