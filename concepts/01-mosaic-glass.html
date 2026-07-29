@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0d12">
+<title>Femme Ferments — Beauty in the Broken Glass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,600&family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0c11;
+    --ink-2:#12141c;
+    --ink-3:#1a1d28;
+    --paper:#f4efe4;
+    --paper-dim:#c9c3b6;
+
+    --teal:#0d9488;        --teal-light:#2dd4bf;
+    --emerald:#059669;     --emerald-light:#34d399;
+    --sapphire:#1d4ed8;    --sapphire-light:#60a5fa;
+    --amethyst:#7c3aed;    --amethyst-light:#c084fc;
+    --ruby:#be123c;        --ruby-light:#fb7185;
+    --amber:#b45309;       --amber-light:#fbbf24;
+    --gold:#eab308;        --gold-light:#fde047;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{ margin:0; font-family:'Playfair Display',serif; }
+  p{ margin:0; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  section, header, footer{ position:relative; z-index:2; scroll-margin-top:88px; }
+
+  body::after{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    z-index:9999;
+    background:radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.45) 100%);
+  }
+
+  .container{ max-width:1180px; margin:0 auto; padding:0 clamp(1.5rem,5vw,3rem); }
+  .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-size:.78rem;
+    font-weight:600;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--gold-light);
+    margin-bottom:1rem;
+  }
+  .center{ text-align:center; margin-left:auto; margin-right:auto; }
+  .section-title{
+    font-size:clamp(1.9rem,4vw,3rem);
+    font-weight:700;
+    letter-spacing:.01em;
+    color:var(--paper);
+    margin-bottom:1.5rem;
+  }
+  .body-copy{
+    font-size:1.05rem;
+    color:var(--paper-dim);
+    max-width:640px;
+  }
+  .body-copy.center{ margin-left:auto; margin-right:auto; }
+
+  /* buttons */
+  .btn{
+    display:inline-block;
+    padding:1rem 2.4rem;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:.78rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    text-decoration:none;
+    border-radius:2px;
+    transition:transform .3s ease, box-shadow .3s ease, background .3s ease, color .3s ease, border-color .3s ease;
+    cursor:pointer;
+  }
+  .btn--solid{
+    background:linear-gradient(135deg,var(--ruby),var(--amethyst));
+    color:#fff;
+    box-shadow:0 10px 34px -12px rgba(190,18,60,.65);
+  }
+  .btn--solid:hover{ transform:translateY(-3px); box-shadow:0 16px 44px -12px rgba(190,18,60,.85); }
+  .btn--outline{
+    background:transparent;
+    border:1px solid rgba(244,239,228,.35);
+    color:var(--paper);
+  }
+  .btn--outline:hover{ background:rgba(244,239,228,.08); border-color:var(--gold); color:var(--gold-light); transform:translateY(-3px); }
+  .btn--ghost{
+    background:transparent;
+    border:1px solid rgba(244,239,228,.2);
+    color:var(--paper-dim);
+  }
+  .btn--ghost:hover{ border-color:var(--teal-light); color:var(--teal-light); transform:translateY(-3px); }
+
+  /* shard color palette (reused across all mosaic elements) */
+  .c-teal{ background:linear-gradient(135deg,var(--teal-light),var(--teal)); }
+  .c-emerald{ background:linear-gradient(135deg,var(--emerald-light),var(--emerald)); }
+  .c-sapphire{ background:linear-gradient(135deg,var(--sapphire-light),var(--sapphire)); }
+  .c-amethyst{ background:linear-gradient(135deg,var(--amethyst-light),var(--amethyst)); }
+  .c-ruby{ background:linear-gradient(135deg,var(--ruby-light),var(--ruby)); }
+  .c-amber{ background:linear-gradient(135deg,var(--amber-light),var(--amber)); }
+  .c-gold{ background:linear-gradient(135deg,var(--gold-light),var(--gold)); }
+
+  /* top nav */
+  .topnav{
+    position:sticky;
+    top:0;
+    z-index:60;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:1.1rem clamp(1.5rem,5vw,3rem);
+    background:rgba(10,12,17,.6);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(244,239,228,.08);
+  }
+  .topnav .brand{
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+    font-size:.95rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+  }
+  .nav-links{ display:flex; gap:clamp(1.2rem,3vw,2.4rem); }
+  .nav-links a{
+    font-size:.72rem;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--paper-dim);
+    transition:color .25s ease;
+  }
+  .nav-links a:hover{ color:var(--gold-light); }
+  @media (max-width:680px){ .nav-links{ display:none; } }
+
+  /* mosaic burst (radiating shard pinwheel, echoes the bottle-label art) */
+  .mosaic-burst{
+    position:absolute;
+    top:50%; left:50%;
+    width:clamp(380px,58vw,680px);
+    height:clamp(380px,58vw,680px);
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    animation:burstPulse 22s ease-in-out infinite;
+  }
+  .mosaic-burst .shard{
+    position:absolute;
+    top:50%; left:50%;
+    width:46%;
+    height:15%;
+    margin-top:-7.5%;
+    transform-origin:0% 50%;
+    clip-path:polygon(2% 30%, 85% 0%, 100% 55%, 15% 100%);
+    opacity:.85;
+    mix-blend-mode:screen;
+  }
+  .mosaic-burst .shard:nth-child(3n){ width:39%; opacity:.7; }
+  .mosaic-burst .shard:nth-child(4n){ height:19%; margin-top:-9.5%; }
+  .mosaic-burst .shard:nth-child(1){ transform:rotate(0deg); }
+  .mosaic-burst .shard:nth-child(2){ transform:rotate(22.5deg); }
+  .mosaic-burst .shard:nth-child(3){ transform:rotate(45deg); }
+  .mosaic-burst .shard:nth-child(4){ transform:rotate(67.5deg); }
+  .mosaic-burst .shard:nth-child(5){ transform:rotate(90deg); }
+  .mosaic-burst .shard:nth-child(6){ transform:rotate(112.5deg); }
+  .mosaic-burst .shard:nth-child(7){ transform:rotate(135deg); }
+  .mosaic-burst .shard:nth-child(8){ transform:rotate(157.5deg); }
+  .mosaic-burst .shard:nth-child(9){ transform:rotate(180deg); }
+  .mosaic-burst .shard:nth-child(10){ transform:rotate(202.5deg); }
+  .mosaic-burst .shard:nth-child(11){ transform:rotate(225deg); }
+  .mosaic-burst .shard:nth-child(12){ transform:rotate(247.5deg); }
+  .mosaic-burst .shard:nth-child(13){ transform:rotate(270deg); }
+  .mosaic-burst .shard:nth-child(14){ transform:rotate(292.5deg); }
+  .mosaic-burst .shard:nth-child(15){ transform:rotate(315deg); }
+  .mosaic-burst .shard:nth-child(16){ transform:rotate(337.5deg); }
+  .mosaic-burst.small{ width:280px; height:280px; opacity:.65; filter:blur(.4px); }
+
+  @keyframes burstPulse{
+    0%,100%{ filter:hue-rotate(0deg) brightness(1); }
+    50%{ filter:hue-rotate(14deg) brightness(1.08); }
+  }
+
+  .hero-glow{
+    position:absolute;
+    top:50%; left:50%;
+    width:900px; height:900px;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(124,58,237,.22), transparent 62%);
+    filter:blur(70px);
+    pointer-events:none;
+  }
+
+  /* free-floating shard particles for atmospheric depth */
+  .floating-shard{
+    position:absolute;
+    width:var(--size,40px);
+    height:var(--size,40px);
+    clip-path:polygon(50% 0%, 0% 100%, 100% 100%);
+    opacity:.55;
+    filter:blur(.3px);
+    animation:float var(--dur,10s) ease-in-out infinite;
+    animation-delay:var(--delay,0s);
+    mix-blend-mode:screen;
+    pointer-events:none;
+  }
+  @keyframes float{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-18px) rotate(8deg); }
+  }
+
+  /* hero */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background:radial-gradient(ellipse at 50% 30%, var(--ink-3), var(--ink) 70%);
+    padding:6rem 1.5rem 4rem;
+  }
+  .hero-content{ position:relative; z-index:3; text-align:center; }
+  .hero-kicker{
+    font-size:.78rem;
+    font-weight:600;
+    letter-spacing:.4em;
+    text-transform:uppercase;
+    color:var(--teal-light);
+    margin-bottom:1.6rem;
+    opacity:0;
+    animation:fadeInUp .9s ease .1s forwards;
+  }
+  .hero-title{
+    font-size:clamp(3rem,10vw,7.5rem);
+    font-weight:900;
+    letter-spacing:.08em;
+    line-height:1.02;
+    background:linear-gradient(120deg, var(--paper) 0%, var(--gold-light) 30%, var(--ruby-light) 55%, var(--sapphire-light) 75%, var(--paper) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    opacity:0;
+    animation:fadeInUp 1s ease .3s forwards;
+  }
+  .hero-script{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:clamp(1.6rem,4vw,2.6rem);
+    color:var(--paper);
+    margin-top:1.2rem;
+    opacity:0;
+    animation:fadeInUp 1s ease .55s forwards;
+  }
+  .hero-tagline{
+    margin-top:1.4rem;
+    font-size:.9rem;
+    font-weight:400;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--paper-dim);
+    opacity:0;
+    animation:fadeInUp 1s ease .78s forwards;
+  }
+  @keyframes fadeInUp{ from{ opacity:0; transform:translateY(26px); } to{ opacity:1; transform:translateY(0); } }
+
+  .scroll-cue{
+    position:absolute;
+    left:50%;
+    bottom:2.2rem;
+    transform:translateX(-50%);
+    width:26px; height:42px;
+    border:1.5px solid rgba(244,239,228,.4);
+    border-radius:20px;
+    z-index:3;
+    text-decoration:none;
+  }
+  .scroll-cue span{
+    position:absolute;
+    top:6px; left:50%;
+    width:4px; height:8px;
+    margin-left:-2px;
+    background:var(--gold-light);
+    border-radius:2px;
+    animation:bob 1.8s ease-in-out infinite;
+  }
+  @keyframes bob{ 0%,100%{ transform:translateY(0); opacity:1; } 50%{ transform:translateY(12px); opacity:.3; } }
+
+  /* mosaic border strips */
+  .mosaic-border{ display:flex; width:100%; height:26px; overflow:hidden; }
+  .mosaic-border span{ flex:1 0 5%; height:100%; }
+  .mosaic-border span:nth-child(odd){ clip-path:polygon(0 100%, 50% 0, 100% 100%); }
+  .mosaic-border span:nth-child(even){ clip-path:polygon(0 0, 50% 100%, 100% 0); margin-left:-1px; }
+
+  /* mission */
+  .mission{ background:var(--ink); padding-bottom:clamp(4rem,8vw,7rem); }
+  .mission-inner{
+    max-width:760px;
+    margin:0 auto;
+    text-align:center;
+    padding:clamp(4rem,8vw,6rem) clamp(1.5rem,5vw,3rem) clamp(3rem,6vw,4rem);
+  }
+  .mission-inner h2{
+    font-size:clamp(2rem,5vw,3.2rem);
+    font-weight:700;
+    line-height:1.25;
+  }
+  .mission-inner .accent-text{
+    background:linear-gradient(120deg,var(--gold-light),var(--ruby-light),var(--amethyst-light));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .poetry{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:clamp(1.2rem,2.6vw,1.5rem);
+    color:var(--teal-light);
+    margin:2rem 0;
+    line-height:1.8;
+  }
+  .mission-inner .body-copy{ margin:0 auto; }
+
+  /* wines */
+  .wines{ background:var(--ink-2); padding:clamp(4rem,8vw,7rem) 0; }
+  .wine-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:2rem;
+    margin-top:3rem;
+  }
+  .wine-card{
+    position:relative;
+    overflow:hidden;
+    border-radius:6px;
+    padding:clamp(2.4rem,5vw,3.4rem) clamp(1.8rem,4vw,2.6rem) clamp(2.2rem,4vw,2.8rem);
+    min-height:340px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.6);
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .wine-card:hover{ transform:translateY(-8px); box-shadow:0 40px 70px -25px rgba(0,0,0,.7); }
+  .wine-card--white{ background:linear-gradient(150deg,#b45309,#0d9488 55%,#1d4ed8); }
+  .wine-card--red{ background:linear-gradient(150deg,#7c3aed,#be123c 55%,#b45309); }
+  .wine-card::before{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(165deg, rgba(10,12,17,.25), rgba(10,12,17,.85));
+    z-index:1;
+  }
+  .wine-card__shard{
+    position:absolute;
+    top:-50px; right:-50px;
+    width:180px; height:180px;
+    clip-path:polygon(28% 0, 100% 0, 100% 100%, 0 52%);
+    opacity:.9;
+    z-index:1;
+  }
+  .wine-card--white .wine-card__shard{ background:linear-gradient(135deg,var(--gold-light),var(--teal-light)); }
+  .wine-card--red .wine-card__shard{ background:linear-gradient(135deg,var(--ruby-light),var(--amethyst-light)); }
+  .wine-card > *{ position:relative; z-index:2; }
+  .wine-card__type{
+    font-size:.75rem;
+    font-weight:600;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--gold-light);
+    margin-bottom:.6rem;
+  }
+  .wine-card__name{
+    font-size:clamp(1.8rem,3.4vw,2.5rem);
+    font-weight:800;
+    color:#fff;
+    margin-bottom:.7rem;
+  }
+  .wine-card__meta{
+    font-size:.82rem;
+    color:var(--paper-dim);
+    margin-bottom:1rem;
+    letter-spacing:.02em;
+  }
+  .wine-card__desc{ font-size:.98rem; color:var(--paper); margin-bottom:1.4rem; max-width:38ch; }
+  .wine-card__tag{
+    display:inline-block;
+    align-self:flex-start;
+    font-size:.7rem;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    padding:.5rem 1rem;
+    border:1px solid rgba(255,255,255,.4);
+    border-radius:2px;
+    color:#fff;
+  }
+
+  /* community */
+  .community{
+    background:var(--ink);
+    padding:clamp(4rem,9vw,8rem) 0;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .community-inner{ max-width:720px; margin:0 auto; padding:0 clamp(1.5rem,5vw,3rem); }
+  .community-title{
+    font-size:clamp(2rem,5.2vw,3.4rem);
+    font-weight:800;
+    line-height:1.2;
+    margin-bottom:1.6rem;
+  }
+  .community-title .c1{ color:var(--teal-light); }
+  .community-title .c2{ color:var(--gold-light); }
+  .community-title .c3{ color:var(--ruby-light); }
+  .community .body-copy{ margin:0 auto 2.2rem; }
+
+  /* events */
+  .events{ background:var(--ink-2); padding:clamp(4rem,9vw,7rem) 0; }
+  .event-card{
+    position:relative;
+    overflow:hidden;
+    max-width:900px;
+    margin:0 auto;
+    background:linear-gradient(160deg, rgba(26,29,40,.92), rgba(10,12,17,.97));
+    border:1px solid rgba(244,239,228,.08);
+    border-radius:8px;
+    padding:clamp(2.6rem,6vw,4.6rem);
+  }
+  .event-card > *{ position:relative; z-index:2; }
+  .event-title{
+    font-size:clamp(2rem,5vw,3.4rem);
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.02em;
+    color:var(--gold-light);
+    line-height:1.15;
+    margin-bottom:1rem;
+  }
+  .event-sub{ font-size:1.05rem; color:var(--paper-dim); margin-bottom:2.4rem; max-width:46ch; }
+  .event-details{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:1.8rem 2rem;
+    margin-bottom:2rem;
+    padding-bottom:2rem;
+    border-bottom:1px solid rgba(244,239,228,.1);
+  }
+  .event-details .label{
+    display:block;
+    font-size:.68rem;
+    font-weight:600;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--teal-light);
+    margin-bottom:.4rem;
+  }
+  .event-details .value{ display:block; font-size:1.02rem; font-weight:600; color:var(--paper); }
+  .event-note{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:1.15rem;
+    color:var(--paper-dim);
+    margin-bottom:2rem;
+    max-width:60ch;
+  }
+
+  /* contact */
+  .contact{ background:var(--ink); padding:clamp(4rem,9vw,8rem) 0 clamp(3rem,6vw,5rem); text-align:center; }
+  .contact-actions{
+    display:flex;
+    gap:1.2rem;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:2.2rem;
+  }
+
+  /* footer */
+  .site-footer{
+    background:var(--ink);
+    text-align:center;
+    padding:2.6rem 1.5rem 3rem;
+  }
+  .site-footer p{ font-size:.85rem; color:var(--paper-dim); margin-bottom:.6rem; }
+  .site-footer .credit{ font-size:.8rem; }
+  .site-footer .credit a{ color:var(--gold-light); text-decoration:none; border-bottom:1px solid transparent; transition:border-color .25s ease; }
+  .site-footer .credit a:hover{ border-color:var(--gold-light); }
+  .site-footer .heart{ color:var(--ruby-light); }
+
+  @media (max-width:900px){
+    .wine-grid{ grid-template-columns:1fr; }
+  }
+  @media (max-width:640px){
+    .hero-title{ letter-spacing:.04em; }
+    .mosaic-burst{ opacity:.8; }
+    .floating-shard{ display:none; }
+    .mission-inner, .contact{ padding-left:1.25rem; padding-right:1.25rem; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <span class="brand">Femme Ferments</span>
+  <div class="nav-links">
+    <a href="#mission">Mission</a>
+    <a href="#wines">Wines</a>
+    <a href="#events">Events</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<header class="hero" id="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+
+  <div class="mosaic-burst hero-burst" aria-hidden="true">
+    <span class="shard c-teal"></span>
+    <span class="shard c-emerald"></span>
+    <span class="shard c-gold"></span>
+    <span class="shard c-amber"></span>
+    <span class="shard c-ruby"></span>
+    <span class="shard c-amethyst"></span>
+    <span class="shard c-sapphire"></span>
+    <span class="shard c-teal"></span>
+    <span class="shard c-emerald"></span>
+    <span class="shard c-gold"></span>
+    <span class="shard c-amber"></span>
+    <span class="shard c-ruby"></span>
+    <span class="shard c-amethyst"></span>
+    <span class="shard c-sapphire"></span>
+    <span class="shard c-emerald"></span>
+    <span class="shard c-ruby"></span>
+  </div>
+
+  <span class="floating-shard c-ruby"    style="top:14%; left:9%;  --size:36px; --dur:11s; --delay:0s;"></span>
+  <span class="floating-shard c-teal"    style="top:22%; left:86%; --size:44px; --dur:13s; --delay:.6s;"></span>
+  <span class="floating-shard c-gold"    style="top:70%; left:12%; --size:28px; --dur:9s;  --delay:1.2s;"></span>
+  <span class="floating-shard c-sapphire" style="top:78%; left:82%; --size:40px; --dur:12s; --delay:.3s;"></span>
+  <span class="floating-shard c-amethyst" style="top:8%;  left:48%; --size:24px; --dur:10s; --delay:1.6s;"></span>
+  <span class="floating-shard c-emerald" style="top:60%; left:6%;  --size:20px; --dur:14s; --delay:.9s;"></span>
+  <span class="floating-shard c-amber"   style="top:88%; left:46%; --size:26px; --dur:11.5s; --delay:1.9s;"></span>
+
+  <div class="hero-content">
+    <p class="hero-kicker">Willamette Valley, Oregon</p>
+    <h1 class="hero-title">FEMME<br>FERMENTS</h1>
+    <p class="hero-script">Beauty in the Broken Glass</p>
+    <p class="hero-tagline">Wines crafted for a purpose</p>
+  </div>
+
+  <a href="#mission" class="scroll-cue" aria-label="Scroll to learn more"><span></span></a>
+</header>
+
+<section id="mission" class="mission">
+  <div class="mosaic-border" aria-hidden="true">
+    <span class="c-teal"></span><span class="c-emerald"></span><span class="c-gold"></span><span class="c-amber"></span><span class="c-ruby"></span><span class="c-amethyst"></span><span class="c-sapphire"></span><span class="c-teal"></span><span class="c-emerald"></span><span class="c-gold"></span><span class="c-amber"></span><span class="c-ruby"></span><span class="c-amethyst"></span><span class="c-sapphire"></span><span class="c-teal"></span><span class="c-emerald"></span><span class="c-gold"></span><span class="c-amber"></span><span class="c-ruby"></span><span class="c-amethyst"></span>
+  </div>
+
+  <div class="mission-inner">
+    <p class="eyebrow">Our Mission</p>
+    <h2>100% of our profits<br><span class="accent-text">empower women.</span></h2>
+    <p class="poetry">Strength in the fractures.<br>Grace in the pieces.<br>Hope in every shard.</p>
+    <p class="body-copy">Every bottle supports nonprofit organizations that empower and strengthen communities across the Willamette Valley and beyond. We partner with local growers and producers who share our commitment to craftsmanship, integrity, and community.</p>
+  </div>
+
+  <div class="mosaic-border" aria-hidden="true">
+    <span class="c-sapphire"></span><span class="c-amethyst"></span><span class="c-ruby"></span><span class="c-amber"></span><span class="c-gold"></span><span class="c-emerald"></span><span class="c-teal"></span><span class="c-sapphire"></span><span class="c-amethyst"></span><span class="c-ruby"></span><span class="c-amber"></span><span class="c-gold"></span><span class="c-emerald"></span><span class="c-teal"></span><span class="c-sapphire"></span><span class="c-amethyst"></span><span class="c-ruby"></span><span class="c-amber"></span><span class="c-gold"></span><span class="c-emerald"></span>
+  </div>
+</section>
+
+<section id="wines" class="wines">
+  <div class="container">
+    <p class="eyebrow center">The Wines</p>
+    <h2 class="section-title center">Two Wines. One Purpose.</h2>
+
+    <div class="wine-grid">
+      <article class="wine-card wine-card--white">
+        <div class="wine-card__shard" aria-hidden="true"></div>
+        <p class="wine-card__type">White Wine · Albariño</p>
+        <h3 class="wine-card__name">Power &amp; Grace</h3>
+        <p class="wine-card__meta">Eola-Amity Hills, Willamette Valley &middot; Releasing February 2026</p>
+        <p class="wine-card__desc">Poised and expressive, this limited first release balances strength and elegance in every glass.</p>
+        <span class="wine-card__tag">Limited First Release</span>
+      </article>
+
+      <article class="wine-card wine-card--red">
+        <div class="wine-card__shard" aria-hidden="true"></div>
+        <p class="wine-card__type">Red Wine · Pinot Noir</p>
+        <h3 class="wine-card__name">Hope &amp; Grit</h3>
+        <p class="wine-card__meta">Willamette Valley, Oregon &middot; Releasing Spring 2026</p>
+        <p class="wine-card__desc">Elegant, grounded, and quietly powerful — a seasonal release in limited quantities.</p>
+        <span class="wine-card__tag">Seasonal Release</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="community" class="community">
+  <div class="community-inner">
+    <h2 class="community-title"><span class="c1">Collaborate!</span> <span class="c2">Support!</span> <span class="c3">Celebrate!</span></h2>
+    <p class="body-copy center">Femme Ferments is more than wine — it's a community of people committed to empowering women and strengthening the places we call home. Join us at an event, share a bottle, or spread the word.</p>
+    <a href="#contact" class="btn btn--outline">Join the Movement</a>
+  </div>
+</section>
+
+<section id="events" class="events">
+  <div class="container">
+    <div class="event-card">
+      <div class="mosaic-burst small" style="top:-10%; right:-8%; left:auto; transform:none;" aria-hidden="true">
+        <span class="shard c-gold"></span>
+        <span class="shard c-ruby"></span>
+        <span class="shard c-sapphire"></span>
+        <span class="shard c-teal"></span>
+        <span class="shard c-amethyst"></span>
+        <span class="shard c-emerald"></span>
+        <span class="shard c-amber"></span>
+        <span class="shard c-gold"></span>
+        <span class="shard c-ruby"></span>
+        <span class="shard c-sapphire"></span>
+        <span class="shard c-teal"></span>
+        <span class="shard c-amethyst"></span>
+        <span class="shard c-emerald"></span>
+        <span class="shard c-amber"></span>
+        <span class="shard c-gold"></span>
+        <span class="shard c-ruby"></span>
+      </div>
+
+      <p class="eyebrow">Upcoming Event</p>
+      <h2 class="event-title">Pinot Noir<br>Launch Party</h2>
+      <p class="event-sub">Join us for an evening of wine, food, fun &amp; purpose.</p>
+
+      <div class="event-details">
+        <div><span class="label">Date</span><span class="value">Thursday, April 23, 2026</span></div>
+        <div><span class="label">Time</span><span class="value">5:00 – 7:00 PM</span></div>
+        <div><span class="label">Location</span><span class="value">The Pub · 326 NE Davis St, McMinnville, OR</span></div>
+        <div><span class="label">Tickets</span><span class="value">$20 donation</span></div>
+      </div>
+
+      <p class="event-note">Taste both our '24 Albariño and our newest release, the '24 Pinot Noir — then stay and savor a glass of your choice.</p>
+      <a href="#contact" class="btn btn--solid">Reserve Your Spot</a>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="container">
+    <p class="eyebrow center">Get In Touch</p>
+    <h2 class="section-title center">Let's Raise a Glass Together</h2>
+    <p class="body-copy center">Femme Ferments is based in the Willamette Valley, Oregon. Reach out to collaborate, ask about our wines, or bring us to your next event.</p>
+    <div class="contact-actions">
+      <a href="#" class="btn btn--solid">Contact Us</a>
+      <a href="https://www.facebook.com/people/Femme-Ferments/61586984057730/" class="btn btn--ghost" target="_blank" rel="noopener">Follow on Facebook</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="mosaic-border" aria-hidden="true" style="height:14px; max-width:600px; margin:0 auto 2rem;">
+    <span class="c-teal"></span><span class="c-emerald"></span><span class="c-gold"></span><span class="c-amber"></span><span class="c-ruby"></span><span class="c-amethyst"></span><span class="c-sapphire"></span><span class="c-teal"></span><span class="c-emerald"></span><span class="c-gold"></span><span class="c-amber"></span><span class="c-ruby"></span><span class="c-amethyst"></span><span class="c-sapphire"></span>
+  </div>
+  <p>&copy; 2026 Femme Ferments &middot; Beauty in the Broken Glass</p>
+  <p class="credit">Made with <span class="heart">&hearts;</span> by <a href="https://effulgentpoint.com/" target="_blank" rel="noopener">Effulgent Point</a></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Femme Ferments — Cycle Diagram Variations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #faf5eb;
+    --parchment: #f4ead2;
+    --gold: #c9a84c;
+    --gold-deep: #a3812f;
+    --gold-soft: #e3cd8f;
+    --wine: #4a0e2b;
+    --wine-soft: #7a1f3f;
+    --espresso: #1c110d;
+    --ink: #1c110d;
+    --ink-dim: #6e5f4d;
+
+    --c1: #6b1530; /* grapes */
+    --c2: #2f6f63; /* harvest */
+    --c3: #5b3a7a; /* cellar */
+    --c4: #b17a34; /* corks & bottles */
+    --c5: #8a2140; /* crafted wine */
+  }
+
+  *{ box-sizing: border-box; margin: 0; padding: 0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  a{ color: inherit; text-decoration: none; }
+  img{ display: block; max-width: 100%; }
+  button{ font-family: inherit; }
+  h1, h2, h3, .serif{ font-family: 'Cormorant Garamond', serif; font-weight: 400; }
+
+  .container{ max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+
+  /* ============ NAV ============ */
+  nav{
+    position: sticky; top: 0; z-index: 500;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px;
+    padding: 16px 28px;
+    background: rgba(250,245,235,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(201,168,76,0.35);
+  }
+  .nav-brand{ display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .nav-brand img{ height: 26px; width: auto; }
+  .nav-brand span{ font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-dim); }
+  .nav-links{ display: flex; gap: 4px; list-style: none; overflow-x: auto; scrollbar-width: none; }
+  .nav-links::-webkit-scrollbar{ display: none; }
+  .nav-links a{
+    display: inline-block; white-space: nowrap;
+    font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--wine-soft); padding: 7px 12px; border: 1px solid transparent; border-radius: 3px;
+    transition: border-color 0.25s ease, background 0.25s ease;
+  }
+  .nav-links a:hover{ border-color: var(--gold); background: rgba(201,168,76,0.1); }
+  .nav-back{ font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); flex-shrink: 0; }
+  .nav-back:hover{ color: var(--wine); }
+
+  /* ============ INTRO ============ */
+  .page-intro{ text-align: center; padding: 90px 24px 60px; background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,168,76,0.16), transparent 65%); }
+  .page-eyebrow{ font-size: 0.72rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--wine-soft); margin-bottom: 20px; }
+  .page-title{ font-size: clamp(2rem, 4.6vw, 3.1rem); margin-bottom: 20px; }
+  .page-title em{ font-style: italic; color: var(--wine); }
+  .page-lede{ max-width: 660px; margin: 0 auto 44px; color: var(--ink-dim); font-size: 1rem; line-height: 1.9; }
+
+  .legend{ display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .legend-chip{
+    display: flex; align-items: center; gap: 8px;
+    background: var(--parchment); border: 1px solid rgba(201,168,76,0.4);
+    padding: 8px 16px; border-radius: 999px; font-size: 0.78rem; color: var(--ink);
+  }
+  .legend-chip .num{ display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--wine); color: var(--cream); font-family: 'Cormorant Garamond', serif; font-size: 0.75rem; }
+  .legend-arrow{ color: var(--gold-deep); font-size: 0.9rem; }
+  .legend-note{ margin-top: 18px; font-size: 0.72rem; letter-spacing: 0.08em; color: var(--ink-dim); font-style: italic; }
+  @media (max-width: 700px){ .legend-arrow{ display: none; } }
+
+  /* ============ VARIATION SHELL ============ */
+  .variation{ position: relative; padding: 90px 0; border-top: 1px solid rgba(201,168,76,0.3); }
+  .variation:nth-of-type(odd){ background: var(--cream); }
+  .variation:nth-of-type(even){ background: var(--parchment); }
+  .variation-header{ text-align: center; max-width: 640px; margin: 0 auto 60px; }
+  .variation-badge{ display: inline-block; font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-deep); border: 1px solid var(--gold); padding: 5px 14px; border-radius: 999px; margin-bottom: 18px; }
+  .variation-title{ font-size: clamp(1.7rem, 3.4vw, 2.3rem); color: var(--wine); margin-bottom: 14px; }
+  .variation-desc{ color: var(--ink-dim); font-size: 0.94rem; line-height: 1.8; }
+
+  /* ============ SHARED NODE / DETAIL UTILITIES ============ */
+  .icon-orb{
+    position: relative; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; background: rgba(255,255,255,0.5);
+    box-shadow: inset 0 0 0 1px rgba(201,168,76,0.35);
+    overflow: hidden;
+  }
+  .icon-orb::before{
+    content: ""; position: absolute; inset: -20%;
+    background: radial-gradient(circle, var(--accent, var(--gold)), transparent 70%);
+    opacity: 0.5; z-index: 0;
+  }
+  .icon-orb img{ position: relative; z-index: 1; width: 62%; height: 62%; object-fit: contain; }
+
+  .detail-card{
+    max-width: 580px; margin: 48px auto 0; position: relative; z-index: 2;
+    background: var(--cream); border: 1px solid var(--gold); border-radius: 6px;
+    padding: 30px 36px; text-align: center;
+    box-shadow: 0 18px 40px rgba(28,17,13,0.1);
+  }
+  .detail-card .d-eyebrow{ font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 8px; }
+  .detail-card .d-title{ font-size: 1.4rem; color: var(--wine); margin-bottom: 10px; }
+  .detail-card .d-meta{ display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; font-size: 0.76rem; color: var(--ink-dim); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .detail-card .d-meta strong{ color: var(--wine-soft); display: block; font-size: 0.66rem; letter-spacing: 0.14em; margin-bottom: 2px; }
+  .detail-card .d-text{ color: var(--ink); font-size: 0.94rem; line-height: 1.8; }
+  .detail-card .d-orgs{ text-align: left; max-width: 400px; margin: 0 auto; color: var(--ink); font-size: 0.94rem; line-height: 2; list-style: none; }
+  .detail-card .d-orgs li{ padding-left: 22px; position: relative; }
+  .detail-card .d-orgs li::before{ content: "◆"; position: absolute; left: 0; color: var(--gold-deep); font-size: 0.6rem; top: 8px; }
+
+  .hint{ text-align: center; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 50px; }
+
+  /* ============ SHARED MODAL ============ */
+  .modal-overlay{
+    position: fixed; inset: 0; z-index: 900; display: none;
+    align-items: center; justify-content: center; padding: 24px;
+    background: rgba(28,17,13,0.72); backdrop-filter: blur(3px);
+  }
+  .modal-overlay.open{ display: flex; }
+  .modal-card{
+    position: relative; width: 100%; max-width: 520px; max-height: 85vh; overflow-y: auto;
+    background: var(--cream); border: 1px solid var(--gold); border-radius: 8px;
+    padding: 44px 40px; text-align: center;
+    transform: scale(0.94); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .modal-overlay.open .modal-card{ transform: scale(1); opacity: 1; }
+  .modal-close{
+    position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%;
+    background: none; border: 1px solid var(--gold); color: var(--wine); cursor: pointer;
+    font-size: 1rem; line-height: 1; display: flex; align-items: center; justify-content: center;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  .modal-close:hover{ background: var(--wine); color: var(--cream); }
+  .modal-logo-placeholder{
+    width: 76px; height: 76px; margin: 0 auto 20px; border-radius: 50%;
+    border: 1px dashed var(--gold-deep); display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-dim); text-align: center; padding: 6px;
+  }
+  .modal-eyebrow{ font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 8px; }
+  .modal-title{ font-size: 1.7rem; color: var(--wine); margin-bottom: 18px; }
+  .modal-meta{ display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; flex-wrap: wrap; }
+  .modal-meta div strong{ display: block; font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 4px; }
+  .modal-meta div span{ font-size: 0.88rem; color: var(--ink); }
+  .modal-text{ color: var(--ink); font-size: 0.94rem; line-height: 1.85; margin-bottom: 22px; }
+  .modal-quote{ font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; color: var(--wine-soft); border-top: 1px solid rgba(201,168,76,0.4); padding-top: 20px; }
+  .modal-orgs{ text-align: left; max-width: 340px; margin: 0 auto; list-style: none; color: var(--ink); font-size: 0.96rem; line-height: 2.1; }
+  .modal-orgs li{ padding-left: 24px; position: relative; }
+  .modal-orgs li::before{ content: "◆"; position: absolute; left: 0; color: var(--gold-deep); font-size: 0.62rem; top: 9px; }
+
+  /* ============================================================
+     V1 — CLASSIC CIRCLE
+     ============================================================ */
+  .v1-wrap{ position: relative; }
+  .v1-bg{ position: absolute; top: 50%; left: 50%; width: min(120vw, 820px); transform: translate(-50%,-50%); opacity: 0.06; z-index: 0; pointer-events: none; }
+  .v1-diagram{ position: relative; z-index: 1; width: min(92vw, 560px); aspect-ratio: 1; margin: 0 auto; border: 2px dashed var(--gold); border-radius: 50%; }
+  .v1-center{
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 150px; height: 150px; border-radius: 50%; background: var(--cream);
+    border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center; cursor: pointer; padding: 10px;
+  }
+  .v1-center-pct{ font-size: 1.5rem; color: var(--wine); font-family: 'Cormorant Garamond', serif; }
+  .v1-center-label{ font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-dim); margin-top: 4px; }
+  .v1-node{
+    position: absolute; transform: translate(-50%,-50%); width: 130px; text-align: center;
+    background: none; border: none; cursor: pointer; padding: 6px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .v1-node .icon-orb{ width: 54px; height: 54px; }
+  .v1-node-num{ position: absolute; top: -4px; right: 6px; width: 22px; height: 22px; border-radius: 50%; background: var(--wine); color: var(--cream); font-family: 'Cormorant Garamond', serif; font-size: 0.78rem; display: flex; align-items: center; justify-content: center; border: 2px solid var(--cream); }
+  .v1-node-title{ font-size: 0.76rem; font-weight: 500; color: var(--ink); }
+  .v1-node.active .icon-orb{ box-shadow: inset 0 0 0 2px var(--gold), 0 0 0 5px rgba(201,168,76,0.25); }
+  .v1-node:nth-child(2){ top: 50%; left: 83%; }
+  .v1-node:nth-child(3){ top: 81%; left: 60%; }
+  .v1-node:nth-child(4){ top: 69%; left: 23%; }
+  .v1-node:nth-child(5){ top: 31%; left: 23%; }
+  .v1-node:nth-child(6){ top: 19%; left: 60%; }
+  @media (max-width: 720px){
+    .v1-diagram{ width: 100%; aspect-ratio: auto; border: none; padding: 10px 0; }
+    .v1-center{ position: static; margin: 0 auto 24px; transform: none; }
+    .v1-node{ position: static; transform: none; width: 100%; max-width: 380px; margin: 0 auto 14px; flex-direction: row; text-align: left; justify-content: flex-start; }
+    .v1-node-num{ position: static; margin-right: 4px; flex-shrink: 0; }
+  }
+
+  /* ============================================================
+     V2 — ORBIT (animated)
+     ============================================================ */
+  .v2-wrap{ position: relative; }
+  .v2-diagram{ position: relative; width: min(92vw, 560px); aspect-ratio: 1; margin: 0 auto; }
+  .v2-orbit-ring{ position: absolute; inset: 0; animation: v2-spin 70s linear infinite; }
+  .v2-orbit-ring.paused{ animation-play-state: paused; }
+  @keyframes v2-spin{ from{ transform: rotate(0deg); } to{ transform: rotate(360deg); } }
+  .v2-lines{ position: absolute; inset: 0; color: var(--gold); opacity: 0.55; }
+  .v2-center{
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 140px; height: 140px; border-radius: 50%; background: var(--cream);
+    border: 1px solid var(--gold-deep); display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; cursor: pointer; z-index: 3; box-shadow: 0 0 0 8px rgba(201,168,76,0.08);
+  }
+  .v2-center-pct{ font-size: 1.4rem; color: var(--wine); font-family: 'Cormorant Garamond', serif; }
+  .v2-center-label{ font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-dim); margin-top: 4px; }
+  .v2-node{
+    position: absolute; transform: translate(-50%,-50%); width: 120px; text-align: center;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .v2-node-inner{ display: flex; flex-direction: column; align-items: center; gap: 6px; animation: v2-spin-reverse 70s linear infinite; }
+  .v2-orbit-ring.paused .v2-node-inner{ animation-play-state: paused; }
+  @keyframes v2-spin-reverse{ from{ transform: rotate(0deg); } to{ transform: rotate(-360deg); } }
+  .v2-node .icon-orb{ width: 48px; height: 48px; }
+  .v2-node-num{ font-size: 0.7rem; color: var(--wine-soft); font-family: 'Cormorant Garamond', serif; }
+  .v2-node-title{ font-size: 0.72rem; font-weight: 500; color: var(--ink); }
+  .v2-node.active .icon-orb{ box-shadow: inset 0 0 0 2px var(--gold), 0 0 0 5px rgba(201,168,76,0.25); }
+  .v2-node:nth-child(2){ top: 50%; left: 83%; }
+  .v2-node:nth-child(3){ top: 81%; left: 60%; }
+  .v2-node:nth-child(4){ top: 69%; left: 23%; }
+  .v2-node:nth-child(5){ top: 31%; left: 23%; }
+  .v2-node:nth-child(6){ top: 19%; left: 60%; }
+  .v2-toggle{ display: block; margin: 24px auto 0; background: none; border: 1px solid var(--gold); color: var(--wine-soft); padding: 10px 22px; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 999px; cursor: pointer; transition: background 0.25s ease; }
+  .v2-toggle:hover{ background: rgba(201,168,76,0.12); }
+  @media (max-width: 720px){
+    .v2-diagram{ width: 100%; aspect-ratio: auto; }
+    .v2-orbit-ring{ animation: none; position: static; }
+    .v2-lines{ display: none; }
+    .v2-center{ position: static; margin: 0 auto 24px; transform: none; }
+    .v2-node{ position: static; transform: none; width: 100%; max-width: 380px; margin: 0 auto 14px; }
+    .v2-node-inner{ animation: none; flex-direction: row; justify-content: flex-start; text-align: left; }
+  }
+
+  /* ============================================================
+     V3 — ACCORDION RING
+     ============================================================ */
+  .v3-list{ max-width: 560px; margin: 0 auto; position: relative; padding-left: 8px; }
+  .v3-line{ position: absolute; left: 27px; top: 0; height: 100%; width: 40px; color: var(--gold); opacity: 0.5; z-index: 0; }
+  .v3-item{ position: relative; z-index: 1; margin-bottom: 14px; background: var(--cream); border: 1px solid rgba(201,168,76,0.4); border-radius: 6px; overflow: hidden; }
+  .v3-item.final{ background: var(--wine); border-color: var(--gold); }
+  .v3-item-head{ display: flex; align-items: center; gap: 16px; width: 100%; background: none; border: none; padding: 18px 20px; cursor: pointer; text-align: left; }
+  .v3-item-head .icon-orb{ width: 46px; height: 46px; flex-shrink: 0; }
+  .v3-item-num{ font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: var(--wine-soft); flex-shrink: 0; width: 20px; }
+  .v3-item.final .v3-item-num{ color: var(--gold-soft); }
+  .v3-item-title{ flex: 1; font-size: 0.98rem; font-weight: 500; color: var(--ink); }
+  .v3-item.final .v3-item-title{ color: var(--cream); }
+  .v3-item-caret{ color: var(--gold-deep); transition: transform 0.3s ease; flex-shrink: 0; }
+  .v3-item.open .v3-item-caret{ transform: rotate(180deg); }
+  .v3-panel-wrap{ display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+  .v3-item.open .v3-panel-wrap{ grid-template-rows: 1fr; }
+  .v3-panel-inner{ overflow: hidden; }
+  .v3-panel{ padding: 0 20px 22px 82px; color: var(--ink-dim); font-size: 0.88rem; line-height: 1.8; }
+  .v3-item.final .v3-panel{ color: rgba(250,245,235,0.75); padding-left: 20px; }
+  .v3-panel strong{ color: var(--wine-soft); display: block; margin-bottom: 4px; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .v3-item.final .v3-panel strong{ color: var(--gold-soft); }
+  .v3-item.final .v3-panel ul{ list-style: none; margin-top: 6px; }
+  .v3-item.final .v3-panel li{ padding-left: 18px; position: relative; }
+  .v3-item.final .v3-panel li::before{ content: "◆"; position: absolute; left: 0; color: var(--gold); font-size: 0.55rem; top: 7px; }
+
+  /* ============================================================
+     V4 — FLOWER PETALS
+     ============================================================ */
+  .v4-diagram{ position: relative; width: min(92vw, 560px); aspect-ratio: 1; margin: 0 auto; }
+  .v4-center{
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 120px; height: 120px; border-radius: 50%; background: var(--gold);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    cursor: pointer; z-index: 3; box-shadow: 0 0 0 10px rgba(201,168,76,0.15);
+  }
+  .v4-center-pct{ font-size: 1.3rem; color: var(--wine); font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+  .v4-center-label{ font-size: 0.56rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--wine); margin-top: 2px; padding: 0 8px; }
+  .v4-petal{
+    position: absolute; width: 150px; height: 190px; margin: -95px 0 0 -75px;
+    background: none; border: none; cursor: pointer; z-index: 1;
+    transition: transform 0.35s ease, z-index 0s;
+  }
+  .v4-petal-shape{
+    position: relative; width: 100%; height: 100%; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    clip-path: ellipse(48% 62% at 50% 62%);
+    background: linear-gradient(180deg, var(--cream), var(--parchment));
+    border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center;
+  }
+  .v4-petal-content{ display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 10px; }
+  .v4-petal .icon-orb{ width: 46px; height: 46px; }
+  .v4-petal-num{ font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--wine-soft); }
+  .v4-petal-title{ font-size: 0.72rem; font-weight: 500; color: var(--ink); max-width: 100px; }
+  .v4-petal.active{ transform: scale(1.14); z-index: 4; }
+  .v4-petal.active .v4-petal-shape{ border-color: var(--wine); box-shadow: 0 14px 30px rgba(28,17,13,0.18); }
+  .v4-petal:nth-child(2){ top: 50%; left: 80%; }
+  .v4-petal:nth-child(2) .v4-petal-content{ transform: rotate(0deg); }
+  .v4-petal:nth-child(3){ top: 77%; left: 59%; }
+  .v4-petal:nth-child(3) .v4-petal-content{ transform: rotate(0deg); }
+  .v4-petal:nth-child(4){ top: 68%; left: 26%; }
+  .v4-petal:nth-child(5){ top: 32%; left: 26%; }
+  .v4-petal:nth-child(6){ top: 23%; left: 59%; }
+  @media (max-width: 720px){
+    .v4-diagram{ width: 100%; aspect-ratio: auto; }
+    .v4-center{ position: static; margin: 0 auto 22px; transform: none; }
+    .v4-petal{ position: static; margin: 0 auto 16px; width: 100%; max-width: 280px; height: auto; }
+    .v4-petal-shape{ clip-path: none; border-radius: 6px; padding: 16px; }
+  }
+
+  /* ============================================================
+     V5 — TIMELINE CIRCLE (SVG)
+     ============================================================ */
+  .v5-diagram{ position: relative; width: min(92vw, 560px); aspect-ratio: 1; margin: 0 auto; }
+  .v5-svg{ position: absolute; inset: 0; }
+  .v5-ring-track{ fill: none; stroke: rgba(201,168,76,0.25); stroke-width: 1.2; }
+  .v5-ring-draw{ fill: none; stroke: var(--gold-deep); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 251; stroke-dashoffset: 251; transition: stroke-dashoffset 1.8s cubic-bezier(0.4,0,0.2,1); }
+  .v5-diagram.in-view .v5-ring-draw{ stroke-dashoffset: 0; }
+  .v5-center-label{ position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 130px; text-align: center; cursor: pointer; background: none; border: none; }
+  .v5-center-label .pct{ font-size: 1.4rem; color: var(--wine); font-family: 'Cormorant Garamond', serif; }
+  .v5-center-label .lbl{ font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-dim); margin-top: 4px; }
+  .v5-node{
+    position: absolute; transform: translate(-50%,-50%); width: 26px; height: 26px; border-radius: 50%;
+    background: var(--cream); border: 2px solid var(--gold); cursor: pointer; z-index: 2;
+    display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 0.8rem; color: var(--wine-soft);
+    transition: transform 0.25s ease, background 0.25s ease;
+  }
+  .v5-node.active{ background: var(--gold); color: var(--cream); transform: translate(-50%,-50%) scale(1.25); }
+  .v5-node:nth-of-type(1){ top: 50%; left: 83%; }
+  .v5-node:nth-of-type(2){ top: 81%; left: 60%; }
+  .v5-node:nth-of-type(3){ top: 69%; left: 23%; }
+  .v5-node:nth-of-type(4){ top: 31%; left: 23%; }
+  .v5-node:nth-of-type(5){ top: 19%; left: 60%; }
+  .v5-popup{
+    position: absolute; z-index: 5; width: 210px; padding: 16px 18px;
+    background: var(--cream); border: 1px solid var(--gold); border-radius: 6px;
+    box-shadow: 0 14px 32px rgba(28,17,13,0.16); text-align: left;
+    opacity: 0; pointer-events: none; transform: translateY(6px); transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .v5-popup.open{ opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .v5-popup .p-title{ font-size: 0.9rem; color: var(--wine); margin-bottom: 4px; }
+  .v5-popup .p-partner{ font-size: 0.72rem; color: var(--gold-deep); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+  .v5-popup .p-text{ font-size: 0.8rem; color: var(--ink-dim); line-height: 1.6; }
+  .v5-popup .p-orgs{ list-style: none; font-size: 0.8rem; color: var(--ink); line-height: 1.9; }
+  .v5-popup .p-orgs li{ padding-left: 16px; position: relative; }
+  .v5-popup .p-orgs li::before{ content: "◆"; position: absolute; left: 0; color: var(--gold-deep); font-size: 0.5rem; top: 6px; }
+  @media (max-width: 720px){
+    .v5-diagram{ width: 100%; aspect-ratio: auto; min-height: 460px; }
+    .v5-svg{ display: none; }
+    .v5-center-label{ position: static; margin: 0 auto 26px; transform: none; }
+    .v5-node{ position: static; transform: none !important; width: 100%; height: auto; border-radius: 6px; justify-content: flex-start; gap: 10px; padding: 12px 16px; margin-bottom: 12px; }
+    .v5-popup{ position: static; width: 100%; opacity: 1; pointer-events: auto; transform: none; display: none; margin-bottom: 12px; }
+    .v5-popup.open{ display: block; }
+  }
+
+  /* ============================================================
+     V6 — CARDS IN CIRCLE (modal)
+     ============================================================ */
+  .v6-diagram{ position: relative; width: min(94vw, 640px); aspect-ratio: 1; margin: 0 auto; }
+  .v6-center{
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    text-align: center; cursor: pointer; background: none; border: none; width: 160px;
+  }
+  .v6-center-pct{ font-size: 2.2rem; color: var(--gold-deep); font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+  .v6-center-label{ font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--wine); margin-top: 6px; }
+  .v6-card{
+    position: absolute; transform: translate(-50%,-50%); width: 172px;
+    background: var(--cream); border: 1px solid rgba(201,168,76,0.5); border-radius: 8px;
+    padding: 18px 16px; text-align: center; cursor: pointer;
+    box-shadow: 0 8px 20px rgba(28,17,13,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .v6-card:hover{ transform: translate(-50%,-50%) translateY(-4px); box-shadow: 0 16px 32px rgba(28,17,13,0.12); border-color: var(--gold); }
+  .v6-card .icon-orb{ width: 56px; height: 56px; margin: 0 auto 10px; }
+  .v6-card-num{ font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--wine-soft); margin-bottom: 4px; }
+  .v6-card-title{ font-size: 0.86rem; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .v6-card-brief{ font-size: 0.72rem; color: var(--ink-dim); line-height: 1.5; }
+  .v6-card:nth-of-type(1){ top: 50%; left: 84%; }
+  .v6-card:nth-of-type(2){ top: 82%; left: 61%; }
+  .v6-card:nth-of-type(3){ top: 69%; left: 22%; }
+  .v6-card:nth-of-type(4){ top: 31%; left: 22%; }
+  .v6-card:nth-of-type(5){ top: 18%; left: 61%; }
+  @media (max-width: 780px){
+    .v6-diagram{ width: 100%; aspect-ratio: auto; display: flex; flex-direction: column; align-items: center; }
+    .v6-center{ position: static; transform: none; margin-bottom: 22px; }
+    .v6-card{ position: static; transform: none; width: 100%; max-width: 380px; margin-bottom: 14px; }
+    .v6-card:hover{ transform: translateY(-2px); }
+  }
+
+  /* ============================================================
+     V7 — INFOGRAPHIC STRIP (horizontal)
+     ============================================================ */
+  .v7-wrap{ position: relative; max-width: 980px; margin: 0 auto; }
+  .v7-path{ position: absolute; top: 30px; left: 0; width: 100%; height: 90px; z-index: 0; color: var(--gold); opacity: 0.55; }
+  .v7-return{ margin: 30px auto 0; width: min(100%, 700px); color: var(--gold-deep); opacity: 0.6; }
+  .v7-return-label{ text-align: center; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-deep); margin-top: 4px; }
+  .v7-row{ position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 12px; }
+  .v7-step{ flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; background: none; border: none; cursor: pointer; padding: 4px; }
+  .v7-step-num{ width: 60px; height: 60px; border-radius: 50%; background: var(--cream); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; position: relative; }
+  .v7-step-num .icon-orb{ width: 100%; height: 100%; }
+  .v7-step-title{ font-size: 0.82rem; font-weight: 500; color: var(--ink); max-width: 120px; }
+  .v7-step.final .v7-step-num{ background: var(--wine); border-color: var(--gold); }
+  .v7-step.final .v7-step-title{ color: var(--wine); font-weight: 600; }
+  .v7-step.open .v7-step-num{ box-shadow: 0 0 0 6px rgba(201,168,76,0.2); }
+  .v7-caret{ margin-top: 8px; color: var(--gold-deep); font-size: 0.7rem; transition: transform 0.3s ease; }
+  .v7-step.open .v7-caret{ transform: rotate(180deg); }
+  .v7-dropdown-row{ position: relative; z-index: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 4px; }
+  .v7-dropdown{ display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+  .v7-step.open + .v7-dropdown-row .v7-dropdown, .v7-dropdown.open{ grid-template-rows: 1fr; }
+  .v7-dropdown-inner{ overflow: hidden; }
+  .v7-dropdown-card{ margin-top: 14px; background: var(--cream); border: 1px solid var(--gold); border-radius: 6px; padding: 14px 12px; font-size: 0.76rem; color: var(--ink-dim); line-height: 1.6; text-align: left; }
+  .v7-dropdown-card strong{ display: block; color: var(--wine-soft); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .v7-dropdown-card ul{ list-style: none; margin-top: 4px; }
+  .v7-dropdown-card li{ padding-left: 14px; position: relative; }
+  .v7-dropdown-card li::before{ content: "◆"; position: absolute; left: 0; color: var(--gold-deep); font-size: 0.5rem; top: 6px; }
+  @media (max-width: 860px){
+    .v7-path, .v7-return{ display: none; }
+    .v7-row{ flex-direction: column; align-items: stretch; gap: 0; }
+    .v7-step{ flex-direction: row; text-align: left; justify-content: flex-start; gap: 14px; padding: 14px 4px; border-bottom: 1px dashed rgba(201,168,76,0.4); }
+    .v7-step-num{ margin-bottom: 0; flex-shrink: 0; width: 48px; height: 48px; }
+    .v7-dropdown-row{ display: block; }
+    .v7-dropdown{ margin-bottom: 4px; }
+  }
+
+  /* ============================================================
+     V8 — INTERACTIVE HUB (radial + modal)
+     ============================================================ */
+  .v8-diagram{ position: relative; width: min(94vw, 620px); aspect-ratio: 1; margin: 0 auto; }
+  .v8-spokes{ position: absolute; inset: 0; z-index: 0; }
+  .v8-spokes line{ stroke: var(--gold); stroke-width: 0.6; opacity: 0.4; transition: opacity 0.25s ease, stroke-width 0.25s ease; }
+  .v8-spokes line.hot{ opacity: 1; stroke-width: 1.1; }
+  .v8-hub{
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 128px; height: 128px; border-radius: 50%; background: var(--wine);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    cursor: pointer; z-index: 3; border: 2px solid var(--gold);
+    animation: v8-pulse 3.2s ease-in-out infinite;
+  }
+  @keyframes v8-pulse{ 0%,100%{ box-shadow: 0 0 0 0 rgba(201,168,76,0.35); } 50%{ box-shadow: 0 0 0 14px rgba(201,168,76,0); } }
+  .v8-hub-pct{ font-size: 1.5rem; color: var(--gold-soft); font-family: 'Cormorant Garamond', serif; }
+  .v8-hub-label{ font-size: 0.56rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--cream); margin-top: 4px; padding: 0 10px; }
+  .v8-node{
+    position: absolute; transform: translate(-50%,-50%); width: 96px; height: 96px; border-radius: 50%;
+    background: var(--cream); border: 1px solid var(--gold); cursor: pointer; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .v8-node .icon-orb{ width: 100%; height: 100%; }
+  .v8-node-num{ position: absolute; top: -6px; left: -6px; width: 24px; height: 24px; border-radius: 50%; background: var(--wine); color: var(--cream); font-family: 'Cormorant Garamond', serif; font-size: 0.76rem; display: flex; align-items: center; justify-content: center; border: 2px solid var(--cream); }
+  .v8-node:hover, .v8-node.hot{ transform: translate(-50%,-50%) scale(1.1); box-shadow: 0 10px 26px rgba(28,17,13,0.18); }
+  .v8-node-title{ position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 8px; width: 120px; text-align: center; font-size: 0.72rem; font-weight: 500; color: var(--ink); }
+  .v8-node:nth-of-type(1){ top: 50%; left: 88%; }
+  .v8-node:nth-of-type(2){ top: 86%; left: 62%; }
+  .v8-node:nth-of-type(3){ top: 74%; left: 19%; }
+  .v8-node:nth-of-type(4){ top: 26%; left: 19%; }
+  .v8-node:nth-of-type(5){ top: 14%; left: 62%; }
+  @media (max-width: 780px){
+    .v8-diagram{ width: 100%; aspect-ratio: auto; display: flex; flex-direction: column; align-items: center; padding-bottom: 40px; }
+    .v8-spokes{ display: none; }
+    .v8-hub{ position: static; transform: none; margin-bottom: 50px; }
+    .v8-node{ position: static; transform: none !important; margin-bottom: 46px; }
+    .v8-node:hover, .v8-node.hot{ transform: scale(1.06) !important; }
+  }
+
+  /* ============ FOOTER ============ */
+  footer{ padding: 60px 0 40px; text-align: center; border-top: 1px solid rgba(201,168,76,0.35); background: var(--wine); color: var(--cream); }
+  .footer-mark{ font-family: 'Cormorant Garamond', serif; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-soft); font-size: 0.95rem; margin-bottom: 18px; }
+  .footer-copy{ font-size: 0.72rem; color: rgba(250,245,235,0.7); }
+  .footer-copy a{ color: var(--gold); }
+  .footer-copy a:hover{ color: var(--gold-soft); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <img src="../FF_Logo.png" alt="Femme Ferments">
+    <span>Cycle Diagrams</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#v1">V1 Classic</a></li>
+    <li><a href="#v2">V2 Orbit</a></li>
+    <li><a href="#v3">V3 Accordion</a></li>
+    <li><a href="#v4">V4 Petals</a></li>
+    <li><a href="#v5">V5 Timeline</a></li>
+    <li><a href="#v6">V6 Cards</a></li>
+    <li><a href="#v7">V7 Strip</a></li>
+    <li><a href="#v8">V8 Hub</a></li>
+  </ul>
+  <a href="index.html" class="nav-back">&larr; Concepts</a>
+</nav>
+
+<!-- ============ INTRO ============ -->
+<div class="page-intro">
+  <div class="page-eyebrow">Component Exploration</div>
+  <h1 class="page-title">8 Ways to Show <em>The Cycle</em></h1>
+  <p class="page-lede">Revised per feedback: all five steps now sit fully inside their containing shape, Step 1 always starts at the right (3 o'clock) and moves clockwise, and every step &mdash; plus the center &mdash; is clickable to reveal who actually made it happen.</p>
+  <div class="legend">
+    <div class="legend-chip"><span class="num">1</span> Donated Grapes</div>
+    <span class="legend-arrow">&rarr;</span>
+    <div class="legend-chip"><span class="num">2</span> Volunteer Harvest</div>
+    <span class="legend-arrow">&rarr;</span>
+    <div class="legend-chip"><span class="num">3</span> Partner Cellar</div>
+    <span class="legend-arrow">&rarr;</span>
+    <div class="legend-chip"><span class="num">4</span> Donated Corks &amp; Bottles</div>
+    <span class="legend-arrow">&rarr;</span>
+    <div class="legend-chip"><span class="num">5</span> Crafted Wine</div>
+  </div>
+  <p class="legend-note">Center: 100% to Empowering Women &mdash; click it in any variation below</p>
+</div>
+
+<!-- ============================================================
+     V1 — CLASSIC CIRCLE
+     ============================================================ -->
+<section class="variation" id="v1">
+  <div class="container">
+    <div class="variation-header">
+      <div class="variation-badge">V1</div>
+      <h2 class="variation-title">Classic Circle</h2>
+      <p class="variation-desc">CSS-positioned nodes on a dashed gold ring. Step 1 sits at 3 o'clock and the chain runs clockwise. Click a step for a detail panel below; click the center for the full list of supported organizations.</p>
+    </div>
+    <p class="hint">Tap a step to meet the partners behind it</p>
+
+    <div class="v1-wrap">
+      <img class="v1-bg" src="../femme_ferments_glass_assets/femme_ferments_glass_only_full_canvas.png" alt="" aria-hidden="true">
+      <div class="v1-diagram" id="v1-diagram">
+        <button class="v1-center" data-v1-center>
+          <span class="v1-center-pct">100%</span>
+          <span class="v1-center-label">Empowering Women</span>
+        </button>
+
+        <button class="v1-node active" data-v1-index="0">
+          <span class="icon-orb" style="--accent:var(--c1)"><img src="../femme_ferments_glass_assets/tight_png/14_right_warm_red_orange_tight.png" alt="Deep red glass piece representing donated grapes"><span class="v1-node-num">1</span></span>
+          <span class="v1-node-title">Donated Grapes</span>
+        </button>
+        <button class="v1-node" data-v1-index="1">
+          <span class="icon-orb" style="--accent:var(--c2)"><img src="../femme_ferments_glass_assets/tight_png/02_left_top_teal_shards_tight.png" alt="Teal glass piece representing the volunteer harvest"><span class="v1-node-num">2</span></span>
+          <span class="v1-node-title">Volunteer Harvest</span>
+        </button>
+        <button class="v1-node" data-v1-index="2">
+          <span class="icon-orb" style="--accent:var(--c3)"><img src="../femme_ferments_glass_assets/tight_png/12_upper_right_purple_sail_tight.png" alt="Purple glass piece representing the partner cellar"><span class="v1-node-num">3</span></span>
+          <span class="v1-node-title">Partner Cellar</span>
+        </button>
+        <button class="v1-node" data-v1-index="3">
+          <span class="icon-orb" style="--accent:var(--c4)"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Amber glass piece representing donated corks and bottles"><span class="v1-node-num">4</span></span>
+          <span class="v1-node-title">Donated Corks &amp; Bottles</span>
+        </button>
+        <button class="v1-node" data-v1-index="4">
+          <span class="icon-orb" style="--accent:var(--c5)"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Blue and purple glass piece representing the crafted wine"><span class="v1-node-num">5</span></span>
+          <span class="v1-node-title">Crafted Wine</span>
+        </button>
+      </div>
+
+      <div class="detail-card" id="v1-detail">
+        <div class="d-eyebrow" id="v1-detail-eyebrow">Step 01</div>
+        <div class="d-title" id="v1-detail-title">Donated Grapes</div>
+        <div class="d-meta" id="v1-detail-meta">
+          <div><strong>Partner</strong>Eola-Amity Hills Family Vineyards</div>
+          <div><strong>When</strong>Donated Fall 2025</div>
+        </div>
+        <p class="d-text" id="v1-detail-text"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V2 — ORBIT (animated)
+     ============================================================ -->
+<section class="variation" id="v2">
+  <div class="container">
+    <div class="variation-header">
+      <div class="variation-badge">V2</div>
+      <h2 class="variation-title">Orbit</h2>
+      <p class="variation-desc">The five steps drift slowly around the center, connected by gold lines. Click a step to pause the orbit and expand its story &mdash; click again, or hit resume, to keep it spinning.</p>
+    </div>
+    <p class="hint">Click any step to pause &amp; expand</p>
+
+    <div class="v2-diagram" id="v2-diagram">
+      <div class="v2-orbit-ring" id="v2-ring">
+        <svg class="v2-lines" viewBox="0 0 100 100" aria-hidden="true">
+          <polygon points="83,50 60,81 23,69 23,31 60,19" fill="none" stroke="currentColor" stroke-width="0.8" stroke-dasharray="2 3"/>
+        </svg>
+        <button class="v2-node active" data-v2-index="0">
+          <span class="v2-node-inner">
+            <span class="icon-orb" style="--accent:var(--c1)"><img src="../femme_ferments_glass_assets/tight_png/14_right_warm_red_orange_tight.png" alt="Deep red glass piece representing donated grapes"></span>
+            <span class="v2-node-num">1</span>
+            <span class="v2-node-title">Donated Grapes</span>
+          </span>
+        </button>
+        <button class="v2-node" data-v2-index="1">
+          <span class="v2-node-inner">
+            <span class="icon-orb" style="--accent:var(--c2)"><img src="../femme_ferments_glass_assets/tight_png/02_left_top_teal_shards_tight.png" alt="Teal glass piece representing the volunteer harvest"></span>
+            <span class="v2-node-num">2</span>
+            <span class="v2-node-title">Volunteer Harvest</span>
+          </span>
+        </button>
+        <button class="v2-node" data-v2-index="2">
+          <span class="v2-node-inner">
+            <span class="icon-orb" style="--accent:var(--c3)"><img src="../femme_ferments_glass_assets/tight_png/12_upper_right_purple_sail_tight.png" alt="Purple glass piece representing the partner cellar"></span>
+            <span class="v2-node-num">3</span>
+            <span class="v2-node-title">Partner Cellar</span>
+          </span>
+        </button>
+        <button class="v2-node" data-v2-index="3">
+          <span class="v2-node-inner">
+            <span class="icon-orb" style="--accent:var(--c4)"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Amber glass piece representing donated corks and bottles"></span>
+            <span class="v2-node-num">4</span>
+            <span class="v2-node-title">Donated Corks &amp; Bottles</span>
+          </span>
+        </button>
+        <button class="v2-node" data-v2-index="4">
+          <span class="v2-node-inner">
+            <span class="icon-orb" style="--accent:var(--c5)"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Blue and purple glass piece representing the crafted wine"></span>
+            <span class="v2-node-num">5</span>
+            <span class="v2-node-title">Crafted Wine</span>
+          </span>
+        </button>
+      </div>
+
+      <button class="v2-center" id="v2-center">
+        <span class="v2-center-pct">100%</span>
+        <span class="v2-center-label">Empowering Women</span>
+      </button>
+    </div>
+    <button class="v2-toggle" id="v2-toggle">Pause Orbit</button>
+
+    <div class="detail-card" id="v2-detail">
+      <div class="d-eyebrow" id="v2-detail-eyebrow">Step 01</div>
+      <div class="d-title" id="v2-detail-title">Donated Grapes</div>
+      <div class="d-meta" id="v2-detail-meta">
+        <div><strong>Partner</strong>Eola-Amity Hills Family Vineyards</div>
+        <div><strong>When</strong>Donated Fall 2025</div>
+      </div>
+      <p class="d-text" id="v2-detail-text"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V3 — ACCORDION RING
+     ============================================================ -->
+<section class="variation" id="v3">
+  <div class="container">
+    <div class="variation-header">
+      <div class="variation-badge">V3</div>
+      <h2 class="variation-title">Accordion Ring</h2>
+      <p class="variation-desc">A vertical list connected by a curved gold line &mdash; the circle concept, flattened for readability and built mobile-first. Tap any step to expand its partner details in place.</p>
+    </div>
+
+    <div class="v3-list">
+      <svg class="v3-line" viewBox="0 0 40 500" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M20 20 C 40 90, 0 160, 20 230 S 40 370, 20 460" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="3 5"/>
+      </svg>
+
+      <div class="v3-item open" data-v3-index="0">
+        <button class="v3-item-head">
+          <span class="icon-orb" style="--accent:var(--c1)"><img src="../femme_ferments_glass_assets/tight_png/14_right_warm_red_orange_tight.png" alt="Deep red glass piece representing donated grapes"></span>
+          <span class="v3-item-num">1</span>
+          <span class="v3-item-title">Donated Grapes</span>
+          <span class="v3-item-caret">&#9660;</span>
+        </button>
+        <div class="v3-panel-wrap"><div class="v3-panel-inner"><div class="v3-panel" data-v3-panel="0"></div></div></div>
+      </div>
+
+      <div class="v3-item" data-v3-index="1">
+        <button class="v3-item-head">
+          <span class="icon-orb" style="--accent:var(--c2)"><img src="../femme_ferments_glass_assets/tight_png/02_left_top_teal_shards_tight.png" alt="Teal glass piece representing the volunteer harvest"></span>
+          <span class="v3-item-num">2</span>
+          <span class="v3-item-title">Volunteer Harvest</span>
+          <span class="v3-item-caret">&#9660;</span>
+        </button>
+        <div class="v3-panel-wrap"><div class="v3-panel-inner"><div class="v3-panel" data-v3-panel="1"></div></div></div>
+      </div>
+
+      <div class="v3-item" data-v3-index="2">
+        <button class="v3-item-head">
+          <span class="icon-orb" style="--accent:var(--c3)"><img src="../femme_ferments_glass_assets/tight_png/12_upper_right_purple_sail_tight.png" alt="Purple glass piece representing the partner cellar"></span>
+          <span class="v3-item-num">3</span>
+          <span class="v3-item-title">Partner Cellar</span>
+          <span class="v3-item-caret">&#9660;</span>
+        </button>
+        <div class="v3-panel-wrap"><div class="v3-panel-inner"><div class="v3-panel" data-v3-panel="2"></div></div></div>
+      </div>
+
+      <div class="v3-item" data-v3-index="3">
+        <button class="v3-item-head">
+          <span class="icon-orb" style="--accent:var(--c4)"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Amber glass piece representing donated corks and bottles"></span>
+          <span class="v3-item-num">4</span>
+          <span class="v3-item-title">Donated Corks &amp; Bottles</span>
+          <span class="v3-item-caret">&#9660;</span>
+        </button>
+        <div class="v3-panel-wrap"><div class="v3-panel-inner"><div class="v3-panel" data-v3-panel="3"></div></div></div>
+      </div>
+
+      <div class="v3-item" data-v3-index="4">
+        <button class="v3-item-head">
+          <span class="icon-orb" style="--accent:var(--c5)"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Blue and purple glass piece representing the crafted wine"></span>
+          <span class="v3-item-num">5</span>
+          <span class="v3-item-title">Crafted Wine</span>
+          <span class="v3-item-caret">&#9660;</span>
+        </button>
+        <div class="v3-panel-wrap"><div class="v3-panel-inner"><div class="v3-panel" data-v3-panel="4"></div></div></div>
+      </div>
+
+      <div class="v3-item final" data-v3-center>
+        <button class="v3-item-head">
+          <span class="icon-orb" style="--accent:var(--gold)"><img src="../femme_ferments_glass_assets/tight_png/08_center_core_burst_tight.png" alt="Gold glass burst representing the mission"></span>
+          <span class="v3-item-num">&#8635;</span>
+          <span class="v3-item-title">100% to Empowering Women</span>
+          <span class="v3-item-caret">&#9660;</span>
+        </button>
+        <div class="v3-panel-wrap"><div class="v3-panel-inner"><div class="v3-panel" data-v3-panel="center"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V4 — FLOWER PETALS
+     ============================================================ -->
+<section class="variation" id="v4">
+  <div class="container">
+    <div class="variation-header">
+      <div class="variation-badge">V4</div>
+      <h2 class="variation-title">Flower Petals</h2>
+      <p class="variation-desc">Five petal-shaped cards fan out from the center like a flower, Step 1 blooming to the right. Click a petal to enlarge it and reveal its story below.</p>
+    </div>
+    <p class="hint">Click a petal to bloom it open</p>
+
+    <div class="v4-diagram" id="v4-diagram">
+      <button class="v4-center" data-v4-center>
+        <span class="v4-center-pct">100%</span>
+        <span class="v4-center-label">Empowering Women</span>
+      </button>
+
+      <button class="v4-petal active" data-v4-index="0">
+        <span class="v4-petal-shape"><span class="v4-petal-content">
+          <span class="icon-orb" style="--accent:var(--c1)"><img src="../femme_ferments_glass_assets/tight_png/14_right_warm_red_orange_tight.png" alt="Deep red glass piece representing donated grapes"></span>
+          <span class="v4-petal-num">1</span>
+          <span class="v4-petal-title">Donated Grapes</span>
+        </span></span>
+      </button>
+      <button class="v4-petal" data-v4-index="1">
+        <span class="v4-petal-shape"><span class="v4-petal-content">
+          <span class="icon-orb" style="--accent:var(--c2)"><img src="../femme_ferments_glass_assets/tight_png/02_left_top_teal_shards_tight.png" alt="Teal glass piece representing the volunteer harvest"></span>
+          <span class="v4-petal-num">2</span>
+          <span class="v4-petal-title">Volunteer Harvest</span>
+        </span></span>
+      </button>
+      <button class="v4-petal" data-v4-index="2">
+        <span class="v4-petal-shape"><span class="v4-petal-content">
+          <span class="icon-orb" style="--accent:var(--c3)"><img src="../femme_ferments_glass_assets/tight_png/12_upper_right_purple_sail_tight.png" alt="Purple glass piece representing the partner cellar"></span>
+          <span class="v4-petal-num">3</span>
+          <span class="v4-petal-title">Partner Cellar</span>
+        </span></span>
+      </button>
+      <button class="v4-petal" data-v4-index="3">
+        <span class="v4-petal-shape"><span class="v4-petal-content">
+          <span class="icon-orb" style="--accent:var(--c4)"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Amber glass piece representing donated corks and bottles"></span>
+          <span class="v4-petal-num">4</span>
+          <span class="v4-petal-title">Donated Corks &amp; Bottles</span>
+        </span></span>
+      </button>
+      <button class="v4-petal" data-v4-index="4">
+        <span class="v4-petal-shape"><span class="v4-petal-content">
+          <span class="icon-orb" style="--accent:var(--c5)"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Blue and purple glass piece representing the crafted wine"></span>
+          <span class="v4-petal-num">5</span>
+          <span class="v4-petal-title">Crafted Wine</span>
+        </span></span>
+      </button>
+    </div>
+
+    <div class="detail-card" id="v4-detail">
+      <div class="d-eyebrow" id="v4-detail-eyebrow">Step 01</div>
+      <div class="d-title" id="v4-detail-title">Donated Grapes</div>
+      <div class="d-meta" id="v4-detail-meta">
+        <div><strong>Partner</strong>Eola-Amity Hills Family Vineyards</div>
+        <div><strong>When</strong>Donated Fall 2025</div>
+      </div>
+      <p class="d-text" id="v4-detail-text"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V5 — TIMELINE CIRCLE (SVG)
+     ============================================================ -->
+<section class="variation" id="v5">
+  <div class="container">
+    <div class="variation-header">
+      <div class="variation-badge">V5</div>
+      <h2 class="variation-title">Timeline Circle</h2>
+      <p class="variation-desc">A true SVG ring that draws itself in as it scrolls into view. Click any node for a compact popup with partner details, right where you clicked.</p>
+    </div>
+    <p class="hint">Scroll to watch the ring draw &mdash; click a node for details</p>
+
+    <div class="v5-diagram" id="v5-diagram">
+      <svg class="v5-svg" viewBox="0 0 100 100" aria-hidden="true">
+        <circle class="v5-ring-track" cx="50" cy="50" r="40"/>
+        <circle class="v5-ring-draw" cx="50" cy="50" r="40" transform="rotate(-90 50 50)"/>
+      </svg>
+
+      <button class="v5-center-label" data-v5-center>
+        <span class="pct">100%</span>
+        <span class="lbl">Empowering Women</span>
+      </button>
+
+      <button class="v5-node active" data-v5-index="0">1</button>
+      <button class="v5-node" data-v5-index="1">2</button>
+      <button class="v5-node" data-v5-index="2">3</button>
+      <button class="v5-node" data-v5-index="3">4</button>
+      <button class="v5-node" data-v5-index="4">5</button>
+
+      <div class="v5-popup" id="v5-popup" style="top: 50%; left: 83%;">
+        <div class="p-title" id="v5-popup-title">Donated Grapes</div>
+        <div class="p-partner" id="v5-popup-partner">Eola-Amity Hills Family Vineyards</div>
+        <p class="p-text" id="v5-popup-text"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V6 — CARDS IN CIRCLE (modal)
+     ============================================================ -->
+<section class="variation" id="v6">
+  <div class="container">
+    <div class="variation-header">
+      <div class="variation-badge">V6</div>
+      <h2 class="variation-title">Cards in Circle</h2>
+      <p class="variation-desc">Each glass piece becomes a full step card arranged in a ring. Click any card &mdash; or the center &mdash; to open a full-screen modal with the complete story.</p>
+    </div>
+    <p class="hint">Click any card for the full story</p>
+
+    <div class="v6-diagram">
+      <button class="v6-center" data-v6-center>
+        <span class="v6-center-pct">100%</span>
+        <span class="v6-center-label">Empowering Women</span>
+      </button>
+
+      <button class="v6-card" data-v6-index="0">
+        <span class="icon-orb" style="--accent:var(--c1)"><img src="../femme_ferments_glass_assets/tight_png/14_right_warm_red_orange_tight.png" alt="Deep red glass piece representing donated grapes"></span>
+        <div class="v6-card-num">01</div>
+        <div class="v6-card-title">Donated Grapes</div>
+        <div class="v6-card-brief">Fruit given freely by partner vineyards.</div>
+      </button>
+      <button class="v6-card" data-v6-index="1">
+        <span class="icon-orb" style="--accent:var(--c2)"><img src="../femme_ferments_glass_assets/tight_png/02_left_top_teal_shards_tight.png" alt="Teal glass piece representing the volunteer harvest"></span>
+        <div class="v6-card-num">02</div>
+        <div class="v6-card-title">Volunteer Harvest</div>
+        <div class="v6-card-brief">40+ volunteers, 3 harvest weekends.</div>
+      </button>
+      <button class="v6-card" data-v6-index="2">
+        <span class="icon-orb" style="--accent:var(--c3)"><img src="../femme_ferments_glass_assets/tight_png/12_upper_right_purple_sail_tight.png" alt="Purple glass piece representing the partner cellar"></span>
+        <div class="v6-card-num">03</div>
+        <div class="v6-card-title">Partner Cellar</div>
+        <div class="v6-card-brief">Cellar space donated for fermentation.</div>
+      </button>
+      <button class="v6-card" data-v6-index="3">
+        <span class="icon-orb" style="--accent:var(--c4)"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Amber glass piece representing donated corks and bottles"></span>
+        <div class="v6-card-num">04</div>
+        <div class="v6-card-title">Donated Corks &amp; Bottles</div>
+        <div class="v6-card-brief">Packaging materials donated in full.</div>
+      </button>
+      <button class="v6-card" data-v6-index="4">
+        <span class="icon-orb" style="--accent:var(--c5)"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Blue and purple glass piece representing the crafted wine"></span>
+        <div class="v6-card-num">05</div>
+        <div class="v6-card-title">Crafted Wine</div>
+        <div class="v6-card-brief">Careful winemaking, bottled with purpose.</div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V7 — INFOGRAPHIC STRIP (horizontal)
+     ============================================================ -->
+<section class="variation" id="v7">
+  <div class="container">
+    <div class="variation-header">
+      <div class="variation-badge">V7</div>
+      <h2 class="variation-title">Infographic Strip</h2>
+      <p class="variation-desc">Not a circle at all &mdash; a horizontal timeline connected by a flowing gold line, with a return arrow showing the cycle starts again. Built mobile-first: it collapses into a clean vertical list on small screens.</p>
+    </div>
+    <p class="hint">Click any step for a dropdown of details</p>
+
+    <div class="v7-wrap">
+      <svg class="v7-path" viewBox="0 0 1000 90" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M60 30 C 200 70, 320 -10, 440 40 S 680 80, 800 20 S 940 50, 940 30" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="2 8"/>
+      </svg>
+      <div class="v7-row">
+        <button class="v7-step open" data-v7-index="0">
+          <span class="v7-step-num"><span class="icon-orb" style="--accent:var(--c1)"><img src="../femme_ferments_glass_assets/tight_png/14_right_warm_red_orange_tight.png" alt="Deep red glass piece representing donated grapes"></span></span>
+          <span class="v7-step-title">1. Donated Grapes</span>
+          <span class="v7-caret">&#9660;</span>
+        </button>
+        <button class="v7-step" data-v7-index="1">
+          <span class="v7-step-num"><span class="icon-orb" style="--accent:var(--c2)"><img src="../femme_ferments_glass_assets/tight_png/02_left_top_teal_shards_tight.png" alt="Teal glass piece representing the volunteer harvest"></span></span>
+          <span class="v7-step-title">2. Volunteer Harvest</span>
+          <span class="v7-caret">&#9660;</span>
+        </button>
+        <button class="v7-step" data-v7-index="2">
+          <span class="v7-step-num"><span class="icon-orb" style="--accent:var(--c3)"><img src="../femme_ferments_glass_assets/tight_png/12_upper_right_purple_sail_tight.png" alt="Purple glass piece representing the partner cellar"></span></span>
+          <span class="v7-step-title">3. Partner Cellar</span>
+          <span class="v7-caret">&#9660;</span>
+        </button>
+        <button class="v7-step" data-v7-index="3">
+          <span class="v7-step-num"><span class="icon-orb" style="--accent:var(--c4)"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Amber glass piece representing donated corks and bottles"></span></span>
+          <span class="v7-step-title">4. Corks &amp; Bottles</span>
+          <span class="v7-caret">&#9660;</span>
+        </button>
+        <button class="v7-step final" data-v7-index="4">
+          <span class="v7-step-num"><span class="icon-orb" style="--accent:var(--c5)"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Blue and purple glass piece representing the crafted wine"></span></span>
+          <span class="v7-step-title">5. Crafted Wine</span>
+          <span class="v7-caret">&#9660;</span>
+        </button>
+      </div>
+
+      <div class="v7-dropdown-row">
+        <div class="v7-dropdown open"><div class="v7-dropdown-inner"><div class="v7-dropdown-card" data-v7-panel="0"></div></div></div>
+        <div class="v7-dropdown"><div class="v7-dropdown-inner"><div class="v7-dropdown-card" data-v7-panel="1"></div></div></div>
+        <div class="v7-dropdown"><div class="v7-dropdown-inner"><div class="v7-dropdown-card" data-v7-panel="2"></div></div></div>
+        <div class="v7-dropdown"><div class="v7-dropdown-inner"><div class="v7-dropdown-card" data-v7-panel="3"></div></div></div>
+        <div class="v7-dropdown"><div class="v7-dropdown-inner"><div class="v7-dropdown-card" data-v7-panel="4"></div></div></div>
+      </div>
+
+      <svg class="v7-return" viewBox="0 0 700 60" aria-hidden="true">
+        <defs>
+          <marker id="v7ReturnArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <path d="M650 10 C 500 55, 200 55, 50 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2 6" marker-end="url(#v7ReturnArrow)"/>
+      </svg>
+      <p class="v7-return-label">...and the cycle begins again</p>
+
+      <button class="detail-card" id="v7-center-trigger" style="cursor:pointer; width: 100%; max-width: 700px; margin-top: 36px;">
+        <div class="d-eyebrow">The Result</div>
+        <div class="d-title">100% to Empowering Women</div>
+        <p class="d-text">Click to see who your donation supports &rarr;</p>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     V8 — INTERACTIVE HUB (radial + modal)
+     ============================================================ -->
+<section class="variation" id="v8">
+  <div class="container">
+    <div class="variation-header">
+      <div class="variation-badge">V8</div>
+      <h2 class="variation-title">Interactive Hub</h2>
+      <p class="variation-desc">The richest version: a gently pulsing hub with five spokes radiating out. Hover a spoke to see it light up gold; click any node for a full-screen modal with partner name, what was given, when, and a quote.</p>
+    </div>
+    <p class="hint">Hover a spoke, click a node for the full story</p>
+
+    <div class="v8-diagram" id="v8-diagram">
+      <svg class="v8-spokes" viewBox="0 0 100 100" aria-hidden="true">
+        <line data-v8-spoke="0" x1="50" y1="50" x2="88" y2="50"/>
+        <line data-v8-spoke="1" x1="50" y1="50" x2="62" y2="86"/>
+        <line data-v8-spoke="2" x1="50" y1="50" x2="19" y2="74"/>
+        <line data-v8-spoke="3" x1="50" y1="50" x2="19" y2="26"/>
+        <line data-v8-spoke="4" x1="50" y1="50" x2="62" y2="14"/>
+      </svg>
+
+      <button class="v8-hub" data-v8-center>
+        <span class="v8-hub-pct">100%</span>
+        <span class="v8-hub-label">Empowering Women</span>
+      </button>
+
+      <button class="v8-node" data-v8-index="0">
+        <span class="icon-orb" style="--accent:var(--c1)"><img src="../femme_ferments_glass_assets/tight_png/14_right_warm_red_orange_tight.png" alt="Deep red glass piece representing donated grapes"></span>
+        <span class="v8-node-num">1</span>
+        <span class="v8-node-title">Donated Grapes</span>
+      </button>
+      <button class="v8-node" data-v8-index="1">
+        <span class="icon-orb" style="--accent:var(--c2)"><img src="../femme_ferments_glass_assets/tight_png/02_left_top_teal_shards_tight.png" alt="Teal glass piece representing the volunteer harvest"></span>
+        <span class="v8-node-num">2</span>
+        <span class="v8-node-title">Volunteer Harvest</span>
+      </button>
+      <button class="v8-node" data-v8-index="2">
+        <span class="icon-orb" style="--accent:var(--c3)"><img src="../femme_ferments_glass_assets/tight_png/12_upper_right_purple_sail_tight.png" alt="Purple glass piece representing the partner cellar"></span>
+        <span class="v8-node-num">3</span>
+        <span class="v8-node-title">Partner Cellar</span>
+      </button>
+      <button class="v8-node" data-v8-index="3">
+        <span class="icon-orb" style="--accent:var(--c4)"><img src="../femme_ferments_glass_assets/tight_png/10_upper_yellow_orange_tight.png" alt="Amber glass piece representing donated corks and bottles"></span>
+        <span class="v8-node-num">4</span>
+        <span class="v8-node-title">Donated Corks &amp; Bottles</span>
+      </button>
+      <button class="v8-node" data-v8-index="4">
+        <span class="icon-orb" style="--accent:var(--c5)"><img src="../femme_ferments_glass_assets/tight_png/15_right_lower_blue_purple_tight.png" alt="Blue and purple glass piece representing the crafted wine"></span>
+        <span class="v8-node-num">5</span>
+        <span class="v8-node-title">Crafted Wine</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-mark">Femme Ferments</div>
+    <div class="footer-copy">&copy; 2026 Femme Ferments &nbsp;|&nbsp; Made with &#10084;&#65039; by <a href="https://effulgentpoint.com/" target="_blank" rel="noopener">Effulgent Point</a></div>
+  </div>
+</footer>
+
+<!-- ============ SHARED MODAL (V6 / V8) ============ -->
+<div class="modal-overlay" id="shared-modal">
+  <div class="modal-card">
+    <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+
+  var STEPS = [
+    {
+      num: 1,
+      title: "Donated Grapes",
+      partner: "Eola-Amity Hills Family Vineyards",
+      when: "Donated Fall 2025",
+      text: "Eola-Amity Hills Family Vineyards donated a portion of their harvest so every bottle could start with fruit that was freely given, not purchased — the first link in our chain of generosity.",
+      quote: "“We believe in what Femme Ferments is building — donating our fruit was an easy yes.” — Eola-Amity Hills Family Vineyards"
+    },
+    {
+      num: 2,
+      title: "Volunteer Harvest",
+      partner: "40+ Volunteers",
+      when: "3 Harvest Weekends, Fall 2025",
+      text: "More than 40 volunteers showed up across three harvest weekends to hand-pick every cluster — no experience required, just willing hands and an early alarm.",
+      quote: "“I came for one Saturday and ended up back for all three weekends.” — Harvest Volunteer"
+    },
+    {
+      num: 3,
+      title: "Partner Cellar",
+      partner: "Willamette Valley Vineyards",
+      when: "Cellar Donated, Fall–Winter 2025",
+      text: "Willamette Valley Vineyards opened their cellar and lent their winemaking expertise, guiding every donated grape through fermentation at no cost.",
+      quote: "“Femme Ferments’ mission made this an easy partnership to say yes to.” — Willamette Valley Vineyards"
+    },
+    {
+      num: 4,
+      title: "Donated Corks & Bottles",
+      partner: "Oregon Cork Supply & Ardagh Glass",
+      when: "Donated Winter 2025",
+      text: "Oregon Cork Supply and Ardagh Glass donated corks and bottles so every dollar spent on production could go further toward our mission.",
+      quote: "“Every case we can help fill for free is a case that goes further for women in our community.” — Oregon Cork Supply"
+    },
+    {
+      num: 5,
+      title: "Crafted Wine",
+      partner: "Femme Ferments Winemaking Team",
+      when: "Bottled Winter 2025 – Spring 2026",
+      text: "Patient, careful winemaking turns community generosity into something worth sharing — and worth selling. Every bottle carries the story of everyone who touched it.",
+      quote: "“This wine only exists because a whole community decided to give.” — Femme Ferments"
+    }
+  ];
+
+  var CENTER = {
+    title: "100% to Empowering Women",
+    text: "Every dollar of profit is reinvested directly into programs that empower women in our community.",
+    orgs: ["Women's Foundation of Oregon", "Willamette Valley Women in Wine", "Local domestic violence shelters"]
+  };
+
+  function pad(n){ return n < 10 ? "0" + n : "" + n; }
+  function orgListHtml(){
+    return CENTER.orgs.map(function(o){ return "<li>" + o + "</li>"; }).join("");
+  }
+
+  /* ---------- V1 : Classic Circle ---------- */
+  (function(){
+    var nodes = document.querySelectorAll('#v1-diagram .v1-node');
+    var centerBtn = document.querySelector('#v1-diagram [data-v1-center]');
+    var eyebrow = document.getElementById('v1-detail-eyebrow');
+    var title = document.getElementById('v1-detail-title');
+    var meta = document.getElementById('v1-detail-meta');
+    var text = document.getElementById('v1-detail-text');
+
+    function showStep(i){
+      var s = STEPS[i];
+      eyebrow.textContent = 'Step ' + pad(s.num);
+      title.textContent = s.title;
+      meta.innerHTML = '<div><strong>Partner</strong>' + s.partner + '</div><div><strong>When</strong>' + s.when + '</div>';
+      text.textContent = s.text;
+    }
+    function showCenter(){
+      eyebrow.textContent = 'The Result';
+      title.textContent = CENTER.title;
+      meta.innerHTML = '';
+      text.innerHTML = CENTER.text + '<br><br><strong style="color:var(--wine-soft); display:block; margin-bottom:6px;">Supporting</strong><ul class="d-orgs">' + orgListHtml() + '</ul>';
+    }
+    showStep(0);
+
+    nodes.forEach(function(node){
+      node.addEventListener('click', function(){
+        nodes.forEach(function(n){ n.classList.remove('active'); });
+        node.classList.add('active');
+        showStep(parseInt(node.getAttribute('data-v1-index'), 10));
+      });
+    });
+    centerBtn.addEventListener('click', function(){
+      nodes.forEach(function(n){ n.classList.remove('active'); });
+      showCenter();
+    });
+  })();
+
+  /* ---------- V2 : Orbit ---------- */
+  (function(){
+    var ring = document.getElementById('v2-ring');
+    var toggle = document.getElementById('v2-toggle');
+    var nodes = document.querySelectorAll('#v2-diagram .v2-node');
+    var centerBtn = document.getElementById('v2-center');
+    var eyebrow = document.getElementById('v2-detail-eyebrow');
+    var title = document.getElementById('v2-detail-title');
+    var meta = document.getElementById('v2-detail-meta');
+    var text = document.getElementById('v2-detail-text');
+    var paused = false;
+
+    function showStep(i){
+      var s = STEPS[i];
+      eyebrow.textContent = 'Step ' + pad(s.num);
+      title.textContent = s.title;
+      meta.innerHTML = '<div><strong>Partner</strong>' + s.partner + '</div><div><strong>When</strong>' + s.when + '</div>';
+      text.textContent = s.text;
+    }
+    function showCenter(){
+      eyebrow.textContent = 'The Result';
+      title.textContent = CENTER.title;
+      meta.innerHTML = '';
+      text.innerHTML = CENTER.text + '<br><br><strong style="color:var(--wine-soft); display:block; margin-bottom:6px;">Supporting</strong><ul class="d-orgs">' + orgListHtml() + '</ul>';
+    }
+    showStep(0);
+
+    function pause(){ paused = true; ring.classList.add('paused'); toggle.textContent = 'Resume Orbit'; }
+    function resume(){ paused = false; ring.classList.remove('paused'); toggle.textContent = 'Pause Orbit'; }
+
+    nodes.forEach(function(node){
+      node.addEventListener('click', function(e){
+        e.stopPropagation();
+        nodes.forEach(function(n){ n.classList.remove('active'); });
+        node.classList.add('active');
+        pause();
+        showStep(parseInt(node.getAttribute('data-v2-index'), 10));
+      });
+    });
+    centerBtn.addEventListener('click', function(){
+      nodes.forEach(function(n){ n.classList.remove('active'); });
+      pause();
+      showCenter();
+    });
+    toggle.addEventListener('click', function(){ paused ? resume() : pause(); });
+  })();
+
+  /* ---------- V3 : Accordion Ring ---------- */
+  (function(){
+    var items = document.querySelectorAll('#v3 .v3-item');
+    items.forEach(function(item){
+      var head = item.querySelector('.v3-item-head');
+      var panel = item.querySelector('[data-v3-panel]');
+      var isCenter = item.hasAttribute('data-v3-center');
+
+      if (isCenter){
+        panel.innerHTML = '<strong>Supporting</strong><ul>' + orgListHtml() + '</ul>';
+      } else {
+        var idx = parseInt(item.getAttribute('data-v3-index'), 10);
+        var s = STEPS[idx];
+        panel.innerHTML = '<strong>' + s.partner + ' — ' + s.when + '</strong>' + s.text;
+      }
+
+      head.addEventListener('click', function(){
+        var wasOpen = item.classList.contains('open');
+        items.forEach(function(it){ it.classList.remove('open'); });
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+  })();
+
+  /* ---------- V4 : Flower Petals ---------- */
+  (function(){
+    var petals = document.querySelectorAll('#v4-diagram .v4-petal');
+    var centerBtn = document.querySelector('#v4-diagram [data-v4-center]');
+    var eyebrow = document.getElementById('v4-detail-eyebrow');
+    var title = document.getElementById('v4-detail-title');
+    var meta = document.getElementById('v4-detail-meta');
+    var text = document.getElementById('v4-detail-text');
+
+    function showStep(i){
+      var s = STEPS[i];
+      eyebrow.textContent = 'Step ' + pad(s.num);
+      title.textContent = s.title;
+      meta.innerHTML = '<div><strong>Partner</strong>' + s.partner + '</div><div><strong>When</strong>' + s.when + '</div>';
+      text.textContent = s.text;
+    }
+    function showCenter(){
+      eyebrow.textContent = 'The Result';
+      title.textContent = CENTER.title;
+      meta.innerHTML = '';
+      text.innerHTML = CENTER.text + '<br><br><strong style="color:var(--wine-soft); display:block; margin-bottom:6px;">Supporting</strong><ul class="d-orgs">' + orgListHtml() + '</ul>';
+    }
+    showStep(0);
+
+    petals.forEach(function(petal){
+      petal.addEventListener('click', function(){
+        petals.forEach(function(p){ p.classList.remove('active'); });
+        petal.classList.add('active');
+        showStep(parseInt(petal.getAttribute('data-v4-index'), 10));
+      });
+    });
+    centerBtn.addEventListener('click', function(){
+      petals.forEach(function(p){ p.classList.remove('active'); });
+      showCenter();
+    });
+  })();
+
+  /* ---------- V5 : Timeline Circle (SVG draw on scroll) ---------- */
+  (function(){
+    var diagram = document.getElementById('v5-diagram');
+    var nodes = document.querySelectorAll('#v5-diagram .v5-node');
+    var centerBtn = document.querySelector('#v5-diagram [data-v5-center]');
+    var popup = document.getElementById('v5-popup');
+
+    var positions = [
+      { top: '50%', left: '83%' },
+      { top: '81%', left: '60%' },
+      { top: '69%', left: '23%' },
+      { top: '31%', left: '23%' },
+      { top: '19%', left: '60%' }
+    ];
+
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          diagram.classList.add('in-view');
+          observer.unobserve(diagram);
+        }
+      });
+    }, { threshold: 0.35 });
+    observer.observe(diagram);
+
+    function openPopup(html, pos){
+      popup.style.top = pos.top;
+      popup.style.left = pos.left;
+      popup.innerHTML = html;
+      popup.classList.add('open');
+    }
+
+    nodes.forEach(function(node){
+      node.addEventListener('click', function(e){
+        e.stopPropagation();
+        nodes.forEach(function(n){ n.classList.remove('active'); });
+        node.classList.add('active');
+        var idx = parseInt(node.getAttribute('data-v5-index'), 10);
+        var s = STEPS[idx];
+        var pos = positions[idx];
+        var html = '<div class="p-title">' + s.title + '</div><div class="p-partner">' + s.partner + ' — ' + s.when + '</div><p class="p-text">' + s.text + '</p>';
+        openPopup(html, pos);
+      });
+    });
+
+    centerBtn.addEventListener('click', function(){
+      nodes.forEach(function(n){ n.classList.remove('active'); });
+      var html = '<div class="p-title">' + CENTER.title + '</div><ul class="p-orgs">' + orgListHtml() + '</ul>';
+      openPopup(html, { top: '50%', left: '50%' });
+    });
+
+    document.addEventListener('click', function(e){
+      if (!diagram.contains(e.target)) popup.classList.remove('open');
+    });
+  })();
+
+  /* ---------- V6 : Cards in Circle (shared modal) ---------- */
+  var sharedModal = document.getElementById('shared-modal');
+  var modalBody = document.getElementById('modal-body');
+  var modalClose = document.getElementById('modal-close');
+
+  function openModal(html){
+    modalBody.innerHTML = html;
+    sharedModal.classList.add('open');
+  }
+  function closeModal(){ sharedModal.classList.remove('open'); }
+  modalClose.addEventListener('click', closeModal);
+  sharedModal.addEventListener('click', function(e){ if (e.target === sharedModal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
+
+  function stepModalHtml(s, opts){
+    opts = opts || {};
+    var quote = opts.showQuote ? '<p class="modal-quote">' + s.quote + '</p>' : '';
+    var logo = opts.showLogo ? '<div class="modal-logo-placeholder">Partner<br>Logo</div>' : '';
+    return logo +
+      '<div class="modal-eyebrow">Step ' + pad(s.num) + '</div>' +
+      '<div class="modal-title">' + s.title + '</div>' +
+      '<div class="modal-meta"><div><strong>Partner</strong><span>' + s.partner + '</span></div><div><strong>When</strong><span>' + s.when + '</span></div></div>' +
+      '<p class="modal-text">' + s.text + '</p>' + quote;
+  }
+  function centerModalHtml(){
+    return '<div class="modal-eyebrow">The Result</div>' +
+      '<div class="modal-title">' + CENTER.title + '</div>' +
+      '<p class="modal-text">' + CENTER.text + '</p>' +
+      '<ul class="modal-orgs">' + orgListHtml() + '</ul>';
+  }
+
+  (function(){
+    var cards = document.querySelectorAll('#v6 .v6-card');
+    var centerBtn = document.querySelector('#v6 [data-v6-center]');
+    cards.forEach(function(card){
+      card.addEventListener('click', function(){
+        var idx = parseInt(card.getAttribute('data-v6-index'), 10);
+        openModal(stepModalHtml(STEPS[idx], { showQuote: false, showLogo: false }));
+      });
+    });
+    centerBtn.addEventListener('click', function(){ openModal(centerModalHtml()); });
+  })();
+
+  /* ---------- V7 : Infographic Strip ---------- */
+  (function(){
+    var steps = document.querySelectorAll('#v7 .v7-step');
+    var dropdowns = document.querySelectorAll('#v7 .v7-dropdown');
+    var centerTrigger = document.getElementById('v7-center-trigger');
+
+    steps.forEach(function(step, idx){
+      var s = STEPS[idx];
+      var panel = dropdowns[idx].querySelector('[data-v7-panel]');
+      panel.innerHTML = '<strong>' + s.partner + ' — ' + s.when + '</strong>' + s.text;
+
+      step.addEventListener('click', function(){
+        var wasOpen = step.classList.contains('open');
+        steps.forEach(function(st){ st.classList.remove('open'); });
+        dropdowns.forEach(function(dd){ dd.classList.remove('open'); });
+        if (!wasOpen){
+          step.classList.add('open');
+          dropdowns[idx].classList.add('open');
+        }
+      });
+    });
+
+    centerTrigger.addEventListener('click', function(){
+      openModal(centerModalHtml());
+    });
+  })();
+
+  /* ---------- V8 : Interactive Hub (spokes + shared modal) ---------- */
+  (function(){
+    var nodes = document.querySelectorAll('#v8-diagram .v8-node');
+    var spokes = document.querySelectorAll('#v8-diagram .v8-spokes line');
+    var centerBtn = document.querySelector('#v8-diagram [data-v8-center]');
+
+    nodes.forEach(function(node){
+      var idx = parseInt(node.getAttribute('data-v8-index'), 10);
+      var spoke = document.querySelector('[data-v8-spoke="' + idx + '"]');
+
+      node.addEventListener('mouseenter', function(){ node.classList.add('hot'); if (spoke) spoke.classList.add('hot'); });
+      node.addEventListener('mouseleave', function(){ node.classList.remove('hot'); if (spoke) spoke.classList.remove('hot'); });
+
+      node.addEventListener('click', function(){
+        openModal(stepModalHtml(STEPS[idx], { showQuote: true, showLogo: true }));
+      });
+    });
+
+    centerBtn.addEventListener('click', function(){ openModal(centerModalHtml()); });
+  })();
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+:root {
+  --cream: #faf5eb;
+  --parchment: #f4ead2;
+  --parchment-deep: #ece0c2;
+  --gold: #c9a84c;
+  --gold-text: #6e5624;
+  --wine: #4a0e2b;
+  --copper: #b8632e;
+  --copper-text: #8a4a1e;
+  --ink: #2c1c12;
+  --ink-dim: #6b5a52;
+  --background: var(--cream);
+  --foreground: var(--ink);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-cream: var(--cream);
+  --color-parchment: var(--parchment);
+  --color-parchment-deep: var(--parchment-deep);
+  --color-gold: var(--gold);
+  --color-gold-text: var(--gold-text);
+  --color-wine: var(--wine);
+  --color-copper: var(--copper);
+  --color-copper-text: var(--copper-text);
+  --color-ink: var(--ink);
+  --color-ink-dim: var(--ink-dim);
+  --font-serif: var(--font-cormorant);
+  --font-sans: var(--font-inter);
+}
+
+/* NOTE: no universal margin/padding reset here — Tailwind v4 preflight handles it.
+   An unlayered `* { margin: 0 }` overrides ALL layered Tailwind utilities
+   (mx-auto, mb-*, p-*) because unlayered CSS beats @layer in the cascade. */
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.spec-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(44, 28, 18, 0.18) !important;
+}
+.spec-card:hover .spec-img img {
+  transform: scale(1.05) rotate(-2deg);
+}
+.spec-card:focus-visible {
+  outline: 2px solid var(--wine);
+  outline-offset: 2px;
+}
+
+[id] {
+  scroll-margin-top: 80px;
+}
+
+.drop-cap::first-letter {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: 3.3em;
+  line-height: 0.82;
+  float: left;
+  padding: 0.04em 0.12em 0 0;
+  color: var(--wine);
+  font-weight: 600;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.hero-full-stage {
+  position: relative;
+  width: 110vw;
+  margin-left: -5vw;
+  aspect-ratio: 1275 / 945;
+}
+@media (max-width: 700px) {
+  .hero-full-stage {
+    width: 140vw;
+    margin-left: -20vw;
+  }
+}
+
+@media (max-width: 767px) {
+  .bg-glass-piece {
+    opacity: 0.14 !important;
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 28s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

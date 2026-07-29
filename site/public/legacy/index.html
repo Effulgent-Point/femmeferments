@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Femme Ferments — Design Concepts Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f5f5f7; color: #1d1d1f; line-height: 1.6; }
+a { text-decoration: none; color: inherit; }
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 35%, #4a1942 65%, #1a1a2e 100%);
+  padding: 3rem 2rem 3.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(13, 148, 136, 0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 50%, rgba(124, 58, 237, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-back {
+  position: absolute; top: 1.25rem; left: 1.5rem;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  color: rgba(255,255,255,0.6); font-size: 0.85rem; font-weight: 500;
+  transition: color 0.2s;
+  z-index: 2;
+}
+.hero-back:hover { color: #fff; }
+.hero-back svg { width: 18px; height: 18px; }
+.hero h1 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+.hero p {
+  color: rgba(255,255,255,0.75);
+  font-size: 1.05rem;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+.hero .subtitle {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.8rem;
+  margin-top: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  position: relative;
+}
+.hero .stats {
+  display: flex; justify-content: center; gap: 2rem;
+  margin-top: 1.5rem; position: relative;
+}
+.hero .stat { text-align: center; }
+.hero .stat-num { color: #c9a84c; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.6rem; font-weight: 800; }
+.hero .stat-label { color: rgba(255,255,255,0.5); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* Section Headers */
+.section-header {
+  max-width: 1200px; margin: 2.5rem auto 1rem; padding: 0 1.5rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.section-header h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.3rem; font-weight: 700; color: #1d1d1f;
+}
+.section-header .count {
+  background: #e8e8ed; color: #6e6e73; font-size: 0.75rem; font-weight: 600;
+  padding: 0.15rem 0.6rem; border-radius: 99px;
+}
+
+/* Card Grid */
+.grid {
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Cards */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #e8e8ed;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+  display: flex; flex-direction: column;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+}
+.card.rejected { opacity: 0.45; filter: grayscale(0.5); }
+.card.rejected:hover { opacity: 0.7; filter: grayscale(0.2); }
+.card-header {
+  padding: 1.25rem 1.25rem 0;
+  display: flex; align-items: flex-start; gap: 0.75rem;
+}
+.badge {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800; font-size: 0.85rem; color: #fff;
+  flex-shrink: 0;
+}
+.card-header-text { flex: 1; }
+.card-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 1.05rem; color: #1d1d1f;
+  line-height: 1.3;
+}
+.chip {
+  display: inline-block;
+  font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 0.15rem 0.5rem; border-radius: 4px;
+  margin-top: 0.35rem;
+}
+.chip-loved { background: #dcfce7; color: #166534; }
+.chip-liked { background: #dbeafe; color: #1e40af; }
+.chip-neutral { background: #f3f4f6; color: #6b7280; }
+.chip-rejected { background: #fee2e2; color: #991b1b; }
+.chip-animation { background: #fae8ff; color: #86198f; }
+.card-body { padding: 0.75rem 1.25rem; flex: 1; }
+.card-desc { font-size: 0.88rem; color: #6e6e73; line-height: 1.55; }
+.card-best { font-size: 0.8rem; color: #86868b; margin-top: 0.5rem; }
+.card-best strong { color: #6e6e73; }
+.card-footer { padding: 0.75rem 1.25rem 1.25rem; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.85rem; font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-primary { background: #0d9488; color: #fff; }
+.btn-primary:hover { background: #0f766e; }
+.btn-rejected { background: #e5e7eb; color: #9ca3af; }
+.btn-rejected:hover { background: #d1d5db; color: #6b7280; }
+.btn-anim { background: #7c3aed; color: #fff; }
+.btn-anim:hover { background: #6d28d9; }
+.btn-final { background: linear-gradient(135deg, #c9a84c, #a07c2a); color: #fff; }
+.btn-final:hover { background: linear-gradient(135deg, #d4b35e, #b8912f); }
+.chip-final { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e; font-weight: 700; }
+.card.final-card { border: 2px solid #c9a84c; }
+.card.final-card:hover { box-shadow: 0 12px 40px rgba(201, 168, 76, 0.15), 0 4px 12px rgba(0,0,0,0.04); }
+
+/* Footer */
+footer {
+  max-width: 1200px; margin: 1rem auto 0; padding: 2rem 1.5rem;
+  border-top: 1px solid #e8e8ed;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  font-size: 0.82rem; color: #86868b;
+}
+footer a { color: #0d9488; font-weight: 500; }
+footer a:hover { text-decoration: underline; }
+
+@media (max-width: 740px) {
+  .grid { grid-template-columns: 1fr; }
+  .hero { padding: 2.5rem 1.25rem 2.5rem; }
+  .hero .stats { gap: 1.25rem; }
+  footer { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <a href="/" class="hero-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to project</a>
+  <h1>Femme Ferments Design Concepts</h1>
+  <p>Beauty in the Broken Glass — nonprofit wine brand website prototypes exploring dark luxe, storybook, and community-driven designs.</p>
+  <div class="subtitle">Effulgent Point &bull; July 2026</div>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">19</div><div class="stat-label">Finals</div></div>
+    <div class="stat"><div class="stat-num">19</div><div class="stat-label">Concepts</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Animations</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Rounds</div></div>
+  </div>
+</div>
+
+<!-- V3 Refined — LATEST -->
+<div class="section-header">
+  <h2>V3 Refined &mdash; The Direction (LATEST)</h2>
+  <span class="count">4</span>
+</div>
+<div class="grid">
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #0d9488);">R4</div>
+      <div class="card-header-text">
+        <div class="card-title">Glass-First Hero</div>
+        <span class="chip chip-final">V3 Refined</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Glass mosaic fills the entire top of viewport edge-to-edge. FEMME FERMENTS + tagline sit below. On scroll, glass shatters sideways+down. Pieces float through sections. Full-screen assembly at bottom.</p>
+      <p class="card-best"><strong>Unique:</strong> Glass-dominant hero, immersive art-first opening</p>
+    </div>
+    <div class="card-footer"><a href="v3-refined-4.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #4a0e2b);">R1</div>
+      <div class="card-header-text">
+        <div class="card-title">Classic Chapters</div>
+        <span class="chip chip-final">V3 Refined</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Chapter-based storybook. 5x glass hero shatters sideways+down. V3 Labeled Specimens cards. Contribute modals per role. "Get Involved" CTA boxes. Full-screen assembly finale. Partner logo ribbon.</p>
+      <p class="card-best"><strong>Contribute UX:</strong> Click card &rarr; modal with role details + gold CTA</p>
+    </div>
+    <div class="card-footer"><a href="v3-refined-1.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #0d9488);">R2</div>
+      <div class="card-header-text">
+        <div class="card-title">Flowing Sections</div>
+        <span class="chip chip-final">V3 Refined</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">No chapter numbers — sections flow with soft gradient transitions. Magazine editorial feel. Same hero shatter, huge pieces, specimen cards. Inline accordion for contribute (expands below cards).</p>
+      <p class="card-best"><strong>Contribute UX:</strong> Click card &rarr; inline accordion expands below grid</p>
+    </div>
+    <div class="card-footer"><a href="v3-refined-2.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #7c3aed);">R3</div>
+      <div class="card-header-text">
+        <div class="card-title">Cinematic Scroll</div>
+        <span class="chip chip-final">V3 Refined</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Full-viewport scenes with scroll-snap. Each scroll reveals a cinematic "scene." Most dramatic glass pieces. Scrollable modal carousel with arrow navigation between all 6 roles.</p>
+      <p class="card-best"><strong>Contribute UX:</strong> Full-screen modal carousel, navigate between roles</p>
+    </div>
+    <div class="card-footer"><a href="v3-refined-3.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+</div>
+
+<!-- Round 3 V2 Concepts -->
+<div class="section-header">
+  <h2>Round 3 V2 &mdash; Previous Direction</h2>
+  <span class="count">6</span>
+</div>
+<div class="grid">
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #1a1a2e);">A</div>
+      <div class="card-header-text">
+        <div class="card-title">Storybook + Shatter</div>
+        <span class="chip chip-final">V2 Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Chapter-based storybook with hero glass shatter, wine-label typography (drop caps, editorial columns, pull quotes), HUGE glass pieces (40-60% width) as background decorations, and full-screen assembled mosaic finale.</p>
+      <p class="card-best"><strong>Combines:</strong> F1 chapters + F2 typography + hero shatter + huge bg glass</p>
+    </div>
+    <div class="card-footer"><a href="v2-a-storybook-shatter.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #1c110d);">B</div>
+      <div class="card-header-text">
+        <div class="card-title">Label &amp; Glass</div>
+        <span class="chip chip-final">V2 Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">F2 "Back Label" editorial typography with alternating cream/espresso sections. Glass pieces glow on dark backgrounds. Hero shatter, spread-out "Every Bottle Starts with You", partner logos.</p>
+      <p class="card-best"><strong>Combines:</strong> F2 back label + dark/light contrast + glass glow on dark</p>
+    </div>
+    <div class="card-footer"><a href="v2-b-label-and-glass.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #0d9488);">C</div>
+      <div class="card-header-text">
+        <div class="card-title">Float to Fullscreen</div>
+        <span class="chip chip-final">V2 Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Pure assembly concept. Hero shatters, huge pieces appear in each section as background (50-60% width), and ALL 18 pieces animate into a FULL-SCREEN assembled mosaic at the bottom. Device-responsive.</p>
+      <p class="card-best"><strong>Combines:</strong> Hero shatter + huge bg pieces + full-screen assembly finale</p>
+    </div>
+    <div class="card-footer"><a href="v2-c-float-to-fullscreen.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #4a0e2b);">D</div>
+      <div class="card-header-text">
+        <div class="card-title">Mosaic Story</div>
+        <span class="chip chip-final">V2 Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">F9 reimagined: single centered column story (not split layout). Glass pieces HUGE in background, not competing. Dramatic burst pop-out finale where all pieces explode in and assemble full-screen.</p>
+      <p class="card-best"><strong>Combines:</strong> F9 story flow + huge bg pieces (not side panel) + burst finale</p>
+    </div>
+    <div class="card-footer"><a href="v2-d-mosaic-story.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #be185d);">E</div>
+      <div class="card-header-text">
+        <div class="card-title">Community Gems</div>
+        <span class="chip chip-final">V2 Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Community-first. Hero shatters downward, glass community cards (specimen style), FIXED cycle diagram (5 steps inside, starts right, clickable partners), partner logos, full-screen assembly finale.</p>
+      <p class="card-best"><strong>Combines:</strong> F5 community + fixed cycle + glass cards + assembly</p>
+    </div>
+    <div class="card-footer"><a href="v2-e-community-gems.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #7c3aed);">F</div>
+      <div class="card-header-text">
+        <div class="card-title">Label Explode</div>
+        <span class="chip chip-final">V2 Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Wine label (logo_orig.jpg) displayed on hero, EXPLODES on scroll revealing glass pieces. Pieces journey through chapters. At bottom, pieces reassemble AND the label fades back in — whole again. Full narrative arc.</p>
+      <p class="card-best"><strong>Unique hook:</strong> Whole &rarr; broken &rarr; journey &rarr; reassembled</p>
+    </div>
+    <div class="card-footer"><a href="v2-f-label-explode.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+</div>
+
+<!-- Component Showcases -->
+<div class="section-header">
+  <h2>Component Showcases &mdash; Pick Your Favorite Style</h2>
+  <span class="count">2</span>
+</div>
+<div class="grid">
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #0d9488);">CC</div>
+      <div class="card-header-text">
+        <div class="card-title">Community Cards &times; 8</div>
+        <span class="chip chip-final">Components</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">8 different glass-piece community card designs: Glass Gallery, Words on Glass, Labeled Specimens (CHOSEN), Floating Badges, Split Cards, Mosaic Stack, Glass Tokens, Hero Cards.</p>
+      <p class="card-best"><strong>Pick:</strong> V3 "Labeled Specimens" selected</p>
+    </div>
+    <div class="card-footer"><a href="component-community-cards.html" class="btn btn-final">View All 8 &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #7c3aed);">CD</div>
+      <div class="card-header-text">
+        <div class="card-title">Cycle Diagrams &times; 8</div>
+        <span class="chip chip-final">Components</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">8 different "How We Do It" cycle diagram designs: Classic Circle, Orbit, Accordion Ring, Flower Petals, Timeline SVG, Cards in Circle, Infographic Strip, Interactive Hub. All with clickable partners.</p>
+      <p class="card-best"><strong>Fixed:</strong> Step 1 at right, all inside circle, clickable partner details</p>
+    </div>
+    <div class="card-footer"><a href="component-cycle-diagrams.html" class="btn btn-final">View All 8 &rarr;</a></div>
+  </div>
+</div>
+
+<!-- Round 1 Final Concepts -->
+<div class="section-header">
+  <h2>Round 1 Finals &mdash; Original Directions</h2>
+  <span class="count">5</span>
+</div>
+<div class="grid">
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #4a1942);">F1</div>
+      <div class="card-header-text">
+        <div class="card-title">The Storybook Journey</div>
+        <span class="chip chip-final">Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Chapter-based scrollytelling meets storybook narrative. Drop caps, chapter numbers, and poetry. Dark elegant base with lighter parchment panels for the logo. Glass pieces as large transparent decorations throughout.</p>
+      <p class="card-best"><strong>Best elements:</strong> Concept 14 chapters + Concept 11 storybook + Concept 10 community CTAs</p>
+    </div>
+    <div class="card-footer"><a href="final-1-chapters-storybook.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #2c1810);">F2</div>
+      <div class="card-header-text">
+        <div class="card-title">Wine Label Collection</div>
+        <span class="chip chip-final">Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">The entire site feels like flipping through beautifully designed wine labels. Dark espresso "bottle" backgrounds alternate with parchment "label" panels. Letterpress emboss effects, ornamental borders, and vintage typography.</p>
+      <p class="card-best"><strong>Best elements:</strong> Concept 7/11 wine label look + Concept 11 dark-light contrast + vintage feel</p>
+    </div>
+    <div class="card-footer"><a href="final-2-wine-label-collection.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #0d9488);">F3</div>
+      <div class="card-header-text">
+        <div class="card-title">Glass Gallery</div>
+        <span class="chip chip-final">Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">The glass pieces ARE the design system. Each section features a different large glass piece as a colorful accent, with the section's gradient derived from that piece's colors. Teal for vineyard, green for cellar, purple for community.</p>
+      <p class="card-best"><strong>Best elements:</strong> Concept 12 glass colors + Concept 14 chapters + actual glass assets</p>
+    </div>
+    <div class="card-footer"><a href="final-3-glass-gallery.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #7c3aed);">F4</div>
+      <div class="card-header-text">
+        <div class="card-title">Shatter Journey</div>
+        <span class="chip chip-final">Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Opens with the glass mosaic fully assembled. As you scroll, the 18 pieces shatter horizontally apart, revealing the story beneath. The site literally breaks open to reveal its content. Interactive scroll-driven animation hero.</p>
+      <p class="card-best"><strong>Best elements:</strong> Concept 15 shatter + Concept 14 journey + real glass PNG assets</p>
+    </div>
+    <div class="card-footer"><a href="final-4-shatter-journey.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #be185d);">F5</div>
+      <div class="card-header-text">
+        <div class="card-title">Community Collective</div>
+        <span class="chip chip-final">Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Community and involvement are the STAR, not the wine. Leads with "how to be a part of it" and the collaborative model. Each glass piece represents a contributor. Circular "How We Do It" diagram. Wine is elegant but secondary.</p>
+      <p class="card-best"><strong>Best elements:</strong> Concept 10 community + Concept 19 cycle + Concept 15 purple gradients</p>
+    </div>
+    <div class="card-footer"><a href="final-5-community-collective.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+</div>
+
+<!-- Round 1 Scroll Assembly Variations -->
+<div class="section-header">
+  <h2>Round 1 Scroll Assembly &mdash; Pieces Come Together</h2>
+  <span class="count">4</span>
+</div>
+<div class="grid">
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #0d9488);">F6</div>
+      <div class="card-header-text">
+        <div class="card-title">Scroll Assemble</div>
+        <span class="chip chip-final">Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Fixed center glass stage — all 18 pieces start scattered and large. As you scroll, they progressively fly in from the edges and assemble into the complete mosaic. Content in side panels.</p>
+      <p class="card-best"><strong>Effect:</strong> Pieces 1-4 visible first, all assembled by bottom</p>
+    </div>
+    <div class="card-footer"><a href="final-6-scroll-assemble.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #2c1810);">F7</div>
+      <div class="card-header-text">
+        <div class="card-title">Pieces Gather</div>
+        <span class="chip chip-final">Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Large decorative pieces in each section drift downward as you scroll. Each section contributes its pieces. All meet at a "Coming Together" finale with fully assembled mosaic.</p>
+      <p class="card-best"><strong>Effect:</strong> Pieces as large bg elements that migrate to the bottom</p>
+    </div>
+    <div class="card-footer"><a href="final-7-pieces-gather.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #7c3aed);">F8</div>
+      <div class="card-header-text">
+        <div class="card-title">Floating Gems</div>
+        <span class="chip chip-final">Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Small glass pieces tumble down both page margins like gems in water — rotating and drifting as you scroll. They converge and lock together in the bottom-right corner to form the complete mosaic.</p>
+      <p class="card-best"><strong>Effect:</strong> Magical gem-river flowing to bottom-right assembly</p>
+    </div>
+    <div class="card-footer"><a href="final-8-floating-gems.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+
+  <div class="card final-card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #c9a84c, #be185d);">F9</div>
+      <div class="card-header-text">
+        <div class="card-title">Mosaic Builds</div>
+        <span class="chip chip-final">Final</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Split layout — story scrolls on the left, sticky glass assembly fills in on the right. Each content section triggers new pieces to fly into position. Complete mosaic glows gold at the end.</p>
+      <p class="card-best"><strong>Effect:</strong> Read left, watch mosaic build on right</p>
+    </div>
+    <div class="card-footer"><a href="final-9-mosaic-builds.html" class="btn btn-final">View Final &rarr;</a></div>
+  </div>
+</div>
+
+<!-- Animations -->
+<div class="section-header">
+  <h2>Animations &amp; Glass Effects</h2>
+  <span class="count">3</span>
+</div>
+<div class="grid">
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #7c3aed, #a855f7);">A1</div>
+      <div class="card-header-text">
+        <div class="card-title">Glass Shatter v1 (CSS Clip-Path)</div>
+        <span class="chip chip-animation">Animation</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">First-gen shattering animation using CSS clip-path polygons to simulate glass breaking. Scroll, click, and breathe modes. Uses the brand image with artificial shard cuts.</p>
+      <p class="card-best"><strong>Status:</strong> Superseded by v2 (real assets)</p>
+    </div>
+    <div class="card-footer"><a href="glass-shatter-animation.html" class="btn btn-anim">View Animation &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #7c3aed, #ec4899);">A2</div>
+      <div class="card-header-text">
+        <div class="card-title">Glass Shatter v2 (Real Assets)</div>
+        <span class="chip chip-animation">Animation</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Production-quality shattering using 18 pre-cut transparent PNG glass pieces with metadata-driven positioning. Scroll-driven, click-toggle, and breathing modes. Horizontal scatter.</p>
+      <p class="card-best"><strong>Status:</strong> Current best &mdash; uses real glass assets</p>
+    </div>
+    <div class="card-footer"><a href="glass-shatter-v2.html" class="btn btn-anim">View Animation &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #0d9488, #7c3aed);">A3</div>
+      <div class="card-header-text">
+        <div class="card-title">Glass Assets Showcase</div>
+        <span class="chip chip-animation">Asset Kit</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Browse all 18 transparent glass pieces, tight crops, alpha masks, and the glass-only full canvas. See the numbered section overlay and reassembled preview.</p>
+      <p class="card-best"><strong>Location:</strong> ../femme_ferments_glass_assets/</p>
+    </div>
+    <div class="card-footer"><a href="/glass-assets/canvas_png/08_center_core_burst_canvas.png" class="btn btn-anim">View Glass Piece &rarr;</a></div>
+  </div>
+</div>
+
+<!-- Favorites -->
+<div class="section-header">
+  <h2>Client Favorites</h2>
+  <span class="count">8</span>
+</div>
+<div class="grid">
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #4a0e2b, #c9a84c);">02</div>
+      <div class="card-header-text">
+        <div class="card-title">Wine Dark Luxe</div>
+        <span class="chip chip-loved">Loved</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Ultra-premium dark wine cellar aesthetic with grain texture, gold accents, and editorial typography. Near-black base with burgundy and copper tones. Candlelit elegance.</p>
+      <p class="card-best"><strong>Best for:</strong> Dark palette direction, gold accent system</p>
+    </div>
+    <div class="card-footer"><a href="02-wine-dark-luxe.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #2c1810, #c49b3c);">07</div>
+      <div class="card-header-text">
+        <div class="card-title">Artisan Craft</div>
+        <span class="chip chip-loved">Loved</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Wine label header feel with letterpress embossed text, linen texture, and dramatic small-to-large font contrast. The client's favorite style from round 1.</p>
+      <p class="card-best"><strong>Best for:</strong> Wine label aesthetic, font contrast, header treatment</p>
+    </div>
+    <div class="card-footer"><a href="07-artisan-craft.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #0a0a0f, #c9a84c);">10</div>
+      <div class="card-header-text">
+        <div class="card-title">Dark Cellar Community</div>
+        <span class="chip chip-loved">Loved</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">"Be Part of Something Beautiful" involvement section, "Chain of Generosity" flow, clickable partner reveals, and the "How We Do It" visual. Strong community CTAs.</p>
+      <p class="card-best"><strong>Best for:</strong> Community involvement sections, partner reveal interactions</p>
+    </div>
+    <div class="card-footer"><a href="10-dark-cellar-community.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #1c110d, #c49b3c);">11</div>
+      <div class="card-header-text">
+        <div class="card-title">Artisan Label v2</div>
+        <span class="chip chip-loved">Loved</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Storybook feel of "Wines Crafted for a Purpose," unique ornaments per role card, asymmetric grid. Dark-to-light section contrast for readability. "How It Works" visual process.</p>
+      <p class="card-best"><strong>Best for:</strong> Storybook narrative, scroll-reveal roles, process diagram</p>
+    </div>
+    <div class="card-footer"><a href="11-artisan-label-v2.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #0d0d1a, #047857);">12</div>
+      <div class="card-header-text">
+        <div class="card-title">Stained Glass Sanctuary</div>
+        <span class="chip chip-liked">Liked</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Subtle gradient transitions prevent flat look. Gothic arch clip-path transitions. Each section a different jewel-tone stained glass panel. Varied greens from the glass pieces.</p>
+      <p class="card-best"><strong>Best for:</strong> Gradient transitions, glass-piece color variety, section depth</p>
+    </div>
+    <div class="card-footer"><a href="12-stained-glass-sanctuary.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #2a0a1a, #1a2e1a);">14</div>
+      <div class="card-header-text">
+        <div class="card-title">Vineyard Journey</div>
+        <span class="chip chip-loved">Loved</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Chapter-based scrollytelling from grape to glass to giving. Each scroll reveals a new chapter with involvement CTAs woven in. Color shifts between sections. LOVED the chapters concept.</p>
+      <p class="card-best"><strong>Best for:</strong> Overall site structure &mdash; strongest direction for final build</p>
+    </div>
+    <div class="card-footer"><a href="14-vineyard-journey.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #08080f, #7c3aed);">15</div>
+      <div class="card-header-text">
+        <div class="card-title">Glass Fracture</div>
+        <span class="chip chip-liked">Liked</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Scroll-driven shattering with horizontal scatter. 100% profits early in the page. The purple gradient in "Collaborate. Support. Celebrate." was loved.</p>
+      <p class="card-best"><strong>Best for:</strong> Purple gradients, early impact stats, shatter animation</p>
+    </div>
+    <div class="card-footer"><a href="15-glass-fracture.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #15120e, #2d3a1f);">19</div>
+      <div class="card-header-text">
+        <div class="card-title">Heritage Roots</div>
+        <span class="chip chip-liked">Liked</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">"The Cycle" circular concept and organic section layout. PNW wine country with deep earth tones. Circular image treatment encourages reading. Needs refinement.</p>
+      <p class="card-best"><strong>Best for:</strong> Circular layouts, "The Cycle" concept, organic shapes</p>
+    </div>
+    <div class="card-footer"><a href="19-heritage-roots.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+</div>
+
+<!-- Other Round 2 -->
+<div class="section-header">
+  <h2>Round 2 &mdash; Other Concepts</h2>
+  <span class="count">2</span>
+</div>
+<div class="grid">
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #0a0a0f, #8c1c3a);">09</div>
+      <div class="card-header-text">
+        <div class="card-title">Refined Dark Glass</div>
+        <span class="chip chip-neutral">Needs Work</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">CSS clip-path shattering animation on dark luxe base. Cool concept but needs significant work. Logo should have lighter background or filter treatment.</p>
+      <p class="card-best"><strong>Feedback:</strong> Animation concept OK, execution needs polish</p>
+    </div>
+    <div class="card-footer"><a href="09-refined-dark-glass.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #0c0c1a, #b8860b);">17b</div>
+      <div class="card-header-text">
+        <div class="card-title">Wine &amp; Purpose (Split)</div>
+        <span class="chip chip-neutral">Neutral</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Not reviewed individually — alternating wine elegance and activism sections. The concept of varied moods between sections has merit even if this execution was rejected.</p>
+      <p class="card-best"><strong>Note:</strong> Concept 16 was rejected but mood-switching idea could be salvaged</p>
+    </div>
+    <div class="card-footer"><a href="16-wine-and-purpose.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+</div>
+
+<!-- Round 1 Others -->
+<div class="section-header">
+  <h2>Round 1 &mdash; Exploration</h2>
+  <span class="count">5</span>
+</div>
+<div class="grid">
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #0d9488, #2563eb);">01</div>
+      <div class="card-header-text">
+        <div class="card-title">Mosaic Glass</div>
+        <span class="chip chip-liked">Liked</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">CSS broken glass shards in jewel tones with pinwheel burst hero. Closest to the actual brand identity. Good logo direction.</p>
+      <p class="card-best"><strong>Best for:</strong> Logo-inspired CSS patterns, jewel-tone palette</p>
+    </div>
+    <div class="card-footer"><a href="01-mosaic-glass.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #1a3a2a, #c75b39);">03</div>
+      <div class="card-header-text">
+        <div class="card-title">Botanical Luxe</div>
+        <span class="chip chip-liked">Liked</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Vine-inspired organic luxury with hand-drawn SVG ornaments, firefly particles, and forest green/terracotta palette. Some color palette elements liked.</p>
+      <p class="card-best"><strong>Best for:</strong> Organic shapes, vine accents, earth tones</p>
+    </div>
+    <div class="card-footer"><a href="03-botanical-luxe.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #2d1b69, #be185d);">05</div>
+      <div class="card-header-text">
+        <div class="card-title">Watercolor Flow</div>
+        <span class="chip chip-liked">Liked</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Flowing gradient washes with interlocking wave section edges. Different transitions between sections — varied, not uniform. Varied color palette per section.</p>
+      <p class="card-best"><strong>Best for:</strong> Section transitions, varied gradients, flowing aesthetic</p>
+    </div>
+    <div class="card-footer"><a href="05-watercolor-flow.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #0f0f23, #7c3aed);">08</div>
+      <div class="card-header-text">
+        <div class="card-title">Glass &amp; Light</div>
+        <span class="chip chip-neutral">Mixed</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Prismatic light rays, glassmorphism cards, stained glass panels. Floating glass is "gross" but horizontal movement is OK. Too "kids dance party" overall.</p>
+      <p class="card-best"><strong>Feedback:</strong> Horizontal glass drift OK, vertical floating killed</p>
+    </div>
+    <div class="card-footer"><a href="08-glass-and-light.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="badge" style="background: linear-gradient(135deg, #e07c4f, #6b2d5b);">06</div>
+      <div class="card-header-text">
+        <div class="card-title">Warm Community</div>
+        <span class="chip chip-neutral">Neutral</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Welcoming plum and sunset tones with rounded cards and photo grid placeholders. Community-focused but felt too much like a template.</p>
+      <p class="card-best"><strong>Feedback:</strong> Feels like a generic template</p>
+    </div>
+    <div class="card-footer"><a href="06-warm-community.html" class="btn btn-primary">View Template &rarr;</a></div>
+  </div>
+</div>
+
+<!-- Rejected -->
+<div class="section-header">
+  <h2>Rejected &mdash; Do Not Revisit</h2>
+  <span class="count">5</span>
+</div>
+<div class="grid">
+  <div class="card rejected">
+    <div class="card-header">
+      <div class="badge" style="background: #9ca3af;">04</div>
+      <div class="card-header-text">
+        <div class="card-title">Bold Editorial</div>
+        <span class="chip chip-rejected">Rejected</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Vogue-style massive typography with coral and teal. "We hate this, don't do this again." Too magazine/editorial.</p>
+    </div>
+    <div class="card-footer"><a href="04-bold-editorial.html" class="btn btn-rejected">View Anyway &rarr;</a></div>
+  </div>
+
+  <div class="card rejected">
+    <div class="card-header">
+      <div class="badge" style="background: #9ca3af;">13</div>
+      <div class="card-header-text">
+        <div class="card-title">Noir Collective</div>
+        <span class="chip chip-rejected">Rejected</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">"Too bold, in your face, and pushy. Hate it." Activist movement energy doesn't fit the brand's collaborative spirit.</p>
+    </div>
+    <div class="card-footer"><a href="13-noir-collective.html" class="btn btn-rejected">View Anyway &rarr;</a></div>
+  </div>
+
+  <div class="card rejected">
+    <div class="card-header">
+      <div class="badge" style="background: #9ca3af;">16</div>
+      <div class="card-header-text">
+        <div class="card-title">Wine &amp; Purpose</div>
+        <span class="chip chip-rejected">Rejected</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">"Ugly. Please stop." Split personality between wine and activism sections didn't land.</p>
+    </div>
+    <div class="card-footer"><a href="16-wine-and-purpose.html" class="btn btn-rejected">View Anyway &rarr;</a></div>
+  </div>
+
+  <div class="card rejected">
+    <div class="card-header">
+      <div class="badge" style="background: #9ca3af;">17</div>
+      <div class="card-header-text">
+        <div class="card-title">Midnight Mosaic</div>
+        <span class="chip chip-rejected">Rejected</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">"The triangle border should never be seen again. So f***ing ugly." Tessellation patterns are permanently killed.</p>
+    </div>
+    <div class="card-footer"><a href="17-midnight-mosaic.html" class="btn btn-rejected">View Anyway &rarr;</a></div>
+  </div>
+
+  <div class="card rejected">
+    <div class="card-header">
+      <div class="badge" style="background: #9ca3af;">18</div>
+      <div class="card-header-text">
+        <div class="card-title">Ember &amp; Glass</div>
+        <span class="chip chip-rejected">Rejected</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">"The fire concept does not land at all. No more of this." Firelight/ember metaphors don't fit.</p>
+    </div>
+    <div class="card-footer"><a href="18-ember-and-glass.html" class="btn btn-rejected">View Anyway &rarr;</a></div>
+  </div>
+</div>
+
+<!-- Favorites Section (populated by JS) -->
+<div id="favorites-section" style="display:none;">
+  <div class="section-header">
+    <h2>Your Favorites</h2>
+    <span class="count" id="fav-count">0</span>
+  </div>
+  <div class="grid" id="favorites-grid"></div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div>&copy; 2026 Femme Ferments &mdash; Design Concepts by <a href="https://effulgentpoint.com/">Effulgent Point</a></div>
+  <div>
+    <a href="https://github.com/Effulgent-Point/femmeferments">GitHub</a>
+    &bull;
+    <a href="https://femmeferments.com">Current Site</a>
+  </div>
+</footer>
+
+<style>
+.star-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: rgba(0,0,0,0.04);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 2;
+  padding: 0;
+}
+.star-btn:hover {
+  background: rgba(201,168,76,0.15);
+  transform: scale(1.1);
+}
+.star-btn svg {
+  width: 18px;
+  height: 18px;
+  transition: all 0.2s;
+}
+.star-btn .star-outline { color: #c4c4c4; }
+.star-btn .star-filled { color: #c9a84c; display: none; }
+.star-btn.active .star-outline { display: none; }
+.star-btn.active .star-filled { display: block; }
+.card { position: relative; }
+#favorites-section .card {
+  border: 2px solid #c9a84c;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.12);
+}
+#favorites-section .section-header h2 {
+  background: linear-gradient(135deg, #c9a84c, #a07c2a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+</style>
+
+<script>
+(function() {
+  var STORAGE_KEY = 'ff-favorites';
+
+  function getFavorites() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch(e) { return []; }
+  }
+
+  function saveFavorites(favs) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
+  }
+
+  function getCardId(card) {
+    var link = card.querySelector('.card-footer a');
+    return link ? link.getAttribute('href') : null;
+  }
+
+  function createStarButton(isFav) {
+    var btn = document.createElement('button');
+    btn.className = 'star-btn' + (isFav ? ' active' : '');
+    btn.setAttribute('aria-label', isFav ? 'Remove from favorites' : 'Add to favorites');
+    btn.innerHTML = '<svg class="star-outline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>' +
+      '<svg class="star-filled" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+    return btn;
+  }
+
+  function renderFavorites() {
+    var favs = getFavorites();
+    var section = document.getElementById('favorites-section');
+    var grid = document.getElementById('favorites-grid');
+    var count = document.getElementById('fav-count');
+
+    grid.innerHTML = '';
+    count.textContent = favs.length;
+
+    if (favs.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = 'block';
+    var hero = document.querySelector('.hero');
+    if (hero && hero.nextElementSibling !== section) {
+      hero.parentNode.insertBefore(section, hero.nextSibling);
+    }
+
+    favs.forEach(function(favId) {
+      var original = document.querySelector('.card-footer a[href="' + favId + '"]');
+      if (!original) return;
+      var origCard = original.closest('.card');
+      if (!origCard) return;
+      var clone = origCard.cloneNode(true);
+      var existingStar = clone.querySelector('.star-btn');
+      if (existingStar) existingStar.parentNode.removeChild(existingStar);
+      var removeStar = createStarButton(true);
+      removeStar.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFavorite(favId);
+      });
+      clone.appendChild(removeStar);
+      grid.appendChild(clone);
+    });
+  }
+
+  function toggleFavorite(cardId) {
+    var favs = getFavorites();
+    var idx = favs.indexOf(cardId);
+    if (idx > -1) {
+      favs.splice(idx, 1);
+    } else {
+      favs.push(cardId);
+    }
+    saveFavorites(favs);
+
+    document.querySelectorAll('.card').forEach(function(card) {
+      var id = getCardId(card);
+      if (!id) return;
+      var btn = card.querySelector('.star-btn');
+      if (!btn) return;
+      var isFav = favs.indexOf(id) > -1;
+      btn.className = 'star-btn' + (isFav ? ' active' : '');
+      btn.setAttribute('aria-label', isFav ? 'Remove from favorites' : 'Add to favorites');
+    });
+
+    renderFavorites();
+  }
+
+  var favs = getFavorites();
+  document.querySelectorAll('.card').forEach(function(card) {
+    var id = getCardId(card);
+    if (!id) return;
+    var isFav = favs.indexOf(id) > -1;
+    var btn = createStarButton(isFav);
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleFavorite(id);
+    });
+    card.insertBefore(btn, card.firstChild);
+  });
+
+  renderFavorites();
+})();
+</script>
+
+</body>
+</html>

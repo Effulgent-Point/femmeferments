@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Femme Ferments &mdash; Beauty in the Broken Glass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #faf5eb;
+    --parchment: #f4ead2;
+    --parchment-deep: #ecdfc0;
+    --parchment-darker: #e3d2a8;
+    --golden-tint: #f8f0d8;
+    --gold: #c9a84c;
+    --gold-soft: #ddc078;
+    --wine: #4a0e2b;
+    --wine-deep: #2c0819;
+    --wine-mid: #6b1638;
+    --copper: #b8632e;
+    --ink: #2c1c12;
+    --ink-dim: #6e5f56;
+
+    --teal: #1c6b5e;
+    --emerald: #2f7d5c;
+    --sapphire: #2f5f8f;
+    --ruby: #8a2038;
+    --amber: #c9852f;
+    --purple: #5b3f8f;
+  }
+
+  *{ box-sizing: border-box; margin: 0; padding: 0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  a{ color: inherit; text-decoration: none; }
+  img{ display: block; max-width: 100%; }
+  button{ font-family: inherit; color: inherit; }
+
+  h1, h2, h3, .serif{
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  .container{ max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+
+  section{ position: relative; overflow: hidden; }
+
+  .divider{ width: 110px; height: 1px; margin: 0 auto; background: linear-gradient(to right, transparent, var(--gold), transparent); }
+
+  /* ---- reveal utilities ---- */
+  .fade-in{ opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    .fade-in{ transition: none; opacity: 1; transform: none; }
+  }
+
+  /* ============ NAV ============ */
+  nav{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
+    background: linear-gradient(rgba(250,245,235,0.94), transparent);
+    transition: background 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+  }
+  .nav-logo{ width: clamp(120px, 14vw, 180px); height: auto; }
+  .nav-links{ display: flex; gap: 30px; list-style: none; }
+  .nav-links a{
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6b5a52;
+    transition: color 0.35s ease;
+  }
+  .nav-links a:hover{ color: var(--wine); }
+  @media (max-width: 900px){
+    .nav-links{ display: none; }
+    nav{ padding: 16px 24px; justify-content: center; }
+    nav.scrolled{ padding: 11px 24px; }
+  }
+
+  nav.scrolled{
+    background: rgba(250,245,235,0.95);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 28px rgba(74,14,43,0.1);
+    padding: 11px 40px;
+  }
+
+  /* ============ SHARED SECTION HEADER ============ */
+  .section-header{ text-align: center; margin-bottom: 64px; }
+  .section-eyebrow{ font-size: 0.7rem; letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 18px; color: var(--wine); }
+  .section-title{ font-size: clamp(2.1rem, 4.4vw, 3.3rem); font-weight: 400; margin-bottom: 20px; color: var(--ink); }
+  .section-title em{ font-style: italic; }
+
+  /* ============ HERO (sticky shatter) ============ */
+  .hero-track{ position: relative; height: 105vh; }
+  .hero-sticky{
+    position: sticky;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 80px 24px 24px;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--cream) 0%, var(--parchment) 100%);
+  }
+  .hero-radial{
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 50% at 50% 8%, rgba(201,168,76,0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .hero-mosaic-wrap{ position: relative; z-index: 1; width: min(700px, 50vw); margin: 0 auto; }
+  .hero-mosaic-stage{ position: relative; width: 100%; aspect-ratio: 1275 / 945; }
+  .hero-mosaic-base{ position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0.16; }
+  .hero-shatter-piece{
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: contain;
+    will-change: transform, opacity;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero-logo-img{ position: relative; z-index: 1; width: min(280px, 50vw); margin: 2px auto 0; }
+  .hero-tagline-img{ position: relative; z-index: 1; width: min(420px, 65vw); margin: 6px auto 0; mix-blend-mode: multiply; }
+  .hero-scroll-hint{
+    position: relative; z-index: 1;
+    margin-top: 30px;
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .hero-scroll-line{ width: 1px; height: 34px; background: rgba(74,14,43,0.25); margin: 12px auto 0; position: relative; overflow: hidden; }
+  .hero-scroll-line::after{
+    content: ""; position: absolute; top: -100%; left: 0; width: 100%; height: 100%;
+    background: var(--wine); animation: scrollDrop 2.2s ease-in-out infinite;
+  }
+  @keyframes scrollDrop{ 0%{ top: -100%; } 60%{ top: 100%; } 100%{ top: 100%; } }
+
+  @media (max-width: 900px){
+    .hero-mosaic-wrap{ width: min(620px, 82vw); }
+    .hero-logo-img{ width: min(230px, 56vw); }
+    .hero-tagline-img{ width: min(360px, 72vw); }
+  }
+  @media (max-width: 600px){
+    .hero-mosaic-wrap{ width: min(420px, 84vw); }
+  }
+
+  /* ============ BEAUTY BEGINS WHERE THINGS BREAK ============ */
+  .vision{
+    background: linear-gradient(180deg, var(--parchment) 0%, var(--cream) 22%);
+    padding: 150px 0;
+  }
+  .vision-bg-piece{ position: absolute; z-index: 0; pointer-events: none; user-select: none; }
+  .vision-bg-piece.one{ width: 56%; top: -12%; left: -16%; opacity: 0.22; transform: rotate(-8deg); }
+  .vision-bg-piece.two{ width: 52%; bottom: -18%; right: -14%; opacity: 0.2; transform: rotate(10deg); }
+  .vision-inner{ position: relative; z-index: 1; }
+  .vision-prose{ max-width: 720px; margin: 0 auto; text-align: center; color: var(--ink-dim); font-size: 1.02rem; line-height: 2; }
+  .vision-quote{
+    max-width: 640px; margin: 40px auto 0; text-align: center;
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem); color: var(--wine);
+  }
+
+  /* ============ ROOTED IN THE WILLAMETTE VALLEY ============ */
+  .valley{
+    background: linear-gradient(180deg, var(--cream) 0%, var(--parchment-deep) 22%);
+    padding: 150px 0;
+  }
+  .valley-bg-piece{ position: absolute; z-index: 0; pointer-events: none; user-select: none; }
+  .valley-bg-piece.one{ width: 54%; top: -14%; right: -12%; opacity: 0.22; transform: rotate(7deg); }
+  .valley-bg-piece.two{ width: 50%; bottom: -18%; left: -12%; opacity: 0.2; transform: rotate(-9deg); }
+  .valley-inner{ position: relative; z-index: 1; }
+  .valley-prose{ max-width: 700px; margin: 0 auto 54px; text-align: center; color: var(--ink-dim); font-size: 1rem; line-height: 1.95; }
+  .get-involved-cta{
+    max-width: 640px; margin: 0 auto;
+    padding: 40px 46px;
+    background: var(--parchment-darker);
+    border-left: 3px solid var(--gold);
+  }
+  .gic-eyebrow{ font-size: 0.68rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--copper); margin-bottom: 14px; font-weight: 600; }
+  .gic-title{ font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(1.5rem, 2.6vw, 1.95rem); color: var(--wine); margin-bottom: 16px; }
+  .gic-desc{ color: var(--ink-dim); line-height: 1.85; font-size: 0.94rem; }
+
+  /* ============ THE WINES ============ */
+  .wine-section{
+    background: linear-gradient(180deg, var(--parchment-deep) 0%, var(--cream) 22%);
+    padding: 150px 0;
+  }
+  .wine-bg-piece{ position: absolute; z-index: 0; pointer-events: none; user-select: none; }
+  .wine-bg-piece.one{ width: 46%; top: -10%; left: -14%; opacity: 0.16; transform: rotate(-6deg); }
+  .wine-bg-piece.two{ width: 44%; bottom: -14%; right: -12%; opacity: 0.16; transform: rotate(8deg); }
+  .wine-inner{ position: relative; z-index: 1; }
+  .wine-tag{
+    text-align: center; font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 1.1rem; color: var(--wine); max-width: 480px; margin: 0 auto 54px;
+  }
+  .wine-grid{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  @media (max-width: 780px){ .wine-grid{ grid-template-columns: 1fr; } }
+  .wine-card{ background: var(--parchment); border: 1px solid rgba(74,14,43,0.16); padding: 40px 34px; text-align: center; position: relative; }
+  .wine-accent{ height: 3px; width: 52px; margin: 0 auto 18px; }
+  .wine-albarino .wine-accent{ background: linear-gradient(90deg, var(--sapphire), var(--teal)); }
+  .wine-pinot .wine-accent{ background: linear-gradient(90deg, var(--ruby), var(--purple)); }
+  .wine-type{ font-size: 0.64rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 12px; }
+  .wine-name{ font-size: clamp(1.4rem, 2.4vw, 1.8rem); color: var(--wine); font-style: italic; margin-bottom: 6px; }
+  .wine-varietal{ font-family: 'Inter', sans-serif; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid rgba(74,14,43,0.14); }
+  .wine-desc{ color: var(--ink-dim); line-height: 1.8; font-size: 0.88rem; margin-bottom: 20px; }
+  .wine-meta{ display: flex; justify-content: space-between; font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--wine); }
+
+  /* ============ EVENTS ============ */
+  .events{
+    background: linear-gradient(180deg, var(--cream) 0%, var(--parchment) 22%);
+    padding: 150px 0;
+  }
+  .event-card{
+    max-width: 700px; margin: 0 auto;
+    background: rgba(255,255,255,0.5);
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 52px; text-align: center; position: relative;
+  }
+  .event-ornament{ width: 13px; height: 13px; margin: 0 auto 20px; background: var(--gold); transform: rotate(45deg); }
+  .event-date{ font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--wine); margin-bottom: 18px; }
+  .event-title{ font-size: clamp(1.7rem, 3.4vw, 2.3rem); color: var(--wine); font-style: italic; margin-bottom: 24px; }
+  .event-details{ display: flex; justify-content: center; gap: 36px; flex-wrap: wrap; margin-bottom: 28px; color: var(--ink-dim); font-size: 0.86rem; }
+  .event-details div strong{ display: block; color: var(--wine); font-size: 0.64rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+  .event-desc{ color: var(--ink-dim); line-height: 1.85; max-width: 480px; margin: 0 auto 30px; }
+  .event-cta{
+    display: inline-block; padding: 14px 36px;
+    background: var(--wine); border: 1px solid var(--gold); color: var(--cream);
+    font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase;
+    transition: background 0.4s ease;
+  }
+  .event-cta:hover{ background: var(--wine-mid); }
+
+  /* ============ 100% TO EMPOWERING WOMEN ============ */
+  .hundred{
+    background: linear-gradient(180deg, var(--parchment) 0%, var(--golden-tint) 22%);
+    padding: 150px 0;
+  }
+  .hundred-bg-piece{
+    position: absolute; top: 50%; left: 50%;
+    width: min(60vw, 640px);
+    transform: translate(-50%, -50%) rotate(-4deg);
+    opacity: 0.14; z-index: 0; pointer-events: none;
+  }
+  .hundred-inner{ position: relative; z-index: 1; }
+  .counter-wrap{ text-align: center; margin-bottom: 80px; }
+  .counter-num{ font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: clamp(4.5rem, 14vw, 9rem); color: var(--wine); line-height: 1; }
+  .counter-label{ font-size: 0.78rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-dim); margin-top: 10px; }
+  .flow-steps{ display: flex; justify-content: center; gap: 26px; flex-wrap: wrap; max-width: 1040px; margin: 0 auto; }
+  .flow-step{ width: 180px; text-align: center; }
+  .flow-num{
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--cream); border: 1px solid var(--gold); color: var(--wine);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
+  }
+  .flow-title{ font-size: 0.86rem; font-weight: 600; letter-spacing: 0.02em; color: var(--ink); margin-bottom: 8px; }
+  .flow-desc{ font-size: 0.8rem; color: var(--ink-dim); line-height: 1.6; }
+  @media (max-width: 900px){ .flow-steps{ gap: 30px 20px; } .flow-step{ width: 140px; } }
+
+  /* ============ SIX WAYS TO POUR YOURSELF IN ============ */
+  .community{
+    background: linear-gradient(180deg, var(--golden-tint) 0%, var(--cream) 22%);
+    padding: 150px 0;
+  }
+  .community-sub{ max-width: 600px; margin: -28px auto 60px; text-align: center; color: var(--ink-dim); font-size: 1rem; line-height: 1.9; }
+  .specimen-grid{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width:900px; margin:0 auto; }
+  @media (max-width: 640px){ .specimen-grid{ grid-template-columns: 1fr; } }
+
+  .specimen-card{
+    position: relative; display: block; width: 100%; text-align: center; cursor: pointer;
+    background: var(--cream);
+    border: 1px solid rgba(74,14,43,0.18);
+    box-shadow: 0 8px 32px rgba(44,28,18,0.12);
+    padding: 40px 34px;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease, border-color 0.3s ease;
+  }
+  .specimen-card:hover{ transform: translateY(-6px); box-shadow: 0 16px 48px rgba(44,28,18,0.18); }
+  .specimen-card.active{ border-color: var(--gold); transform: translateY(-6px); box-shadow: 0 16px 48px rgba(44,28,18,0.18); }
+  .specimen-img-wrap{ height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 22px; }
+  .specimen-img-wrap img{ max-height: 100%; max-width: 78%; transition: transform 0.4s ease; }
+  .specimen-card:hover .specimen-img-wrap img{ transform: scale(1.05) rotate(-2deg); }
+  .specimen-no{ position:absolute; top:16px; left:20px; font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .specimen-diamond{ width:54px; height:10px; margin:0 auto 20px; position:relative; }
+  .specimen-diamond::before{ content:""; position:absolute; top:50%; left:0; right:0; height:1px; background:var(--gold); }
+  .specimen-diamond::after{ content:""; position:absolute; top:50%; left:50%; width:6px; height:6px; transform:translate(-50%,-50%) rotate(45deg); background:var(--gold); }
+  .specimen-title{ font-size: 0.86rem; letter-spacing:0.2em; text-transform:uppercase; color: var(--wine); margin-bottom: 16px; font-weight:600; }
+  .specimen-desc{ max-width:340px; margin:0 auto; font-size: 0.92rem; color: var(--ink-dim); line-height: 1.7; }
+
+  .specimen-accordion{ max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
+  .specimen-accordion.open{ margin-top: 36px; }
+  .specimen-accordion-inner{
+    background: var(--cream);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 46px;
+    display: grid; grid-template-columns: 190px 1fr; gap: 42px; align-items: start;
+  }
+  @media (max-width: 760px){ .specimen-accordion-inner{ grid-template-columns: 1fr; text-align: center; padding: 36px 28px; } }
+  .specimen-accordion-img{ width: 100%; max-width: 180px; margin: 0 auto; }
+  .specimen-accordion-title{ font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.7rem; color: var(--wine); margin-bottom: 22px; }
+  .specimen-accordion-cols{ display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
+  @media (max-width: 560px){ .specimen-accordion-cols{ grid-template-columns: 1fr; } }
+  .sa-col h4{ font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--wine); margin-bottom: 14px; }
+  .sa-col ul{ list-style: none; }
+  .sa-col li{ font-size: 0.85rem; color: var(--ink-dim); line-height: 1.6; margin-bottom: 10px; padding-left: 16px; position: relative; text-align: left; }
+  @media (max-width: 760px){ .sa-col li{ text-align: center; padding-left: 0; } .sa-col li::before{ display: none; } }
+  .sa-col li::before{ content: "\2014"; position: absolute; left: 0; color: var(--gold); }
+  .sa-cta{
+    display: inline-block; margin-top: 24px; padding: 13px 32px;
+    background: var(--wine); border: 1px solid var(--gold); color: var(--cream);
+    font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase;
+    transition: background 0.3s ease;
+  }
+  .sa-cta:hover{ background: var(--wine-mid); }
+
+  /* ============ PARTNERS & SUPPORTERS ============ */
+  .partners{
+    background: linear-gradient(180deg, var(--cream) 0%, var(--parchment) 22%);
+    padding: 150px 0 130px;
+  }
+  .partners-lede{ text-align: center; max-width: 560px; margin: 0 auto 60px; color: var(--ink-dim); font-size: 0.96rem; line-height: 1.85; }
+  .ribbon{ overflow: hidden; position: relative; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .ribbon-track{ display: flex; gap: 28px; width: max-content; animation: ribbonScroll 34s linear infinite; }
+  .ribbon:hover .ribbon-track{ animation-play-state: paused; }
+  @keyframes ribbonScroll{ from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
+  .placeholder-logo{
+    flex: 0 0 auto; width: 168px; height: 78px;
+    background: rgba(110,95,86,0.12);
+    border: 1px solid rgba(110,95,86,0.18);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  @media (prefers-reduced-motion: reduce){ .ribbon-track{ animation: none; } }
+
+  /* ============ COME TOGETHER (finale) ============ */
+  .together{
+    background: linear-gradient(180deg, var(--parchment) 0%, var(--wine-deep) 20%, #1a0510 100%);
+    color: var(--cream);
+    padding: 140px 0 110px;
+  }
+  .together .section-eyebrow{ color: var(--gold-soft); }
+  .together .section-title{ color: var(--cream); }
+  .together-lede{ max-width: 560px; margin: 0 auto 70px; text-align: center; color: rgba(250,245,235,0.72); font-size: 1rem; line-height: 1.9; }
+
+  .assembly-stage{
+    position: relative;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    aspect-ratio: 1275 / 945;
+    max-height: 82vh;
+  }
+  .assembly-piece{
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: contain;
+    will-change: transform, opacity;
+    transition: transform 1.3s cubic-bezier(.16,1,.3,1), opacity 1.3s ease;
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot));
+    opacity: 0;
+  }
+  .assembly-stage.assembled .assembly-piece{ transform: translate(0,0) rotate(0deg) !important; opacity: 1; }
+
+  .together-shout{
+    margin-top: 56px; text-align: center;
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500;
+    font-size: clamp(1.5rem, 3vw, 2rem); color: var(--gold-soft);
+  }
+  .together-form{
+    max-width: 440px; margin: 40px auto 0; display: flex;
+    border-bottom: 1px solid rgba(250,245,235,0.4); padding-bottom: 6px;
+  }
+  .together-form input{
+    flex: 1; background: transparent; border: none; outline: none;
+    padding: 14px 8px; color: var(--cream); font-family: 'Inter', sans-serif; font-size: 0.92rem;
+  }
+  .together-form input::placeholder{ color: rgba(250,245,235,0.5); }
+  .together-form button{
+    background: none; border: none; color: var(--gold-soft);
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer;
+    padding: 14px 10px; transition: color 0.3s ease;
+  }
+  .together-form button:hover{ color: var(--cream); }
+
+  /* ============ FOOTER ============ */
+  footer{ padding: 56px 0 40px; text-align: center; background: #150409; color: var(--cream); }
+  .footer-mark{ font-family: 'Cormorant Garamond', serif; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold-soft); font-size: 0.94rem; margin-bottom: 18px; }
+  .footer-links{ display: flex; justify-content: center; gap: 26px; margin-bottom: 22px; flex-wrap: wrap; }
+  .footer-links a{ font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(250,245,235,0.6); transition: color 0.35s ease; }
+  .footer-links a:hover{ color: var(--gold-soft); }
+  .footer-copy{ font-size: 0.7rem; color: rgba(250,245,235,0.55); }
+  .footer-copy a{ color: var(--gold); }
+  .footer-copy a:hover{ color: var(--gold-soft); }
+
+  .spec-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width:900px; margin:2.5rem auto 0; }
+  .spec-card{
+    position: relative;
+    background: var(--cream);
+    border: 1px solid rgba(74,14,43,0.18);
+    padding: 40px 34px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(44,28,18,0.12);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+    cursor: pointer;
+  }
+  .spec-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(44,28,18,0.18);
+  }
+  .spec-no{ position:absolute; top:16px; left:20px; font-size:0.66rem; letter-spacing:0.14em; color: var(--gold); text-transform: uppercase; }
+  .spec-img{ height: 200px; display:flex; align-items:center; justify-content:center; margin-bottom: 22px; }
+  .spec-img img{ max-height:100%; max-width:78%; transition: transform 0.4s ease; }
+  .spec-card:hover .spec-img img{ transform: scale(1.05) rotate(-2deg); }
+  .spec-divider{ width: 54px; height: 10px; margin: 0 auto 20px; position:relative; }
+  .spec-divider::before{ content:""; position:absolute; top:50%; left:0; right:0; height:1px; background: var(--gold); }
+  .spec-divider::after{ content:""; position:absolute; top:50%; left:50%; width:6px; height:6px; transform: translate(-50%,-50%) rotate(45deg); background: var(--gold); }
+  .spec-label{ font-size: 0.86rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--wine); margin-bottom: 16px; font-weight:600; }
+  .spec-desc{ max-width: 340px; margin: 0 auto; font-size:0.92rem; line-height:1.7; color:var(--ink-dim); }
+  @media (max-width: 640px){ .spec-grid{ grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav id="site-nav">
+  <img class="nav-logo" src="/FF_Logo.png" alt="Femme Ferments">
+  <ul class="nav-links">
+    <li><a href="#top">Home</a></li>
+    <li><a href="#vision">Vision</a></li>
+    <li><a href="#wines">Wines</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#together">Join</a></li>
+  </ul>
+</nav>
+
+<!-- ============ HERO (sticky shatter) ============ -->
+<div class="hero-track" id="heroTrack">
+  <section class="hero-sticky" id="top">
+    <div class="hero-radial" aria-hidden="true"></div>
+
+    <img class="hero-logo-img" src="/logo_stacked.png" alt="Femme Ferments">
+
+    <div class="hero-mosaic-wrap">
+      <div class="hero-mosaic-stage" id="heroMosaicStage">
+        <img class="hero-mosaic-base" src="/glass-assets/femme_ferments_glass_only_full_canvas.png" alt="Femme Ferments shattered glass mosaic mark">
+
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/01_left_outer_teal_points_canvas.png" alt="" aria-hidden="true" style="--dx:-315px;--dy:186px;--rot:-8deg;--dl:0.000;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/02_left_top_teal_shards_canvas.png" alt="" aria-hidden="true" style="--dx:-235px;--dy:127px;--rot:10deg;--dl:0.025;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/03_left_mid_blue_green_canvas.png" alt="" aria-hidden="true" style="--dx:-234px;--dy:224px;--rot:-12deg;--dl:0.050;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/04_left_lower_green_blue_canvas.png" alt="" aria-hidden="true" style="--dx:-238px;--dy:298px;--rot:14deg;--dl:0.075;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/05_lower_left_blue_tail_canvas.png" alt="" aria-hidden="true" style="--dx:-224px;--dy:375px;--rot:-6deg;--dl:0.100;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/06_upper_mid_green_crown_canvas.png" alt="" aria-hidden="true" style="--dx:-113px;--dy:167px;--rot:8deg;--dl:0.125;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/07_mid_left_green_bridge_canvas.png" alt="" aria-hidden="true" style="--dx:-117px;--dy:249px;--rot:-10deg;--dl:0.150;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/08_center_core_burst_canvas.png" alt="" aria-hidden="true" style="--dx:-28px;--dy:184px;--rot:12deg;--dl:0.175;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/09_lower_center_cyan_blue_canvas.png" alt="" aria-hidden="true" style="--dx:-22px;--dy:350px;--rot:-14deg;--dl:0.200;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/10_upper_yellow_orange_canvas.png" alt="" aria-hidden="true" style="--dx:85px;--dy:133px;--rot:6deg;--dl:0.225;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/11_right_upper_pink_orange_canvas.png" alt="" aria-hidden="true" style="--dx:189px;--dy:159px;--rot:-8deg;--dl:0.250;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/12_upper_right_purple_sail_canvas.png" alt="" aria-hidden="true" style="--dx:288px;--dy:124px;--rot:10deg;--dl:0.275;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/13_right_mid_teal_glass_canvas.png" alt="" aria-hidden="true" style="--dx:173px;--dy:224px;--rot:-12deg;--dl:0.300;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/14_right_warm_red_orange_canvas.png" alt="" aria-hidden="true" style="--dx:325px;--dy:215px;--rot:14deg;--dl:0.325;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/15_right_lower_blue_purple_canvas.png" alt="" aria-hidden="true" style="--dx:155px;--dy:307px;--rot:-6deg;--dl:0.350;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/16_far_right_red_tail_canvas.png" alt="" aria-hidden="true" style="--dx:377px;--dy:284px;--rot:8deg;--dl:0.375;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/17_lower_right_purple_tail_canvas.png" alt="" aria-hidden="true" style="--dx:320px;--dy:351px;--rot:-10deg;--dl:0.400;">
+        <img class="hero-shatter-piece" src="/glass-assets/canvas_png/18_bottom_center_teal_splinters_canvas.png" alt="Femme Ferments shattered glass mark" style="--dx:90px;--dy:377px;--rot:12deg;--dl:0.425;">
+      </div>
+    </div>
+
+    <img class="hero-tagline-img" src="/FF_Tagline.png" alt="Beauty in the broken glass">
+
+    <p class="hero-scroll-hint" id="heroHint">Scroll</p>
+    <div class="hero-scroll-line"></div>
+  </section>
+</div>
+
+<!-- ============ BEAUTY BEGINS WHERE THINGS BREAK ============ -->
+<section class="vision" id="vision">
+  <img class="vision-bg-piece one" src="/glass-assets/tight_png/01_left_outer_teal_points_tight.png" alt="" aria-hidden="true">
+  <img class="vision-bg-piece two" src="/glass-assets/tight_png/02_left_top_teal_shards_tight.png" alt="" aria-hidden="true">
+  <div class="container vision-inner">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">Our Origin</div>
+      <h2 class="section-title">Beauty Begins Where Things Break</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="vision-prose fade-in">Femme Ferments began with a broken bottle, a borrowed corner of a cellar, and a stubborn belief that something beautiful could come from what most people discard. We collect donated grapes, borrowed equipment, and volunteer hours that would otherwise go unused, and turn them into wine worth celebrating. Every label, every pour, and every dollar raised carries the same conviction &mdash; that beauty isn't found despite the broken pieces. It's found because of them.</p>
+    <p class="vision-quote fade-in">&ldquo;100% of our profits empower women.&rdquo;</p>
+  </div>
+</section>
+
+<!-- ============ ROOTED IN THE WILLAMETTE VALLEY ============ -->
+<section class="valley" id="valley-story">
+  <img class="valley-bg-piece one" src="/glass-assets/tight_png/06_upper_mid_green_crown_tight.png" alt="" aria-hidden="true">
+  <img class="valley-bg-piece two" src="/glass-assets/tight_png/07_mid_left_green_bridge_tight.png" alt="" aria-hidden="true">
+  <div class="container valley-inner">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">Our Home</div>
+      <h2 class="section-title">Rooted in the Willamette Valley</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="valley-prose fade-in">Our wine grows in the same volcanic and sedimentary soils that make this valley one of the most celebrated Pinot Noir regions in the world. But our roots run deeper than terroir. Every partner vineyard, every cellar that opens its doors, and every winemaker who lends an afternoon is part of a growing network of Oregonians who believe wine can do more than taste good &mdash; it can do good.</p>
+
+    <div class="get-involved-cta fade-in">
+      <div class="gic-eyebrow">Get Involved</div>
+      <h3 class="gic-title">Become a Winery Partner &rarr;</h3>
+      <p class="gic-desc">Donate fruit, cellar time, or equipment, and put your name behind wine that funds real opportunity for women across the valley. We'll handle the logistics &mdash; you bring the generosity.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE WINES ============ -->
+<section class="wine-section" id="wines">
+  <img class="wine-bg-piece one" src="/glass-assets/tight_png/10_upper_yellow_orange_tight.png" alt="" aria-hidden="true">
+  <img class="wine-bg-piece two" src="/glass-assets/tight_png/11_right_upper_pink_orange_tight.png" alt="" aria-hidden="true">
+  <div class="container wine-inner">
+    <div class="section-header fade-in" style="margin-bottom: 36px;">
+      <div class="section-eyebrow">The Collection</div>
+      <h2 class="section-title">The Wines</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="wine-tag fade-in">&ldquo;The wine is the vehicle, the community is the engine.&rdquo;</p>
+
+    <div class="wine-grid">
+      <div class="wine-card wine-albarino fade-in">
+        <div class="wine-accent"></div>
+        <div class="wine-type">White &middot; Limited First Release</div>
+        <h3 class="wine-name">Power &amp; Grace</h3>
+        <div class="wine-varietal">Albari&ntilde;o &middot; Eola-Amity Hills</div>
+        <p class="wine-desc">Bright and mineral, grown in wind-swept volcanic soil. Poised and expressive, this Albari&ntilde;o carries the same quiet confidence as the women it supports.</p>
+        <div class="wine-meta">
+          <span>Willamette Valley, OR</span>
+          <span>Feb 2026</span>
+        </div>
+      </div>
+
+      <div class="wine-card wine-pinot fade-in">
+        <div class="wine-accent"></div>
+        <div class="wine-type">Red &middot; Seasonal Limited Release</div>
+        <h3 class="wine-name">Hope &amp; Grit</h3>
+        <div class="wine-varietal">Pinot Noir &middot; Willamette Valley</div>
+        <p class="wine-desc">Grown in the valley's iron-red Jory soil, patient and deep. A Pinot Noir built the way this community is built &mdash; season after season, together.</p>
+        <div class="wine-meta">
+          <span>Willamette Valley, OR</span>
+          <span>Spring 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EVENTS ============ -->
+<section class="events" id="events">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">Save the Date</div>
+      <h2 class="section-title">Come Meet the Collective</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="event-card fade-in">
+      <div class="event-ornament" aria-hidden="true"></div>
+      <div class="event-date">April 23, 2026 &middot; 5:00 &ndash; 7:00 PM</div>
+      <h3 class="event-title">Pinot Noir Launch Party</h3>
+      <div class="event-details">
+        <div><strong>Location</strong>The Pub, 326 NE Davis St., McMinnville</div>
+        <div><strong>Tickets</strong>$20 Donation</div>
+      </div>
+      <p class="event-desc">Taste our debut '24 Albari&ntilde;o and '24 Pinot Noir, and meet the volunteers, winemakers, and partners behind every bottle. Come for the wine, stay for the community.</p>
+      <a href="#together" class="event-cta">Reserve Your Seat</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 100% TO EMPOWERING WOMEN ============ -->
+<section class="hundred" id="hundred">
+  <img class="hundred-bg-piece" src="/glass-assets/tight_png/08_center_core_burst_tight.png" alt="" aria-hidden="true">
+  <div class="container hundred-inner">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">The Model</div>
+      <h2 class="section-title">100% to Empowering Women</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="counter-wrap fade-in" id="counterWrap">
+      <div class="counter-num"><span id="counterNum">0</span>%</div>
+      <div class="counter-label">of profits fund programs for women</div>
+    </div>
+
+    <div class="flow-steps">
+      <div class="flow-step fade-in">
+        <div class="flow-num">1</div>
+        <div class="flow-title">Donated Grapes</div>
+        <p class="flow-desc">Partner vineyards give fruit that would otherwise go to waste.</p>
+      </div>
+      <div class="flow-step fade-in">
+        <div class="flow-num">2</div>
+        <div class="flow-title">Volunteer Harvest</div>
+        <p class="flow-desc">Volunteers show up at dawn to pick alongside our crew.</p>
+      </div>
+      <div class="flow-step fade-in">
+        <div class="flow-num">3</div>
+        <div class="flow-title">Partner Cellar</div>
+        <p class="flow-desc">Local winemakers lend cellar space and craft.</p>
+      </div>
+      <div class="flow-step fade-in">
+        <div class="flow-num">4</div>
+        <div class="flow-title">Donated Corks</div>
+        <p class="flow-desc">Suppliers donate materials so more reaches the mission.</p>
+      </div>
+      <div class="flow-step fade-in">
+        <div class="flow-num">5</div>
+        <div class="flow-title">Crafted Wine</div>
+        <p class="flow-desc">Generosity becomes something worth sharing &mdash; and selling.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIX WAYS TO POUR YOURSELF IN ============ -->
+<section class="community" id="community">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">Your Part</div>
+      <h2 class="section-title">Six Ways to Pour Yourself In</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="community-sub fade-in">There's no single way to join us &mdash; pick the role that fits your time, your skills, or your curiosity.</p>
+
+    <div class="spec-grid">
+      <div class="spec-card fade-in" data-role="harvester">
+        <div class="spec-no">No. 01</div>
+        <div class="spec-img"><img src="/glass-assets/tight_png/01_left_outer_teal_points_tight.png" alt=""></div>
+        <div class="spec-divider"></div>
+        <div class="spec-label">The Volunteer</div>
+        <p class="spec-desc">Shows up before dawn at harvest -- no experience required, just willing hands.</p>
+      </div>
+      <div class="spec-card fade-in" data-role="storyteller">
+        <div class="spec-no">No. 02</div>
+        <div class="spec-img"><img src="/glass-assets/tight_png/06_upper_mid_green_crown_tight.png" alt=""></div>
+        <div class="spec-divider"></div>
+        <div class="spec-label">The Winemaker</div>
+        <p class="spec-desc">Guides every donated grape from vine to bottle in cellars across the valley.</p>
+      </div>
+      <div class="spec-card fade-in" data-role="host">
+        <div class="spec-no">No. 03</div>
+        <div class="spec-img"><img src="/glass-assets/tight_png/04_left_lower_green_blue_tight.png" alt=""></div>
+        <div class="spec-divider"></div>
+        <div class="spec-label">The Dreamer</div>
+        <p class="spec-desc">Holds the vision that turned a wine label into a movement for women.</p>
+      </div>
+      <div class="spec-card fade-in" data-role="builder">
+        <div class="spec-no">No. 04</div>
+        <div class="spec-img"><img src="/glass-assets/tight_png/10_upper_yellow_orange_tight.png" alt=""></div>
+        <div class="spec-divider"></div>
+        <div class="spec-label">The Organizer</div>
+        <p class="spec-desc">Turns a bottle of wine into a room full of people who believe the same thing.</p>
+      </div>
+      <div class="spec-card fade-in" data-role="connector">
+        <div class="spec-no">No. 05</div>
+        <div class="spec-img"><img src="/glass-assets/tight_png/08_center_core_burst_tight.png" alt=""></div>
+        <div class="spec-divider"></div>
+        <div class="spec-label">The Advocate</div>
+        <p class="spec-desc">Speaks up for the mission and connects us to partners who share it.</p>
+      </div>
+      <div class="spec-card fade-in" data-role="maker">
+        <div class="spec-no">No. 06</div>
+        <div class="spec-img"><img src="/glass-assets/tight_png/15_right_lower_blue_purple_tight.png" alt=""></div>
+        <div class="spec-divider"></div>
+        <div class="spec-label">The Partner</div>
+        <p class="spec-desc">Donates grapes, cellar space, and equipment -- the backbone of every vintage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PARTNERS & SUPPORTERS ============ -->
+<section class="partners" id="partners">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">Gratitude</div>
+      <h2 class="section-title">Partners &amp; Supporters</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="partners-lede fade-in">The vineyards, cellars, and businesses who give freely so more of every dollar reaches the women we serve.</p>
+  </div>
+  <div class="ribbon fade-in">
+    <div class="ribbon-track">
+      <div class="placeholder-logo">Vineyard Partner</div>
+      <div class="placeholder-logo">Cellar Partner</div>
+      <div class="placeholder-logo">Cork Supplier</div>
+      <div class="placeholder-logo">Local Press</div>
+      <div class="placeholder-logo">Event Venue</div>
+      <div class="placeholder-logo">Design Studio</div>
+      <div class="placeholder-logo">Nonprofit Ally</div>
+      <div class="placeholder-logo">Community Sponsor</div>
+      <div class="placeholder-logo" aria-hidden="true">Vineyard Partner</div>
+      <div class="placeholder-logo" aria-hidden="true">Cellar Partner</div>
+      <div class="placeholder-logo" aria-hidden="true">Cork Supplier</div>
+      <div class="placeholder-logo" aria-hidden="true">Local Press</div>
+      <div class="placeholder-logo" aria-hidden="true">Event Venue</div>
+      <div class="placeholder-logo" aria-hidden="true">Design Studio</div>
+      <div class="placeholder-logo" aria-hidden="true">Nonprofit Ally</div>
+      <div class="placeholder-logo" aria-hidden="true">Community Sponsor</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COME TOGETHER (finale) ============ -->
+<section class="together" id="together">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">Every Piece Makes the Picture</div>
+      <h2 class="section-title">Come Together</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="together-lede fade-in">No contribution is too small. Whether you give an afternoon, a skill, or a case of grapes, you become part of what this collective looks like.</p>
+  </div>
+
+  <div class="assembly-stage" id="assemblyStage">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/01_left_outer_teal_points_canvas.png" alt="" aria-hidden="true" style="--dx:-14.49vw;--dy:-5.12vh;--rot:-8deg;transition-delay:40ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/02_left_top_teal_shards_canvas.png" alt="" aria-hidden="true" style="--dx:-10.81vw;--dy:-9.84vh;--rot:10deg;transition-delay:80ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/03_left_mid_blue_green_canvas.png" alt="" aria-hidden="true" style="--dx:-10.76vw;--dy:-2.08vh;--rot:-12deg;transition-delay:120ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/04_left_lower_green_blue_canvas.png" alt="" aria-hidden="true" style="--dx:-10.95vw;--dy:3.8vh;--rot:14deg;transition-delay:160ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/05_lower_left_blue_tail_canvas.png" alt="" aria-hidden="true" style="--dx:-10.30vw;--dy:10.0vh;--rot:-6deg;transition-delay:200ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/06_upper_mid_green_crown_canvas.png" alt="" aria-hidden="true" style="--dx:-5.20vw;--dy:-6.68vh;--rot:8deg;transition-delay:240ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/07_mid_left_green_bridge_canvas.png" alt="" aria-hidden="true" style="--dx:-5.38vw;--dy:-0.12vh;--rot:-10deg;transition-delay:280ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/08_center_core_burst_canvas.png" alt="" aria-hidden="true" style="--dx:-1.29vw;--dy:-5.32vh;--rot:12deg;transition-delay:320ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/09_lower_center_cyan_blue_canvas.png" alt="" aria-hidden="true" style="--dx:-1.01vw;--dy:8.0vh;--rot:-14deg;transition-delay:360ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/10_upper_yellow_orange_canvas.png" alt="" aria-hidden="true" style="--dx:3.91vw;--dy:-9.36vh;--rot:6deg;transition-delay:400ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/11_right_upper_pink_orange_canvas.png" alt="" aria-hidden="true" style="--dx:8.69vw;--dy:-7.32vh;--rot:-8deg;transition-delay:440ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/12_upper_right_purple_sail_canvas.png" alt="" aria-hidden="true" style="--dx:13.25vw;--dy:-10.08vh;--rot:10deg;transition-delay:480ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/13_right_mid_teal_glass_canvas.png" alt="" aria-hidden="true" style="--dx:7.96vw;--dy:-2.12vh;--rot:-12deg;transition-delay:520ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/14_right_warm_red_orange_canvas.png" alt="" aria-hidden="true" style="--dx:14.95vw;--dy:-2.8vh;--rot:14deg;transition-delay:560ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/15_right_lower_blue_purple_canvas.png" alt="" aria-hidden="true" style="--dx:7.13vw;--dy:4.56vh;--rot:-6deg;transition-delay:600ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/16_far_right_red_tail_canvas.png" alt="" aria-hidden="true" style="--dx:17.34vw;--dy:2.68vh;--rot:8deg;transition-delay:640ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/17_lower_right_purple_tail_canvas.png" alt="" aria-hidden="true" style="--dx:14.72vw;--dy:8.08vh;--rot:-10deg;transition-delay:680ms;">
+    <img class="assembly-piece" src="/glass-assets/canvas_png/18_bottom_center_teal_splinters_canvas.png" alt="Every piece of the Femme Ferments community assembling into one mosaic" style="--dx:4.14vw;--dy:10.16vh;--rot:12deg;transition-delay:720ms;">
+  </div>
+
+  <div class="container">
+    <p class="together-shout fade-in">Collaborate. Support. Celebrate.</p>
+    <form class="together-form fade-in" onsubmit="event.preventDefault();">
+      <input type="email" placeholder="Your email address" required>
+      <button type="submit">Get Involved &rarr;</button>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-mark">Femme Ferments</div>
+    <div class="footer-links">
+      <a href="#top">Home</a>
+      <a href="#vision">Vision</a>
+      <a href="#wines">Wines</a>
+      <a href="#community">Community</a>
+      <a href="#events">Events</a>
+      <a href="https://www.facebook.com/people/Femme-Ferments/61586984057730/" target="_blank" rel="noopener">Facebook</a>
+    </div>
+    <div class="footer-copy">Made with &#10084;&#65039; by <a href="https://effulgentpoint.com/" target="_blank" rel="noopener">Effulgent Point</a></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var REDUCED_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+
+  /* ---- fade-in reveal ---- */
+  var revealObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.fade-in').forEach(function(el){ revealObserver.observe(el); });
+
+  /* ---- nav scroll state ---- */
+  var nav = document.getElementById('site-nav');
+  function updateNav(){
+    if (window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  /* ---- hero: scroll-driven shatter across 220vh sticky track ---- */
+  var heroTrack = document.getElementById('heroTrack');
+  var heroPieces = Array.prototype.slice.call(document.querySelectorAll('.hero-shatter-piece'));
+  var heroHint = document.getElementById('heroHint');
+  var heroRafId = null;
+
+  function heroProgress(){
+    var rect = heroTrack.getBoundingClientRect();
+    var total = rect.height - window.innerHeight;
+    if (total <= 0) return 1;
+    return clamp(-rect.top / total, 0, 1);
+  }
+
+  function applyHeroShatter(){
+    var t = heroProgress();
+    heroPieces.forEach(function(el){
+      var dx = parseFloat(el.style.getPropertyValue('--dx')) || 0;
+      var dy = parseFloat(el.style.getPropertyValue('--dy')) || 0;
+      var rot = parseFloat(el.style.getPropertyValue('--rot')) || 0;
+      var dl = parseFloat(el.style.getPropertyValue('--dl')) || 0;
+      var pt = clamp((t - dl) / (1 - dl || 1), 0, 1);
+      el.style.transform = 'translate3d(' + (dx * pt).toFixed(1) + 'px,' + (dy * pt).toFixed(1) + 'px,0) rotate(' + (rot * pt).toFixed(1) + 'deg)';
+      el.style.opacity = (1 - pt).toFixed(3);
+    });
+    if (heroHint) heroHint.style.opacity = (1 - t * 1.6).toFixed(3);
+    heroRafId = null;
+  }
+
+  function onHeroScroll(){
+    if (heroRafId === null) heroRafId = requestAnimationFrame(applyHeroShatter);
+  }
+
+  if (!REDUCED_MOTION){
+    window.addEventListener('scroll', onHeroScroll, { passive: true });
+    applyHeroShatter();
+  }
+
+  /* ---- 100% counter ---- */
+  var counterEl = document.getElementById('counterNum');
+  var counterWrap = document.getElementById('counterWrap');
+  var counterDone = false;
+
+  function runCounter(){
+    if (counterDone) return;
+    counterDone = true;
+    if (REDUCED_MOTION){ counterEl.textContent = '100'; return; }
+    var start = null;
+    var duration = 1600;
+    function step(ts){
+      if (start === null) start = ts;
+      var progress = clamp((ts - start) / duration, 0, 1);
+      counterEl.textContent = Math.round(progress * 100);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var counterObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting){
+        runCounter();
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  counterObserver.observe(counterWrap);
+
+  /* ---- come together: assemble on scroll into view ---- */
+  var assemblyStage = document.getElementById('assemblyStage');
+  if (REDUCED_MOTION){
+    assemblyStage.classList.add('assembled');
+  } else {
+    var assemblyObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          assemblyStage.classList.add('assembled');
+          assemblyObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    assemblyObserver.observe(assemblyStage);
+  }
+})();
+</script>
+
+</body>
+</html>

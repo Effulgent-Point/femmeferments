@@ -1,0 +1,214 @@
+{
+  "roles": [
+    {
+      "id": "harvester",
+      "number": "01",
+      "title": "The Harvester",
+      "piece": "01_left_outer_teal_points_tight.png",
+      "description": "Pick donated fruit at partner vineyards each harvest — no experience necessary, just willing hands.",
+      "tasks": [
+        "Pick and sort donated fruit at partner vineyards during harvest weekends",
+        "Work alongside other volunteers under the guidance of our vineyard partners",
+        "Help transport fruit from the vine to the partner cellar"
+      ],
+      "perks": [
+        "Gloves, buckets, and all harvesting tools",
+        "Snacks, water, and shade breaks throughout the day",
+        "A Femme Ferments harvest t-shirt for your first shift"
+      ],
+      "time": "A few weekend mornings each September and October."
+    },
+    {
+      "id": "storyteller",
+      "number": "02",
+      "title": "The Storyteller",
+      "piece": "06_upper_mid_green_crown_tight.png",
+      "description": "Photograph the crush, write the newsletter, keep the community in the loop between vintages.",
+      "tasks": [
+        "Photograph the harvest, crush, and community events",
+        "Write and edit our seasonal newsletter",
+        "Help manage our social media presence between vintages"
+      ],
+      "perks": [
+        "Access to past photo archives and brand guidelines",
+        "Editorial support and feedback on drafts",
+        "Credit for your work across our channels"
+      ],
+      "time": "A few hours per month, on your own schedule."
+    },
+    {
+      "id": "host",
+      "number": "03",
+      "title": "The Host",
+      "piece": "04_left_lower_green_blue_tight.png",
+      "description": "Organize tastings and gatherings that introduce new people to what we're building.",
+      "tasks": [
+        "Plan and coordinate tastings and community gatherings",
+        "Welcome new guests and introduce them to our mission",
+        "Coordinate logistics with venues and partner wineries"
+      ],
+      "perks": [
+        "Event templates, checklists, and a planning budget",
+        "Wine, glassware, and printed materials",
+        "A team of volunteers to help on event day"
+      ],
+      "time": "Roughly one event every one to two months."
+    },
+    {
+      "id": "builder",
+      "number": "04",
+      "title": "The Builder",
+      "piece": "10_upper_yellow_orange_tight.png",
+      "description": "Lend your skills — design, carpentry, logistics — to keep our operation running.",
+      "tasks": [
+        "Lend design, carpentry, or logistics skills to active projects",
+        "Help maintain our tasting room and event spaces",
+        "Support behind-the-scenes operations however you're able"
+      ],
+      "perks": [
+        "Clear project briefs and materials",
+        "Flexible scheduling around your availability",
+        "Recognition for your contribution in our materials"
+      ],
+      "time": "Project-based — as little or as much as you can give."
+    },
+    {
+      "id": "connector",
+      "number": "05",
+      "title": "The Connector",
+      "piece": "08_center_core_burst_tight.png",
+      "description": "Bridge the gap between Femme Ferments and your network of donors and allies.",
+      "tasks": [
+        "Introduce Femme Ferments to potential donors and allies",
+        "Help build relationships with local businesses and press",
+        "Represent us at community and industry events"
+      ],
+      "perks": [
+        "Talking points, one-pagers, and a donor deck",
+        "Direct access to our founding team",
+        "Recognition as a founding community connector"
+      ],
+      "time": "As opportunities arise — no fixed schedule."
+    },
+    {
+      "id": "maker",
+      "number": "06",
+      "title": "The Maker",
+      "piece": "15_right_lower_blue_purple_tight.png",
+      "description": "If you're a winemaker, your craft is the heart of every bottle we produce.",
+      "tasks": [
+        "Guide the winemaking process from crush to bottle",
+        "Mentor volunteers during harvest and cellar work",
+        "Help shape the style and quality of every vintage"
+      ],
+      "perks": [
+        "Access to partner cellar space and equipment",
+        "A dedicated volunteer crew during key cellar work",
+        "Full creative input on blending and style decisions"
+      ],
+      "time": "Seasonal — most intensive during harvest and crush."
+    }
+  ],
+  "wines": [
+    {
+      "varietal": "Albarino",
+      "name": "Power & Grace",
+      "year": "2024",
+      "description": "Crisp acidity, white peach, and sea-salt minerality — grown in volcanic Willamette soil and finished in stainless steel to let the fruit speak."
+    },
+    {
+      "varietal": "Pinot Noir",
+      "name": "Hope & Grit",
+      "year": "2024",
+      "description": "Grown in the valley's iron-red Jory soil, patient and deep. A Pinot Noir built the way this community is built — season after season, together."
+    }
+  ],
+  "event": {
+    "title": "Launch Party & First Pour",
+    "date": "September 12, 2026",
+    "location": "Willamette Valley, Oregon",
+    "details": [
+      "Willamette Valley, Oregon · 5:00 PM",
+      "Suggested donation: $45 per guest",
+      "All proceeds support our women's harvest program"
+    ],
+    "description": "Taste our debut '24 Albarino and '24 Pinot Noir, and meet the volunteers, winemakers, and partners behind every bottle. Come for the wine, stay for the community."
+  },
+  "vision": {
+    "headline": "Beauty Begins Where Things Break",
+    "body": "Femme Ferments began with a simple, stubborn idea: that wine — an industry long shaped by men's names on the label — could instead become a vessel for women's independence. We gather donated fruit, borrowed cellars, and volunteer hands to craft small-batch wines, and we funnel every dollar of profit back into programs that give women the resources to build something of their own.",
+    "quote": "100% of our profits empower women."
+  },
+  "valley": {
+    "headline": "The Land",
+    "body": "Willamette Valley's cool nights and volcanic soil have made it one of the great Pinot Noir regions on earth — but the vineyards and cellars here have opened their gates to us for another reason too. Partner growers set aside rows of fruit each harvest, and neighboring wineries lend us press time and tank space, because they believe the valley is big enough to grow both great wine and greater opportunity.",
+    "ctas": [
+      {
+        "label": "Get Involved",
+        "heading": "Become a Winery Partner",
+        "description": "Donate grapes, cellar space, or equipment time — and help fund the next chapter for women in this valley."
+      },
+      {
+        "label": "Get Involved",
+        "heading": "Become a Volunteer",
+        "description": "Lend a few hours at harvest, an event, or behind the scenes — every hand helps build what we're growing here."
+      }
+    ]
+  },
+  "sections": {
+    "wines": {
+      "heading": "The Craft",
+      "intro": "Small-batch wines crafted from donated fruit and borrowed cellars."
+    },
+    "mission": {
+      "heading": "The Mission",
+      "caption": "of our profits empower women"
+    },
+    "community": {
+      "heading": "Six Ways to Pour Yourself In",
+      "intro": "Femme Ferments only works because a whole community pours itself in. Here is where you fit."
+    },
+    "events": {
+      "heading": "Gather"
+    },
+    "partners": {
+      "heading": "Our Partners & Supporters"
+    },
+    "join": {
+      "eyebrow": "Come Together",
+      "heading": "Every Piece Makes the Picture"
+    }
+  },
+  "flowSteps": [
+    {
+      "title": "Donated Grapes",
+      "description": "Partner vineyards set aside rows of fruit each harvest, at no cost to us."
+    },
+    {
+      "title": "Volunteer Harvest",
+      "description": "Community hands pick, sort, and process the fruit together."
+    },
+    {
+      "title": "Partner Cellar",
+      "description": "A neighboring winery lends tank space and press time for the ferment."
+    },
+    {
+      "title": "Donated Corks",
+      "description": "Suppliers contribute closures and packaging to keep costs at zero."
+    },
+    {
+      "title": "Crafted Wine",
+      "description": "Every bottle sold sends its full profit back into our women's programs."
+    }
+  ],
+  "partners": [
+    "Partner 01",
+    "Partner 02",
+    "Partner 03",
+    "Partner 04",
+    "Partner 05",
+    "Partner 06",
+    "Partner 07",
+    "Partner 08"
+  ]
+}
