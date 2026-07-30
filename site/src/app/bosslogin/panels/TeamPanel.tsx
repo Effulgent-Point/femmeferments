@@ -9,6 +9,7 @@ import {
   removeBtn,
   MoveButtons,
   moveItem,
+  RICH_TEXT_HINT,
 } from "../fields";
 
 export function TeamPanel({
@@ -37,6 +38,7 @@ export function TeamPanel({
         value={data.intro}
         onChange={(v) => onChange({ ...data, intro: v })}
         textarea
+        hint={RICH_TEXT_HINT}
       />
 
       {members.map((member, i) => (
@@ -61,6 +63,7 @@ export function TeamPanel({
             value={member.bio}
             onChange={(v) => updateMember(i, { bio: v })}
             textarea
+            hint={RICH_TEXT_HINT}
           />
           <div className="flex items-center gap-2">
             <MoveButtons

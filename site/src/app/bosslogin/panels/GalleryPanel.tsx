@@ -9,6 +9,7 @@ import {
   removeBtn,
   MoveButtons,
   moveItem,
+  RICH_TEXT_HINT,
 } from "../fields";
 
 export function GalleryPanel({
@@ -37,6 +38,7 @@ export function GalleryPanel({
         value={data.intro}
         onChange={(v) => onChange({ ...data, intro: v })}
         textarea
+        hint={RICH_TEXT_HINT}
       />
 
       {images.map((img, i) => (

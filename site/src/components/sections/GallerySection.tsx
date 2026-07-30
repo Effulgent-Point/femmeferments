@@ -1,5 +1,6 @@
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
+import RichText from "@/components/RichText";
 import type { GalleryData } from "@/lib/content";
 
 export default function GallerySection({
@@ -27,7 +28,7 @@ export default function GallerySection({
             fontFamily: "var(--font-sans)",
           }}
         >
-          {data.intro}
+          <RichText>{data.intro}</RichText>
         </p>
       ) : null}
 

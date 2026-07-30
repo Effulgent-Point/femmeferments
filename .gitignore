@@ -1,2 +1,5 @@
 .DS_Store
 *.zip
+
+# Quality-pipeline scratch output (agent/gate artifacts) — not source
+.pipeline/

@@ -9,6 +9,7 @@ import {
   labelStyle,
   moveItem,
   removeBtn,
+  RICH_TEXT_HINT,
 } from "../fields";
 
 export function DonatePanel({
@@ -34,6 +35,7 @@ export function DonatePanel({
         textarea
         value={data.intro}
         onChange={(v) => onChange({ ...data, intro: v })}
+        hint={RICH_TEXT_HINT}
       />
 
       {tiers.map((tier, i) => (
@@ -76,6 +78,7 @@ export function DonatePanel({
             textarea
             value={tier.description}
             onChange={(v) => updateTier(i, { description: v })}
+            hint={RICH_TEXT_HINT}
           />
           <Field
             label="Button text"
@@ -111,6 +114,7 @@ export function DonatePanel({
           textarea
           value={data.note}
           onChange={(v) => onChange({ ...data, note: v })}
+          hint={RICH_TEXT_HINT}
         />
       </div>
     </>
