@@ -14,7 +14,24 @@ export async function GET() {
   } catch {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const draft = await readDraft();
+  // A genuine read error must NOT look like "no draft" — returning defaults
+  // with 200 would let the editor load defaults and overwrite Karen's real
+  // draft on the next Save. Surface it as 503 so the editor shows loadError and
+  // disables Save/Publish. (readDraft returns null only for a truly-absent
+  // draft, which legitimately falls back to defaults.)
+  let draft: unknown;
+  try {
+    draft = await readDraft();
+  } catch (err) {
+    console.error("readDraft failed:", err);
+    return NextResponse.json(
+      {
+        error: "read_failed",
+        message: "Could not load your saved draft. Please retry in a moment.",
+      },
+      { status: 503 },
+    );
+  }
   return NextResponse.json(isContentLike(draft) ? draft : DEFAULT_CONTENT);
 }
 
@@ -35,8 +52,11 @@ export async function PUT(req: NextRequest) {
   }
   if (!isContentLike(body)) {
     return NextResponse.json(
-      { error: "invalid_content", message: "Payload is not valid site content." },
-      { status: 400 }
+      {
+        error: "invalid_content",
+        message: "Payload is not valid site content.",
+      },
+      { status: 400 },
     );
   }
   try {
@@ -45,7 +65,7 @@ export async function PUT(req: NextRequest) {
   } catch (err) {
     return NextResponse.json(
       { error: err instanceof Error ? err.message : "Write failed" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

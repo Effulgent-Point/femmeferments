@@ -5,7 +5,14 @@ export const dynamic = "force-dynamic";
 
 // Public — the live, published content the site consumes. No auth.
 export async function GET() {
-  const data = await readPublished();
+  let data: unknown;
+  try {
+    data = await readPublished();
+  } catch (err) {
+    // A read error is not "nothing published" — answer 503, not 404.
+    console.error("readPublished failed:", err);
+    return NextResponse.json({ error: "read_failed" }, { status: 503 });
+  }
   if (!data) {
     return NextResponse.json({ error: "nothing_published" }, { status: 404 });
   }

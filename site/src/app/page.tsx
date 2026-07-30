@@ -10,7 +10,16 @@ import { mergeContent } from "@/lib/content";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const published = await readPublished();
-  const content = mergeContent(published);
-  return <LiveSite content={content} />;
+  // Keep the public site resilient: a transient Blob read error falls back to
+  // baked defaults (same as "nothing published yet") rather than 500-ing the
+  // homepage — but log it so an outage isn't invisible. The editor path
+  // (/api/content) does NOT swallow like this; there a read error must surface
+  // so Karen can't overwrite her draft with defaults.
+  let published: unknown = null;
+  try {
+    published = await readPublished();
+  } catch (err) {
+    console.error("readPublished failed; serving baked defaults:", err);
+  }
+  return <LiveSite content={mergeContent(published)} />;
 }

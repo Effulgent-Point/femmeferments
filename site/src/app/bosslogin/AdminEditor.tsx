@@ -470,8 +470,15 @@ export default function AdminEditor() {
   }
 
   async function copyJson() {
-    await navigator.clipboard.writeText(JSON.stringify(draft, null, 2));
-    flash("JSON copied to clipboard.");
+    // clipboard.writeText rejects on denied permission / insecure context —
+    // catch it so the click doesn't become an unhandled rejection with no
+    // feedback to the user.
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(draft, null, 2));
+      flash("JSON copied to clipboard.");
+    } catch {
+      flash("Couldn’t copy — your browser blocked clipboard access.");
+    }
   }
 
   /* ---- loading ---- */
