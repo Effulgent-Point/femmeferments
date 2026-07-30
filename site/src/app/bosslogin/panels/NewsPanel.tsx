@@ -9,6 +9,7 @@ import {
   labelStyle,
   moveItem,
   removeBtn,
+  RICH_TEXT_HINT,
 } from "../fields";
 
 export function NewsPanel({
@@ -31,6 +32,7 @@ export function NewsPanel({
         textarea
         value={data.intro}
         onChange={(v) => onChange({ ...data, intro: v })}
+        hint={RICH_TEXT_HINT}
       />
 
       {items.map((item, i) => (
@@ -85,6 +87,7 @@ export function NewsPanel({
                 items.map((it, j) => (j === i ? { ...it, body: v } : it)),
               )
             }
+            hint={RICH_TEXT_HINT}
           />
         </div>
       ))}

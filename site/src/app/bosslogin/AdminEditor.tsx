@@ -8,7 +8,22 @@ import {
   type Content,
   type SectionId,
 } from "@/lib/content";
-import { StringList, MoveButtons, moveItem } from "./fields";
+import {
+  Field,
+  SectionTitle,
+  StringList,
+  MoveButtons,
+  moveItem,
+  RICH_TEXT_HINT,
+  labelStyle,
+  inputStyle,
+  removeBtn,
+  addBtn,
+  cardStyle,
+  sectionStyle,
+  primaryBtn,
+  ghostBtn,
+} from "./fields";
 import { ContactPanel } from "./panels/ContactPanel";
 import { GalleryPanel } from "./panels/GalleryPanel";
 import { DonatePanel } from "./panels/DonatePanel";
@@ -55,145 +70,8 @@ function clone<T>(v: T): T {
   return JSON.parse(JSON.stringify(v)) as T;
 }
 
-/* ---------------- field primitives ---------------- */
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  fontFamily: "var(--font-sans)",
-  fontSize: "0.72rem",
-  fontWeight: 600,
-  letterSpacing: "0.08em",
-  textTransform: "uppercase",
-  color: "var(--gold-text)",
-  marginBottom: "0.4rem",
-};
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "0.6rem 0.75rem",
-  border: "1px solid rgba(74, 14, 43, 0.22)",
-  background: "#fff",
-  borderRadius: "6px",
-  fontFamily: "var(--font-sans)",
-  fontSize: "0.9rem",
-  color: "var(--ink)",
-};
-
-function Field({
-  label,
-  value,
-  onChange,
-  textarea,
-  rows = 3,
-  type = "text",
-  autoComplete,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  textarea?: boolean;
-  rows?: number;
-  type?: string;
-  autoComplete?: string;
-}) {
-  return (
-    <label className="block mb-4">
-      <span style={labelStyle}>{label}</span>
-      {textarea ? (
-        <textarea
-          value={value}
-          rows={rows}
-          onChange={(e) => onChange(e.target.value)}
-          style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }}
-        />
-      ) : (
-        <input
-          type={type}
-          value={value}
-          autoComplete={autoComplete}
-          onChange={(e) => onChange(e.target.value)}
-          style={inputStyle}
-        />
-      )}
-    </label>
-  );
-}
-
-const removeBtn: React.CSSProperties = {
-  flexShrink: 0,
-  width: "38px",
-  border: "1px solid rgba(74, 14, 43, 0.22)",
-  background: "#fff",
-  borderRadius: "6px",
-  color: "var(--wine)",
-  fontSize: "1.1rem",
-  cursor: "pointer",
-};
-const addBtn: React.CSSProperties = {
-  marginTop: "0.5rem",
-  padding: "0.4rem 0.9rem",
-  border: "1px dashed rgba(201, 168, 76, 0.6)",
-  background: "transparent",
-  borderRadius: "6px",
-  color: "var(--gold-text)",
-  fontFamily: "var(--font-sans)",
-  fontSize: "0.78rem",
-  fontWeight: 600,
-  cursor: "pointer",
-};
-
-const cardStyle: React.CSSProperties = {
-  background: "var(--cream)",
-  border: "1px solid rgba(74, 14, 43, 0.14)",
-  borderRadius: "10px",
-  padding: "1.25rem",
-  marginBottom: "1rem",
-};
-const sectionStyle: React.CSSProperties = {
-  background: "#fff",
-  border: "1px solid rgba(74, 14, 43, 0.1)",
-  borderRadius: "12px",
-  padding: "1.5rem",
-  marginBottom: "1.5rem",
-};
-
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <h2
-      style={{
-        fontFamily: "var(--font-serif)",
-        color: "var(--wine)",
-        fontSize: "1.4rem",
-        fontWeight: 600,
-        marginBottom: "1rem",
-      }}
-    >
-      {children}
-    </h2>
-  );
-}
-
-const primaryBtn: React.CSSProperties = {
-  padding: "0.55rem 1.1rem",
-  background: "var(--gold)",
-  color: "var(--ink)",
-  border: "none",
-  borderRadius: "6px",
-  fontFamily: "var(--font-sans)",
-  fontSize: "0.8rem",
-  fontWeight: 700,
-  letterSpacing: "0.04em",
-  cursor: "pointer",
-};
-const ghostBtn: React.CSSProperties = {
-  padding: "0.55rem 1rem",
-  background: "transparent",
-  color: "var(--cream)",
-  border: "1px solid rgba(250, 245, 235, 0.4)",
-  borderRadius: "6px",
-  fontFamily: "var(--font-sans)",
-  fontSize: "0.8rem",
-  fontWeight: 600,
-  cursor: "pointer",
-};
+/* Field primitives (Field, SectionTitle, and the shared styles) come from
+ * ./fields — the single source of truth also used by every section panel. */
 
 type Phase = "loading" | "login" | "editing";
 
@@ -816,6 +694,7 @@ export default function AdminEditor() {
             rows={5}
             value={draft.vision.body}
             onChange={(v) => update((d) => (d.vision.body = v))}
+            hint={RICH_TEXT_HINT}
           />
           <Field
             label="Pull quote"
@@ -838,6 +717,7 @@ export default function AdminEditor() {
             rows={5}
             value={draft.valley.body}
             onChange={(v) => update((d) => (d.valley.body = v))}
+            hint={RICH_TEXT_HINT}
           />
           <span style={labelStyle}>Get-Involved Calls to Action</span>
           {draft.valley.ctas.map((cta, i) => (
@@ -927,8 +807,10 @@ export default function AdminEditor() {
             />
             <Field
               label="Intro"
+              textarea
               value={draft.sections.wines.intro}
               onChange={(v) => update((d) => (d.sections.wines.intro = v))}
+              hint={RICH_TEXT_HINT}
             />
           </div>
           <div style={cardStyle}>
@@ -955,8 +837,10 @@ export default function AdminEditor() {
             />
             <Field
               label="Intro"
+              textarea
               value={draft.sections.community.intro}
               onChange={(v) => update((d) => (d.sections.community.intro = v))}
+              hint={RICH_TEXT_HINT}
             />
           </div>
           <div style={cardStyle}>

@@ -13,6 +13,7 @@ import CtaBox from "@/components/CtaBox";
 import PartnerMarquee from "@/components/PartnerMarquee";
 import EventCard from "@/components/EventCard";
 import JoinForm from "@/components/JoinForm";
+import RichText from "@/components/RichText";
 import ContactSection from "@/components/sections/ContactSection";
 import GallerySection from "@/components/sections/GallerySection";
 import DonateSection from "@/components/sections/DonateSection";
@@ -110,7 +111,7 @@ function renderSection(
         >
           <SectionHeading>{c.vision.headline}</SectionHeading>
           <p className="max-w-2xl leading-relaxed" style={bodyStyle}>
-            {c.vision.body}
+            <RichText>{c.vision.body}</RichText>
           </p>
           <p
             className="max-w-xl mt-10 leading-normal"
@@ -148,7 +149,7 @@ function renderSection(
         >
           <SectionHeading>{c.valley.headline}</SectionHeading>
           <p className="max-w-2xl leading-relaxed" style={bodyStyle}>
-            {c.valley.body}
+            <RichText>{c.valley.body}</RichText>
           </p>
           {c.valley.ctas.map((cta, i) => (
             <CtaBox
@@ -186,7 +187,7 @@ function renderSection(
             className="max-w-xl leading-relaxed"
             style={{ ...bodyStyle, fontSize: "0.95rem" }}
           >
-            {c.sections.wines.intro}
+            <RichText>{c.sections.wines.intro}</RichText>
           </p>
           <WineCards wines={c.wines} />
         </Section>
@@ -246,7 +247,7 @@ function renderSection(
             className="max-w-xl leading-relaxed"
             style={{ ...bodyStyle, fontSize: "0.95rem" }}
           >
-            {c.sections.community.intro}
+            <RichText>{c.sections.community.intro}</RichText>
           </p>
           <SpecimenCards roles={c.roles} />
         </Section>

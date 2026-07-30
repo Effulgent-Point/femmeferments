@@ -1,5 +1,6 @@
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
+import RichText from "@/components/RichText";
 import type { NewsData } from "@/lib/content";
 
 /** Format an ISO-ish date string for display; fall back to the raw string. */
@@ -38,7 +39,7 @@ export default function NewsSection({
             fontFamily: "var(--font-sans)",
           }}
         >
-          {data.intro}
+          <RichText>{data.intro}</RichText>
         </p>
       ) : null}
 
@@ -81,13 +82,13 @@ export default function NewsSection({
               ) : null}
               {item.body ? (
                 <p
-                  className="leading-relaxed whitespace-pre-line"
+                  className="leading-relaxed"
                   style={{
                     color: "var(--ink-dim)",
                     fontFamily: "var(--font-sans)",
                   }}
                 >
-                  {item.body}
+                  <RichText>{item.body}</RichText>
                 </p>
               ) : null}
             </article>

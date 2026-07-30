@@ -1,5 +1,6 @@
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
+import RichText from "@/components/RichText";
 import type { DonateData } from "@/lib/content";
 
 export default function DonateSection({
@@ -28,7 +29,7 @@ export default function DonateSection({
             fontSize: "0.95rem",
           }}
         >
-          {data.intro}
+          <RichText>{data.intro}</RichText>
         </p>
       )}
 
@@ -69,7 +70,7 @@ export default function DonateSection({
                   fontSize: "0.85rem",
                 }}
               >
-                {tier.description}
+                <RichText>{tier.description}</RichText>
               </p>
 
               {tier.cta && (
@@ -107,7 +108,7 @@ export default function DonateSection({
             fontStyle: "italic",
           }}
         >
-          {data.note}
+          <RichText>{data.note}</RichText>
         </p>
       )}
     </Section>

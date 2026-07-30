@@ -1,6 +1,6 @@
 "use client";
 
-import { Field } from "../fields";
+import { Field, RICH_TEXT_HINT } from "../fields";
 import type { ContactData } from "@/lib/content";
 
 export function ContactPanel({
@@ -17,6 +17,7 @@ export function ContactPanel({
         value={data.intro}
         onChange={(v) => onChange({ ...data, intro: v })}
         textarea
+        hint={RICH_TEXT_HINT}
       />
       <Field
         label="Email"

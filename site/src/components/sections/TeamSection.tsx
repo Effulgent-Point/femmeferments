@@ -1,5 +1,6 @@
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
+import RichText from "@/components/RichText";
 import type { TeamData, TeamMember } from "@/lib/content";
 
 function initials(name: string) {
@@ -36,7 +37,7 @@ export default function TeamSection({
             fontFamily: "var(--font-sans)",
           }}
         >
-          {data.intro}
+          <RichText>{data.intro}</RichText>
         </p>
       ) : null}
 
@@ -126,7 +127,7 @@ export default function TeamSection({
                     fontSize: "0.85rem",
                   }}
                 >
-                  {member.bio}
+                  <RichText>{member.bio}</RichText>
                 </p>
               ) : null}
             </div>

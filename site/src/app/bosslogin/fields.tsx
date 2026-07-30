@@ -1,5 +1,7 @@
 "use client";
 
+import { useId } from "react";
+
 /* Shared editor UI primitives — used by AdminEditor and every section panel. */
 
 export const labelStyle: React.CSSProperties = {
@@ -111,6 +113,7 @@ export function Field({
   rows = 3,
   type = "text",
   autoComplete,
+  hint,
 }: {
   label: string;
   value: string;
@@ -119,7 +122,12 @@ export function Field({
   rows?: number;
   type?: string;
   autoComplete?: string;
+  hint?: string;
 }) {
+  // The hint is a description, not part of the field's label — wire it via
+  // aria-describedby so screen readers don't fold the whole syntax sentence
+  // into every field's accessible name.
+  const hintId = useId();
   return (
     <label className="block mb-4">
       <span style={labelStyle}>{label}</span>
@@ -128,6 +136,7 @@ export function Field({
           value={value}
           rows={rows}
           onChange={(e) => onChange(e.target.value)}
+          aria-describedby={hint ? hintId : undefined}
           style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }}
         />
       ) : (
@@ -136,12 +145,32 @@ export function Field({
           value={value}
           autoComplete={autoComplete}
           onChange={(e) => onChange(e.target.value)}
+          aria-describedby={hint ? hintId : undefined}
           style={inputStyle}
         />
       )}
+      {hint ? (
+        <span
+          id={hintId}
+          style={{
+            display: "block",
+            marginTop: "0.3rem",
+            fontFamily: "var(--font-sans)",
+            fontSize: "0.72rem",
+            color: "var(--ink-dim)",
+            lineHeight: 1.5,
+          }}
+        >
+          {hint}
+        </span>
+      ) : null}
     </label>
   );
 }
+
+/** Shared hint for prose fields that support the RichText inline syntax. */
+export const RICH_TEXT_HINT =
+  "Formatting: [link text](https://example.com), **bold**, _italic_. Press Enter for a line break.";
 
 export function SectionTitle({ children }: { children: React.ReactNode }) {
   return (

@@ -1,5 +1,6 @@
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
+import RichText from "@/components/RichText";
 import type { ContactData } from "@/lib/content";
 
 const linkStyle: React.CSSProperties = {
@@ -64,7 +65,7 @@ export default function ContactSection({
             color: "var(--ink-dim)",
           }}
         >
-          {data.intro}
+          <RichText>{data.intro}</RichText>
         </p>
       )}
 
