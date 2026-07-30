@@ -22,9 +22,10 @@ function safeHref(raw: string): string | null {
   const t = raw.trim();
   if (/^(https?:|mailto:|tel:)/i.test(t)) return t; // explicit safe scheme
   if (t.startsWith("#")) return t; // in-page anchor
-  // Site-relative path, but NOT a protocol-relative `//host` (which escapes to
-  // another origin while looking internal).
-  if (t.startsWith("/") && !t.startsWith("//")) return t;
+  // Site-relative path only. Reject a leading `/` followed by `/` or `\`:
+  // both `//host` and `/\host` are protocol-relative (browsers normalize the
+  // backslash to a slash) and escape to another origin while looking internal.
+  if (/^\/(?![/\\])/.test(t)) return t;
   if (/^[\w-]+(\.[\w-]+)+(\/|$)/.test(t)) return "https://" + t; // bare domain
   return null;
 }
@@ -32,8 +33,11 @@ function safeHref(raw: string): string | null {
 // One pass matches the earliest of: [label](url) | **bold** | _italic_.
 // The URL group is greedy ([^\s]+ then backtracks to the last `)`), so a link
 // whose URL itself contains parens — e.g. a Wikipedia .../Foo_(bar) URL — keeps
-// the inner `)` instead of truncating at the first one.
-const INLINE_RE = /\[([^\]]+)\]\(([^\s]+)\)|\*\*([^*]+?)\*\*|_([^_]+?)_/g;
+// the inner `)` instead of truncating at the first one. Every class is bounded
+// ({1,2000}) so a pathological body (e.g. thousands of `[`) can't drive the
+// per-position backtracking into quadratic time on the server-rendered page.
+const INLINE_RE =
+  /\[([^\]]{1,2000})\]\(([^\s]{1,2000})\)|\*\*([^*]{1,2000}?)\*\*|_([^_]{1,2000}?)_/g;
 
 function renderInline(text: string, keyBase: string): React.ReactNode[] {
   const out: React.ReactNode[] = [];
