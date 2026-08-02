@@ -29,30 +29,47 @@ export default function WineCards({ wines }: { wines?: Wine[] }) {
             {wine.year} {wine.varietal}
           </div>
 
-          <div
-            className="relative mx-auto mb-5"
-            style={{ width: "40px", height: "10px" }}
-          >
-            <span
-              className="absolute left-0 right-0"
+          {wine.image ? (
+            // Proxied /api/media URL — next/image is not used here.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={wine.image}
+              alt={`${wine.name} bottle`}
+              loading="lazy"
+              className="mx-auto mb-5"
               style={{
-                top: "50%",
-                height: "1px",
-                background: "var(--gold)",
+                maxHeight: "240px",
+                maxWidth: "70%",
+                objectFit: "contain",
+                display: "block",
               }}
             />
-            <span
-              className="absolute"
-              style={{
-                top: "50%",
-                left: "50%",
-                width: "5px",
-                height: "5px",
-                transform: "translate(-50%, -50%) rotate(45deg)",
-                background: "var(--gold)",
-              }}
-            />
-          </div>
+          ) : (
+            <div
+              className="relative mx-auto mb-5"
+              style={{ width: "40px", height: "10px" }}
+            >
+              <span
+                className="absolute left-0 right-0"
+                style={{
+                  top: "50%",
+                  height: "1px",
+                  background: "var(--gold)",
+                }}
+              />
+              <span
+                className="absolute"
+                style={{
+                  top: "50%",
+                  left: "50%",
+                  width: "5px",
+                  height: "5px",
+                  transform: "translate(-50%, -50%) rotate(45deg)",
+                  background: "var(--gold)",
+                }}
+              />
+            </div>
+          )}
 
           <h3
             className="text-2xl mb-4"
