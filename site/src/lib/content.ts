@@ -6,6 +6,8 @@ export interface Wine {
   name: string;
   year: string;
   description: string;
+  /** Optional bottle photo (a proxied /api/media URL). */
+  image?: string;
 }
 export interface Role {
   id: string;

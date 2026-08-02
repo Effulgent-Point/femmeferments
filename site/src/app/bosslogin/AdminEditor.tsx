@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import MediaPicker from "@/components/MediaPicker";
 import {
   DEFAULT_CONTENT,
   mergeContent,
@@ -923,6 +924,11 @@ export default function AdminEditor() {
                 value={wine.description}
                 onChange={(v) => update((d) => (d.wines[i].description = v))}
               />
+              <MediaPicker
+                label="Bottle photo"
+                value={wine.image}
+                onChange={(url) => update((d) => (d.wines[i].image = url))}
+              />
             </div>
           ))}
           <button
@@ -934,6 +940,7 @@ export default function AdminEditor() {
                   name: "",
                   year: "",
                   description: "",
+                  image: "",
                 }),
               )
             }
