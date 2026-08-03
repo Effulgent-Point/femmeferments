@@ -29,47 +29,45 @@ export default function WineCards({ wines }: { wines?: Wine[] }) {
             {wine.year} {wine.varietal}
           </div>
 
-          {wine.image ? (
-            // Proxied /api/media URL — next/image is not used here.
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={wine.image}
-              alt={`${wine.name} bottle`}
-              loading="lazy"
-              className="mx-auto mb-5"
+          {wine.soldOut ? (
+            <div
+              className="inline-block mb-3"
               style={{
-                maxHeight: "240px",
-                maxWidth: "70%",
-                objectFit: "contain",
-                display: "block",
+                padding: "0.2rem 0.7rem",
+                borderRadius: "999px",
+                background: "var(--wine)",
+                color: "var(--cream)",
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.62rem",
+                fontWeight: 700,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+              }}
+            >
+              Sold Out
+            </div>
+          ) : null}
+
+          <div
+            className="relative mx-auto mb-5"
+            style={{ width: "40px", height: "10px" }}
+          >
+            <span
+              className="absolute left-0 right-0"
+              style={{ top: "50%", height: "1px", background: "var(--gold)" }}
+            />
+            <span
+              className="absolute"
+              style={{
+                top: "50%",
+                left: "50%",
+                width: "5px",
+                height: "5px",
+                transform: "translate(-50%, -50%) rotate(45deg)",
+                background: "var(--gold)",
               }}
             />
-          ) : (
-            <div
-              className="relative mx-auto mb-5"
-              style={{ width: "40px", height: "10px" }}
-            >
-              <span
-                className="absolute left-0 right-0"
-                style={{
-                  top: "50%",
-                  height: "1px",
-                  background: "var(--gold)",
-                }}
-              />
-              <span
-                className="absolute"
-                style={{
-                  top: "50%",
-                  left: "50%",
-                  width: "5px",
-                  height: "5px",
-                  transform: "translate(-50%, -50%) rotate(45deg)",
-                  background: "var(--gold)",
-                }}
-              />
-            </div>
-          )}
+          </div>
 
           <h3
             className="text-2xl mb-4"
@@ -82,6 +80,24 @@ export default function WineCards({ wines }: { wines?: Wine[] }) {
           >
             {wine.name}
           </h3>
+
+          {wine.image ? (
+            // Label photo, right above the description (a proxied /api/media
+            // URL — next/image is not used here).
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={wine.image}
+              alt={`${wine.name} label`}
+              loading="lazy"
+              className="mx-auto mb-4"
+              style={{
+                maxHeight: "240px",
+                maxWidth: "70%",
+                objectFit: "contain",
+                display: "block",
+              }}
+            />
+          ) : null}
 
           <p
             className="leading-relaxed"
