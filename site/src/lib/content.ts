@@ -6,8 +6,10 @@ export interface Wine {
   name: string;
   year: string;
   description: string;
-  /** Optional bottle photo (a proxied /api/media URL). */
+  /** Optional bottle/label photo (a proxied /api/media URL). */
   image?: string;
+  /** When true, the wine renders a "Sold Out" badge. */
+  soldOut?: boolean;
 }
 export interface Role {
   id: string;

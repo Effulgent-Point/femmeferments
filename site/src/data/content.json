@@ -115,14 +115,16 @@
       "name": "Power & Grace",
       "year": "2024",
       "description": "Crisp acidity, white peach, and sea-salt minerality — grown in volcanic Willamette soil and finished in stainless steel to let the fruit speak.",
-      "image": ""
+      "image": "",
+      "soldOut": false
     },
     {
       "varietal": "Pinot Noir",
       "name": "Hope & Grit",
       "year": "2024",
       "description": "Grown in the valley's iron-red Jory soil, patient and deep. A Pinot Noir built the way this community is built — season after season, together.",
-      "image": ""
+      "image": "",
+      "soldOut": false
     }
   ],
   "event": {

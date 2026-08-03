@@ -925,10 +925,29 @@ export default function AdminEditor() {
                 onChange={(v) => update((d) => (d.wines[i].description = v))}
               />
               <MediaPicker
-                label="Bottle photo"
+                label="Label photo"
                 value={wine.image}
                 onChange={(url) => update((d) => (d.wines[i].image = url))}
               />
+              <label className="flex items-center gap-2 cursor-pointer mt-1">
+                <input
+                  type="checkbox"
+                  checked={!!wine.soldOut}
+                  onChange={() =>
+                    update((d) => (d.wines[i].soldOut = !d.wines[i].soldOut))
+                  }
+                />
+                <span
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "0.85rem",
+                    fontWeight: 600,
+                    color: "var(--wine)",
+                  }}
+                >
+                  Sold out
+                </span>
+              </label>
             </div>
           ))}
           <button
@@ -941,6 +960,7 @@ export default function AdminEditor() {
                   year: "",
                   description: "",
                   image: "",
+                  soldOut: false,
                 }),
               )
             }
