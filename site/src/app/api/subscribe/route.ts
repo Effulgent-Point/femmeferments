@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { put, list, get } from "@vercel/blob";
 import { randomUUID } from "node:crypto";
 import { requireAuth } from "@/lib/auth";
+import { sendSignupNotification } from "@/lib/notify";
 
 export const dynamic = "force-dynamic";
 
@@ -68,6 +69,9 @@ export async function POST(req: NextRequest) {
   } catch {
     return NextResponse.json({ error: "server_error" }, { status: 500 });
   }
+  // The signup is safely stored above; forward a notification to the org inbox.
+  // Best-effort — a failed/unconfigured send never fails the signup.
+  await sendSignupNotification(email);
   return NextResponse.json({ success: true });
 }
 
