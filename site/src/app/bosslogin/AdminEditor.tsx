@@ -553,7 +553,7 @@ export default function AdminEditor() {
               marginBottom: "1.5rem",
             }}
           >
-            <div
+            <h2
               style={{
                 fontFamily: "var(--font-sans)",
                 fontSize: "0.78rem",
@@ -565,7 +565,7 @@ export default function AdminEditor() {
               }}
             >
               How to edit &amp; publish
-            </div>
+            </h2>
             <ol
               style={{
                 fontFamily: "var(--font-sans)",

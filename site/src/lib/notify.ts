@@ -9,13 +9,26 @@
  * Config (Vercel env):
  *   RESEND_API_KEY      required to actually send (absent → forwarding is off)
  *   SIGNUP_NOTIFY_TO    recipient (default Karen@femmeferments.com)
- *   SIGNUP_NOTIFY_FROM  verified sender (default noreply@femmeferments.com)
+ *   SIGNUP_NOTIFY_FROM  verified sender (default "Femme Ferments <noreply@femmeferments.com>")
  */
+
+// Warn once per instance when the key is absent, so a key removed/revoked after
+// setup leaves a grep-able trace in the logs without a line per signup.
+let warnedNoKey = false;
+
 export async function sendSignupNotification(
   subscriberEmail: string,
 ): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return false; // not configured yet — signups still stored
+  if (!apiKey) {
+    if (!warnedNoKey) {
+      warnedNoKey = true;
+      console.warn(
+        "Signup notification skipped: RESEND_API_KEY not set (signups are still stored).",
+      );
+    }
+    return false;
+  }
 
   const to = process.env.SIGNUP_NOTIFY_TO || "Karen@femmeferments.com";
   const from =
@@ -39,11 +52,14 @@ export async function sendSignupNotification(
         subject: "New Femme Ferments signup",
         text: `New newsletter signup:\n\n${subscriberEmail}\n\nSent automatically from femmeferments.com`,
       }),
-      // Bound the call so a slow/hung Resend can't stall the signup response.
-      signal: AbortSignal.timeout(5000),
+      // Bound the added latency: a slow/hung Resend delays the (already-stored)
+      // signup response by at most this long — best-effort, never blocking.
+      signal: AbortSignal.timeout(2500),
     });
     if (!res.ok) {
-      const detail = await res.text().catch(() => "");
+      // Truncate Resend's response body — keeps the useful error (e.g. "domain
+      // not verified") while bounding any subscriber PII it might echo into logs.
+      const detail = (await res.text().catch(() => "")).slice(0, 200);
       console.error(`Signup notification failed (${res.status}): ${detail}`);
       return false;
     }
