@@ -13,6 +13,25 @@ export default function EventCard({ event }: { event?: EventInfo }) {
         padding: "2.5rem",
       }}
     >
+      {ev.poster ? (
+        // Event poster/flyer (a proxied /api/media URL — next/image is not
+        // used here).
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={ev.poster}
+          alt={`${ev.title} poster`}
+          loading="lazy"
+          className="mx-auto mb-8"
+          style={{
+            width: "100%",
+            maxWidth: "460px",
+            height: "auto",
+            borderRadius: "6px",
+            boxShadow: "0 8px 30px rgba(44, 28, 18, 0.14)",
+            display: "block",
+          }}
+        />
+      ) : null}
       <div
         className="text-xs tracking-[0.2em] uppercase mb-3"
         style={{

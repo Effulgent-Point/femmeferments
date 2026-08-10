@@ -36,6 +36,8 @@ export interface EventInfo {
   location: string;
   details: string[];
   description: string;
+  /** Optional event poster/flyer image (a proxied /api/media URL). */
+  poster?: string;
 }
 export interface Vision {
   headline: string;
