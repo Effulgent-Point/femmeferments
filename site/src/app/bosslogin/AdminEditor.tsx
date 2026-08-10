@@ -1155,6 +1155,11 @@ export default function AdminEditor() {
             value={draft.event.description}
             onChange={(v) => update((d) => (d.event.description = v))}
           />
+          <MediaPicker
+            label="Event poster / flyer"
+            value={draft.event.poster}
+            onChange={(url) => update((d) => (d.event.poster = url))}
+          />
         </section>
 
         {/* PARTNERS */}
