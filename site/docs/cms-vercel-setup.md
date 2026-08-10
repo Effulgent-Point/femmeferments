@@ -56,6 +56,22 @@ How the live content editor works and how to switch it on. Counterpart:
 
 3. **Redeploy** (`vercel deploy --prod`). Done.
 
+### Optional: forward newsletter signups to an inbox
+
+Signups are always stored in the Blob store (`subscribers/`) and readable via the
+authed `GET /api/subscribe`. To also email each new signup to the org inbox, set
+these env vars (uses [Resend](https://resend.com) over plain HTTP — no package):
+
+```bash
+RESEND_API_KEY      # from resend.com (required to send; absent → forwarding off)
+SIGNUP_NOTIFY_TO    # recipient, default Karen@femmeferments.com
+SIGNUP_NOTIFY_FROM  # verified sender, default "Femme Ferments <noreply@femmeferments.com>"
+```
+
+Resend requires the **`SIGNUP_NOTIFY_FROM` domain to be verified** in the Resend
+dashboard (add `femmeferments.com`, then use e.g. `noreply@femmeferments.com`).
+Until `RESEND_API_KEY` is set, signups are still captured — only the email is off.
+
 Before activation the deployed site is unaffected and `/bosslogin` shows an
 **offline export-only** mode (edit + Download `content.json`). After activation,
 `/bosslogin` requires the passcode and the **Save / Publish** buttons appear.

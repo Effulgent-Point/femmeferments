@@ -542,30 +542,83 @@ export default function AdminEditor() {
         className="mx-auto"
         style={{ maxWidth: "760px", padding: "1.5rem 1.25rem 5rem" }}
       >
-        <p
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "0.85rem",
-            lineHeight: 1.6,
-            color: "var(--ink-dim)",
-            marginBottom: "1.5rem",
-          }}
-        >
-          {serverMode ? (
-            <>
-              Edit any text below. <strong>Save draft</strong> stores your
-              changes privately; <strong>Publish</strong> makes them live on the
-              site (visible within ~30 seconds).
-            </>
-          ) : (
-            <>
-              The publishing backend isn&rsquo;t connected yet, so this is
-              export-only: edit and <strong>Download</strong> the{" "}
-              <code>content.json</code>. To enable one-click Publish, see{" "}
-              <code>docs/cms-vercel-setup.md</code>.
-            </>
-          )}
-        </p>
+        {serverMode ? (
+          <div
+            style={{
+              background: "var(--cream)",
+              border: "1px solid rgba(201, 168, 76, 0.4)",
+              borderLeft: "3px solid var(--gold)",
+              borderRadius: "8px",
+              padding: "1rem 1.25rem",
+              marginBottom: "1.5rem",
+            }}
+          >
+            <h2
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.78rem",
+                fontWeight: 700,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                color: "var(--wine)",
+                marginBottom: "0.6rem",
+              }}
+            >
+              How to edit &amp; publish
+            </h2>
+            <ol
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.85rem",
+                lineHeight: 1.7,
+                color: "var(--ink-dim)",
+                paddingLeft: "1.15rem",
+                margin: 0,
+              }}
+            >
+              <li>
+                Edit any text, and add photos with the upload buttons (wine
+                labels, event poster, gallery, and more).
+              </li>
+              <li>
+                Click <strong>Save draft</strong> — this saves your changes
+                privately. Nothing is public yet, and you can keep working or
+                come back later.
+              </li>
+              <li>
+                Click <strong>Publish</strong> — this pushes your saved draft
+                live to the website (visible in about 30 seconds).{" "}
+                <em>Your changes are not on the site until you Publish.</em>
+              </li>
+            </ol>
+            <div
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.78rem",
+                color: "var(--ink-dim)",
+                marginTop: "0.6rem",
+              }}
+            >
+              The toolbar at the top shows when you last published, so you can
+              always tell whether your latest changes are live.
+            </div>
+          </div>
+        ) : (
+          <p
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "0.85rem",
+              lineHeight: 1.6,
+              color: "var(--ink-dim)",
+              marginBottom: "1.5rem",
+            }}
+          >
+            The publishing backend isn&rsquo;t connected yet, so this is
+            export-only: edit and <strong>Download</strong> the{" "}
+            <code>content.json</code>. To enable one-click Publish, see{" "}
+            <code>docs/cms-vercel-setup.md</code>.
+          </p>
+        )}
 
         {loadError && serverMode && (
           <div
