@@ -65,11 +65,11 @@ these env vars (uses [Resend](https://resend.com) over plain HTTP — no package
 ```bash
 RESEND_API_KEY      # from resend.com (required to send; absent → forwarding off)
 SIGNUP_NOTIFY_TO    # recipient, default Karen@femmeferments.com
-SIGNUP_NOTIFY_FROM  # verified sender, default "Femme Ferments <noreply@femmeferments.com>"
+SIGNUP_NOTIFY_FROM  # verified sender, default "Femme Ferments <noreply@send.femmeferments.com>"
 ```
 
 Resend requires the **`SIGNUP_NOTIFY_FROM` domain to be verified** in the Resend
-dashboard (add `femmeferments.com`, then use e.g. `noreply@femmeferments.com`).
+dashboard (add `send.femmeferments.com`, then use e.g. `noreply@send.femmeferments.com`).
 Until `RESEND_API_KEY` is set, signups are still captured — only the email is off.
 
 ### Optional: durable rate limiting (Upstash Redis)
