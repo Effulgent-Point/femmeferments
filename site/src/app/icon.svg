@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Femme Ferments wine glass icon">
+  <rect width="32" height="32" rx="6" fill="#4a0e2b" />
+  <path
+    d="M11 6h10l-1.1 9.2c-.4 3-2.4 5.2-4.9 5.2s-4.5-2.2-4.9-5.2L11 6z"
+    fill="#c9a84c"
+  />
+  <path d="M11 6h10l-.35 2.9H11.35L11 6z" fill="#faf5eb" opacity="0.55" />
+  <rect x="15" y="20" width="2" height="4.5" fill="#c9a84c" />
+  <rect x="11.5" y="24.5" width="9" height="1.8" rx="0.9" fill="#c9a84c" />
+</svg>
