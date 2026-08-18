@@ -72,6 +72,23 @@ Resend requires the **`SIGNUP_NOTIFY_FROM` domain to be verified** in the Resend
 dashboard (add `femmeferments.com`, then use e.g. `noreply@femmeferments.com`).
 Until `RESEND_API_KEY` is set, signups are still captured — only the email is off.
 
+### Optional: durable rate limiting (Upstash Redis)
+
+Login and signup routes have an in-memory rate limiter that works out of the box.
+To make it survive across serverless instances (durable), add a free
+[Upstash Redis](https://console.upstash.com/) store via the Vercel Marketplace:
+
+1. Vercel dashboard → Storage → Browse Marketplace → Upstash Redis → Create.
+2. The integration auto-adds these env vars (verify they exist):
+   ```bash
+   UPSTASH_REDIS_REST_URL    # https://<name>.upstash.io
+   UPSTASH_REDIS_REST_TOKEN  # the REST bearer token
+   ```
+3. Redeploy. The rate limiter switches to Redis automatically; if the vars are
+   absent or Redis is unreachable, it falls back to in-memory (no downtime).
+
+Free tier (10k commands/day, 256 MB) is more than enough for this site.
+
 Before activation the deployed site is unaffected and `/bosslogin` shows an
 **offline export-only** mode (edit + Download `content.json`). After activation,
 `/bosslogin` requires the passcode and the **Save / Publish** buttons appear.
