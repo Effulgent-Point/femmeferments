@@ -78,11 +78,11 @@ Login and signup routes have an in-memory rate limiter that works out of the box
 To make it survive across serverless instances (durable), add a free
 [Upstash Redis](https://console.upstash.com/) store via the Vercel Marketplace:
 
-1. Vercel dashboard → Storage → Browse Marketplace → Upstash Redis → Create.
-2. The integration auto-adds these env vars (verify they exist):
+1. `vercel integration add upstash/upstash-kv` (or dashboard → Marketplace).
+2. The integration auto-adds env vars. The code checks both naming conventions:
    ```bash
-   UPSTASH_REDIS_REST_URL    # https://<name>.upstash.io
-   UPSTASH_REDIS_REST_TOKEN  # the REST bearer token
+   KV_REST_API_URL / UPSTASH_REDIS_REST_URL      # either works
+   KV_REST_API_TOKEN / UPSTASH_REDIS_REST_TOKEN   # either works
    ```
 3. Redeploy. The rate limiter switches to Redis automatically; if the vars are
    absent or Redis is unreachable, it falls back to in-memory (no downtime).
