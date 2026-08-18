@@ -9,7 +9,7 @@
  * Config (Vercel env):
  *   RESEND_API_KEY      required to actually send (absent → forwarding is off)
  *   SIGNUP_NOTIFY_TO    recipient (default Karen@femmeferments.com)
- *   SIGNUP_NOTIFY_FROM  verified sender (default "Femme Ferments <noreply@femmeferments.com>")
+ *   SIGNUP_NOTIFY_FROM  verified sender (default "Femme Ferments <noreply@send.femmeferments.com>")
  */
 
 // Warn once per instance when the key is absent, so a key removed/revoked after
@@ -33,7 +33,7 @@ export async function sendSignupNotification(
   const to = process.env.SIGNUP_NOTIFY_TO || "Karen@femmeferments.com";
   const from =
     process.env.SIGNUP_NOTIFY_FROM ||
-    "Femme Ferments <noreply@femmeferments.com>";
+    "Femme Ferments <noreply@send.femmeferments.com>";
 
   try {
     const res = await fetch("https://api.resend.com/emails", {
