@@ -3,40 +3,24 @@ import { put, list, get } from "@vercel/blob";
 import { randomUUID } from "node:crypto";
 import { requireAuth } from "@/lib/auth";
 import { sendSignupNotification } from "@/lib/notify";
+import { isRateLimited } from "@/lib/rateLimit";
 
 export const dynamic = "force-dynamic";
 
 const PREFIX = "subscribers/";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Best-effort per-instance rate limit, mirroring auth/login. Serverless
-// instances are ephemeral and there may be several, so this is friction against
-// a scripted flood of signups, not a hard guarantee.
 const WINDOW_MS = 60 * 60 * 1000;
 const MAX_SUBMISSIONS = 20;
-const submissions = new Map<string, number[]>();
-
-function tooManySubmissions(ip: string): boolean {
-  const now = Date.now();
-  const recent = (submissions.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
-  recent.push(now);
-  submissions.set(ip, recent);
-  if (submissions.size > 5000) submissions.clear(); // crude unbounded-growth guard
-  return recent.length > MAX_SUBMISSIONS;
-}
 
 function randomSuffix(): string {
-  // CSPRNG, not Math.random — subscriber keys shouldn't be guessable/enumerable.
   return randomUUID();
 }
 
-// PUBLIC: the live-site Join form posts here, so no auth. `botcheck` is a
-// honeypot — a real user never fills it, so a non-empty value means a bot; we
-// return success without storing anything so the bot sees no signal to adapt.
 export async function POST(req: NextRequest) {
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (tooManySubmissions(ip)) {
+  if (await isRateLimited("signup", ip, WINDOW_MS, MAX_SUBMISSIONS)) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
