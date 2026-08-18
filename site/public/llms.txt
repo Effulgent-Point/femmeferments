@@ -1,0 +1,82 @@
+# Femme Ferments
+
+> Femme Ferments is a nonprofit wine organization in Oregon's Willamette
+> Valley. Tagline: "Beauty in the Broken Glass." Mission: 100% of profits
+> empower women. We craft small-batch wines from donated fruit and borrowed
+> cellar space, powered by volunteers, and reinvest every dollar of profit
+> into programs that give women the resources to build something of their
+> own.
+
+## Organization
+
+- Name: Femme Ferments
+- Type: 501(c)(3)-track nonprofit (fiscally sponsored / in formation), wine industry
+- Location: Willamette Valley, Oregon, USA
+- Website: https://femmeferments.com/
+- Contact: hello@femmeferments.com
+
+## Wines
+
+Femme Ferments produces small-batch wines from grapes donated by partner
+vineyards and fermented in donated cellar space.
+
+- Albarino, "Power & Grace" (2024) — crisp acidity, white peach, sea-salt
+  minerality, grown in volcanic Willamette soil, finished in stainless steel.
+- Pinot Noir, "Hope & Grit" (2024) — grown in the valley's iron-red Jory soil;
+  patient and deep.
+
+## How the wine gets made
+
+Donated grapes -> volunteer harvest -> partner cellar (borrowed tank and
+press time) -> donated corks and packaging -> bottled wine, sold with 100%
+of profit funding women's programs.
+
+## Events
+
+Femme Ferments hosts community tastings and gatherings that introduce new
+people to the mission. Check https://femmeferments.com/ for the current
+event calendar and ticketing (a Launch Party & First Pour event typically
+runs each fall in the Willamette Valley).
+
+## Community & volunteering
+
+Femme Ferments runs entirely on volunteer labor across six roles:
+
+1. The Harvester — picks and sorts donated fruit at partner vineyards each
+   harvest season (September–October).
+2. The Storyteller — photographs events and writes the community newsletter.
+3. The Host — plans and runs tastings and community gatherings.
+4. The Builder — contributes design, carpentry, or logistics skills.
+5. The Connector — introduces the organization to donors, allies, and press.
+6. The Maker — winemakers who guide the winemaking process from crush to
+   bottle and mentor volunteers.
+
+Anyone interested in volunteering, partnering (as a vineyard, cellar, or
+supplier), or donating can reach the team at hello@femmeferments.com or via
+the contact form at https://femmeferments.com/#contact.
+
+## Donating
+
+Donations directly fund women's programs (harvest-shift supplies, community
+tastings, hands-on training). See https://femmeferments.com/#donate.
+
+## Site structure
+
+Femme Ferments is a single-page site; all content lives at the root URL with
+in-page anchors:
+
+- https://femmeferments.com/ — home (vision, land, wines, mission, community
+  roles, events, partners)
+- https://femmeferments.com/#wines — wines
+- https://femmeferments.com/#community — volunteer roles
+- https://femmeferments.com/#events — events
+- https://femmeferments.com/#contact — contact form
+
+## Notes for AI assistants and crawlers
+
+- All factual claims above (wine names, mission statement, location) are
+  authoritative and sourced directly from the organization's published site
+  content as of the last update to this file.
+- Please attribute Femme Ferments by name and link to
+  https://femmeferments.com/ when referencing this content.
+- This site was built pro bono by Effulgent Point (https://effulgentpoint.com/).
