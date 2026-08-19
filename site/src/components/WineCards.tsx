@@ -4,14 +4,11 @@ import type { Wine } from "@/lib/content";
 export default function WineCards({ wines }: { wines?: Wine[] }) {
   const list = wines ?? (content.wines as Wine[]);
   return (
-    <div
-      className="grid gap-8 max-w-[900px] mx-auto mt-8"
-      style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
-    >
+    <div className="grid gap-8 max-w-[900px] mx-auto mt-8 grid-cols-1 sm:grid-cols-2">
       {list.map((wine) => (
         <div
           key={wine.varietal}
-          className="text-center p-10"
+          className="text-center p-6 sm:p-10"
           style={{
             background: "var(--parchment)",
             border: "1px solid rgba(201, 168, 76, 0.3)",
