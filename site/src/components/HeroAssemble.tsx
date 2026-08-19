@@ -34,12 +34,12 @@ function AssemblingPiece({
   const rotate = useTransform(
     scrollYProgress,
     [0.02, 0.72],
-    [scatterRotate, 0]
+    [scatterRotate, 0],
   );
   const opacity = useTransform(
     scrollYProgress,
     [0, 0.25],
-    [reducedMotion ? 1 : 0.55, 1]
+    [reducedMotion ? 1 : 0.55, 1],
   );
 
   // framer's style applier drops non-transform values in this setup;
@@ -63,13 +63,14 @@ function AssemblingPiece({
         y,
         rotate,
         opacity: reducedMotion ? 1 : 0.55,
+        willChange: "transform",
       }}
     >
       <Image
         src={`/glass-assets/tight_png/${piece.file}`}
         alt=""
         fill
-        sizes={`(max-width: 768px) ${Math.round(piece.w * 0.92)}vw, ${Math.round(1000 * piece.w / 100)}px`}
+        sizes={`(max-width: 768px) ${Math.round(piece.w * 0.92)}vw, ${Math.round((1000 * piece.w) / 100)}px`}
         priority={isCenter}
         loading={isCenter ? undefined : "lazy"}
       />
@@ -90,7 +91,7 @@ export default function HeroAssemble() {
   const captionY = useTransform(
     scrollYProgress,
     [0.55, 0.8],
-    [reducedMotion ? 0 : 18, 0]
+    [reducedMotion ? 0 : 18, 0],
   );
 
   useMotionValueEvent(captionOpacity, "change", (v) => {

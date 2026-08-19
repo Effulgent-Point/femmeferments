@@ -33,7 +33,7 @@ function FullBleedPiece({
   const opacity = useTransform(
     scrollYProgress,
     [0, 0.4, 0.75],
-    [1, reducedMotion ? 1 : 0.75, reducedMotion ? 1 : 0]
+    [1, reducedMotion ? 1 : 0.75, reducedMotion ? 1 : 0],
   );
 
   // framer's style applier drops non-transform values in this setup;
@@ -56,6 +56,7 @@ function FullBleedPiece({
         x,
         y,
         opacity: 1,
+        willChange: "transform",
       }}
     >
       <Image

@@ -25,18 +25,6 @@ export default function Footer() {
           Effulgent Point
         </a>
       </p>
-      <p className="mt-4">
-        <a
-          href="/legacy/"
-          style={{
-            color: "rgba(250, 245, 235, 0.45)",
-            textDecoration: "none",
-            borderBottom: "1px solid rgba(250, 245, 235, 0.15)",
-          }}
-        >
-          View earlier concept rounds
-        </a>
-      </p>
     </footer>
   );
 }
