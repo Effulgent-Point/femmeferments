@@ -38,7 +38,7 @@ function ShatterPiece({
   const opacity = useTransform(
     scrollYProgress,
     [0, endRange * 0.5, endRange],
-    [1, reducedMotion ? 1 : 0.7, reducedMotion ? 1 : 0]
+    [1, reducedMotion ? 1 : 0.7, reducedMotion ? 1 : 0],
   );
 
   // framer's style applier drops non-transform values in this setup;
@@ -61,13 +61,14 @@ function ShatterPiece({
         x,
         y,
         opacity: 1,
+        willChange: "transform",
       }}
     >
       <Image
         src={`/glass-assets/tight_png/${piece.file}`}
         alt=""
         fill
-        sizes={`(max-width: 768px) ${Math.round(piece.w * 0.85)}vw, ${Math.round(900 * piece.w / 100)}px`}
+        sizes={`(max-width: 768px) ${Math.round(piece.w * 0.85)}vw, ${Math.round((900 * piece.w) / 100)}px`}
         priority={isCenter}
         loading={isCenter ? undefined : "lazy"}
       />

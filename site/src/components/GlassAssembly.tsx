@@ -32,7 +32,11 @@ function AssemblePiece({
   const x = useTransform(scrollProgress, [0.1, 0.7], [scatteredX, 0]);
   const y = useTransform(scrollProgress, [0.1, 0.7], [scatteredY, 0]);
   const rotate = useTransform(scrollProgress, [0.1, 0.7], [scatteredRotate, 0]);
-  const opacity = useTransform(scrollProgress, [0.05, 0.25], [reducedMotion ? 1 : 0, 1]);
+  const opacity = useTransform(
+    scrollProgress,
+    [0.05, 0.25],
+    [reducedMotion ? 1 : 0, 1],
+  );
 
   // framer's style applier drops non-transform values in this setup;
   // write opacity to the DOM directly
@@ -53,13 +57,14 @@ function AssemblePiece({
         y,
         rotate,
         opacity: reducedMotion ? 1 : 0,
+        willChange: "transform",
       }}
     >
       <Image
         src={`/glass-assets/tight_png/${piece.file}`}
         alt=""
         fill
-        sizes={`(max-width: 768px) ${Math.round(piece.w)}vw, ${Math.round(1275 * piece.w / 100)}px`}
+        sizes={`(max-width: 768px) ${Math.round(piece.w)}vw, ${Math.round((1275 * piece.w) / 100)}px`}
         loading="lazy"
       />
     </motion.div>
