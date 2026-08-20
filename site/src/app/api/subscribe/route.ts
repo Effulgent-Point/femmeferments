@@ -41,13 +41,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true });
   }
 
-  const email = typeof b.email === "string" ? b.email.trim() : "";
+  const email = typeof b.email === "string" ? b.email.trim().slice(0, 254) : "";
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json({ error: "invalid_email" }, { status: 400 });
   }
 
-  const name = typeof b.name === "string" ? b.name.trim().slice(0, 200) : "";
-  const phone = typeof b.phone === "string" ? b.phone.trim().slice(0, 30) : "";
+  const sanitize = (s: string) => s.replace(/[\r\n\t]/g, " ");
+  const name = sanitize(
+    typeof b.name === "string" ? b.name.trim().slice(0, 200) : "",
+  );
+  const phone = sanitize(
+    typeof b.phone === "string" ? b.phone.trim().slice(0, 30) : "",
+  );
 
   const at = new Date().toISOString();
   const path = `${PREFIX}${at}-${randomSuffix()}.json`;
@@ -61,9 +66,8 @@ export async function POST(req: NextRequest) {
   } catch {
     return NextResponse.json({ error: "server_error" }, { status: 500 });
   }
-  // The signup is safely stored above; forward a notification to the org inbox.
-  // Best-effort — a failed/unconfigured send never fails the signup.
-  await sendSignupNotification({ name, email, phone });
+  // Fire-and-forget: the signup is stored; notification must never delay the response.
+  sendSignupNotification({ name, email, phone }).catch(() => {});
   return NextResponse.json({ success: true });
 }
 
@@ -87,13 +91,15 @@ export async function GET(req: NextRequest) {
     let cursor: string | undefined;
     do {
       const page = await list({ prefix: PREFIX, cursor });
-      for (const blob of page.blobs) {
-        // Skip the folder placeholder Vercel creates for a trailing-slash path.
-        if (blob.pathname === PREFIX) continue;
-        const result = await get(blob.pathname, {
-          access: "private",
-          useCache: false,
-        });
+      const blobs = page.blobs.filter((b) => b.pathname !== PREFIX);
+      const results = await Promise.all(
+        blobs.map((blob) =>
+          get(blob.pathname, { access: "private", useCache: false }).catch(
+            () => null,
+          ),
+        ),
+      );
+      for (const result of results) {
         if (!result || result.statusCode !== 200) continue;
         const data = (await new Response(result.stream).json()) as unknown;
         const d = (data ?? {}) as {
@@ -122,8 +128,14 @@ export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   if (url.searchParams.get("format") === "csv") {
     const escape = (s: string) => {
-      let v = /^[=+\-@\t\r]/.test(s) ? "'" + s : s;
-      if (v.includes(",") || v.includes('"') || v.includes("\n"))
+      const formulaTrigger = /^[=+\-@\t\r]/.test(s);
+      let v = formulaTrigger ? "'" + s : s;
+      if (
+        formulaTrigger ||
+        v.includes(",") ||
+        v.includes('"') ||
+        v.includes("\n")
+      )
         v = `"${v.replace(/"/g, '""')}"`;
       return v;
     };
