@@ -30,7 +30,12 @@ export async function POST(req: NextRequest) {
   } catch {
     return NextResponse.json({ error: "invalid_email" }, { status: 400 });
   }
-  const b = (body ?? {}) as { email?: unknown; botcheck?: unknown };
+  const b = (body ?? {}) as {
+    email?: unknown;
+    name?: unknown;
+    phone?: unknown;
+    botcheck?: unknown;
+  };
 
   if (typeof b.botcheck === "string" && b.botcheck.length > 0) {
     return NextResponse.json({ success: true });
@@ -41,10 +46,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "invalid_email" }, { status: 400 });
   }
 
+  const name = typeof b.name === "string" ? b.name.trim().slice(0, 200) : "";
+  const phone = typeof b.phone === "string" ? b.phone.trim().slice(0, 30) : "";
+
   const at = new Date().toISOString();
   const path = `${PREFIX}${at}-${randomSuffix()}.json`;
   try {
-    await put(path, JSON.stringify({ email, at }), {
+    await put(path, JSON.stringify({ name, email, phone, at }), {
       access: "private",
       addRandomSuffix: false,
       allowOverwrite: true,
@@ -55,17 +63,19 @@ export async function POST(req: NextRequest) {
   }
   // The signup is safely stored above; forward a notification to the org inbox.
   // Best-effort — a failed/unconfigured send never fails the signup.
-  await sendSignupNotification(email);
+  await sendSignupNotification({ name, email, phone });
   return NextResponse.json({ success: true });
 }
 
 interface Subscriber {
+  name: string;
   email: string;
+  phone: string;
   at: string;
 }
 
 // AUTH-gated: lets the admin view collected signups.
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     await requireAuth();
   } catch {
@@ -86,9 +96,19 @@ export async function GET() {
         });
         if (!result || result.statusCode !== 200) continue;
         const data = (await new Response(result.stream).json()) as unknown;
-        const d = (data ?? {}) as { email?: unknown; at?: unknown };
+        const d = (data ?? {}) as {
+          name?: unknown;
+          email?: unknown;
+          phone?: unknown;
+          at?: unknown;
+        };
         if (typeof d.email === "string" && typeof d.at === "string") {
-          subscribers.push({ email: d.email, at: d.at });
+          subscribers.push({
+            name: typeof d.name === "string" ? d.name : "",
+            email: d.email,
+            phone: typeof d.phone === "string" ? d.phone : "",
+            at: d.at,
+          });
         }
       }
       cursor = page.hasMore ? page.cursor : undefined;
@@ -98,5 +118,28 @@ export async function GET() {
   }
 
   subscribers.sort((a, b) => b.at.localeCompare(a.at));
+
+  const url = new URL(req.url);
+  if (url.searchParams.get("format") === "csv") {
+    const escape = (s: string) =>
+      s.includes(",") || s.includes('"') || s.includes("\n")
+        ? `"${s.replace(/"/g, '""')}"`
+        : s;
+    const rows = [
+      "Name,Email,Phone,Date",
+      ...subscribers.map(
+        (s) =>
+          `${escape(s.name)},${escape(s.email)},${escape(s.phone)},${escape(s.at)}`,
+      ),
+    ];
+    return new NextResponse(rows.join("\n"), {
+      headers: {
+        "Content-Type": "text/csv",
+        "Content-Disposition":
+          'attachment; filename="femme-ferments-signups.csv"',
+      },
+    });
+  }
+
   return NextResponse.json({ count: subscribers.length, subscribers });
 }
