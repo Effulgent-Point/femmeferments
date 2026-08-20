@@ -2,14 +2,24 @@
 
 import { useState } from "react";
 
+const fieldStyle = {
+  padding: "0.85rem 1.1rem",
+  border: "1px solid rgba(74, 14, 43, 0.25)",
+  background: "var(--cream)",
+  fontFamily: "var(--font-sans)",
+  fontSize: "0.9rem",
+  color: "var(--ink)",
+  width: "100%",
+} as const;
+
 export default function JoinForm() {
-  const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   return (
     <div role="status" className="w-full flex flex-col items-center">
-      {submittedEmail ? (
+      {submitted ? (
         <p
           className="mt-8 text-center"
           style={{
@@ -20,17 +30,19 @@ export default function JoinForm() {
           }}
         >
           Thank you — you&rsquo;re part of the picture now. We&rsquo;ll be in
-          touch at {submittedEmail}.
+          touch soon.
         </p>
       ) : (
         <form
-          className="mt-8 flex flex-col sm:flex-row gap-3 w-full max-w-md mx-auto"
+          className="mt-8 flex flex-col gap-3 w-full max-w-md mx-auto"
           onSubmit={async (e) => {
             e.preventDefault();
             const form = new FormData(e.currentTarget);
-            const email = form.get("email");
+            const name = (form.get("name") as string)?.trim() || "";
+            const email = (form.get("email") as string)?.trim() || "";
+            const phone = (form.get("phone") as string)?.trim() || "";
             const botcheck = form.get("botcheck");
-            if (typeof email !== "string" || !email) return;
+            if (!email) return;
             setSubmitting(true);
             setError(null);
             try {
@@ -38,7 +50,9 @@ export default function JoinForm() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
+                  name,
                   email,
+                  phone,
                   botcheck: typeof botcheck === "string" ? botcheck : "",
                 }),
               });
@@ -46,7 +60,7 @@ export default function JoinForm() {
                 setError("Something went wrong — please try again.");
                 return;
               }
-              setSubmittedEmail(email);
+              setSubmitted(true);
             } catch {
               setError("Something went wrong — please try again.");
             } finally {
@@ -54,7 +68,7 @@ export default function JoinForm() {
             }
           }}
         >
-          {/* Honeypot: hidden from real users; bots that fill it are dropped server-side. */}
+          {/* Honeypot */}
           <input
             type="text"
             name="botcheck"
@@ -74,20 +88,26 @@ export default function JoinForm() {
             }}
           />
           <input
+            type="text"
+            name="name"
+            placeholder="Your name"
+            aria-label="Name"
+            style={fieldStyle}
+          />
+          <input
             type="email"
             name="email"
             required
-            placeholder="Your email address"
+            placeholder="Email address *"
             aria-label="Email address"
-            className="flex-1 min-w-0"
-            style={{
-              padding: "0.85rem 1.1rem",
-              border: "1px solid rgba(74, 14, 43, 0.25)",
-              background: "var(--cream)",
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.9rem",
-              color: "var(--ink)",
-            }}
+            style={fieldStyle}
+          />
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Phone number (optional)"
+            aria-label="Phone number"
+            style={fieldStyle}
           />
           <button
             type="submit"
@@ -110,7 +130,7 @@ export default function JoinForm() {
           </button>
         </form>
       )}
-      {error && !submittedEmail ? (
+      {error && !submitted ? (
         <p
           className="mt-3 text-center"
           style={{

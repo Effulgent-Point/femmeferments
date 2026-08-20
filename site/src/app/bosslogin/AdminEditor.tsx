@@ -30,6 +30,7 @@ import { GalleryPanel } from "./panels/GalleryPanel";
 import { DonatePanel } from "./panels/DonatePanel";
 import { NewsPanel } from "./panels/NewsPanel";
 import { TeamPanel } from "./panels/TeamPanel";
+import { SignupsPanel } from "./panels/SignupsPanel";
 
 const SECTION_LABELS: Record<SectionId, string> = {
   vision: "The Vision",
@@ -92,6 +93,37 @@ export default function AdminEditor() {
   const [toast, setToast] = useState<string | null>(null);
   const [publishedAt, setPublishedAt] = useState<string | null>(null);
   const [justPublished, setJustPublished] = useState(false);
+
+  // Warn before navigating away with unsaved edits (deployment reloads, tab close, etc.)
+  useEffect(() => {
+    if (!dirty) return;
+    const handler = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [dirty]);
+
+  // Auto-save draft every 30s while dirty (prevents loss from deployment reloads)
+  useEffect(() => {
+    if (!dirty || !serverMode || loadError || busy) return;
+    const timer = window.setTimeout(async () => {
+      try {
+        const res = await fetch("/api/content", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(draft),
+        });
+        if (res.ok) {
+          setDirty(false);
+          flash("Auto-saved.");
+        }
+      } catch {
+        /* silent — manual save still available */
+      }
+    }, 30_000);
+    return () => window.clearTimeout(timer);
+  }, [dirty, serverMode, loadError, busy, draft]);
 
   async function refreshPublishedAt() {
     try {
@@ -1290,6 +1322,24 @@ export default function AdminEditor() {
             onChange={(next) => update((d) => (d.team = next))}
           />
         </section>
+
+        {serverMode && (
+          <section style={sectionStyle}>
+            <SectionTitle>Mailing List Signups</SectionTitle>
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.82rem",
+                color: "var(--ink-dim)",
+                marginBottom: "1rem",
+              }}
+            >
+              People who signed up via the &ldquo;Join Us&rdquo; form on the
+              site. You can export the list as a CSV spreadsheet.
+            </p>
+            <SignupsPanel />
+          </section>
+        )}
       </div>
 
       {toast && (

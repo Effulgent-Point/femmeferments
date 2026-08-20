@@ -16,9 +16,11 @@
 // setup leaves a grep-able trace in the logs without a line per signup.
 let warnedNoKey = false;
 
-export async function sendSignupNotification(
-  subscriberEmail: string,
-): Promise<boolean> {
+export async function sendSignupNotification(subscriber: {
+  name: string;
+  email: string;
+  phone: string;
+}): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     if (!warnedNoKey) {
@@ -48,9 +50,17 @@ export async function sendSignupNotification(
       body: JSON.stringify({
         from,
         to,
-        reply_to: subscriberEmail,
+        reply_to: subscriber.email,
         subject: "New Femme Ferments signup",
-        text: `New newsletter signup:\n\n${subscriberEmail}\n\nSent automatically from femmeferments.com`,
+        text: [
+          "New signup on femmeferments.com:",
+          "",
+          `Name:  ${subscriber.name || "(not provided)"}`,
+          `Email: ${subscriber.email}`,
+          `Phone: ${subscriber.phone || "(not provided)"}`,
+          "",
+          "Sent automatically from femmeferments.com",
+        ].join("\n"),
       }),
       // Bound the added latency: a slow/hung Resend delays the (already-stored)
       // signup response by at most this long — best-effort, never blocking.
