@@ -121,10 +121,12 @@ export async function GET(req: NextRequest) {
 
   const url = new URL(req.url);
   if (url.searchParams.get("format") === "csv") {
-    const escape = (s: string) =>
-      s.includes(",") || s.includes('"') || s.includes("\n")
-        ? `"${s.replace(/"/g, '""')}"`
-        : s;
+    const escape = (s: string) => {
+      let v = /^[=+\-@\t\r]/.test(s) ? "'" + s : s;
+      if (v.includes(",") || v.includes('"') || v.includes("\n"))
+        v = `"${v.replace(/"/g, '""')}"`;
+      return v;
+    };
     const rows = [
       "Name,Email,Phone,Date",
       ...subscribers.map(
